@@ -1,0 +1,11 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/metrica/models/*"
+  errors:
+    public_member_api_docs: ignore
+    sort_constructors_first: ignore
+    sort_pub_dependencies: ignore

@@ -19,11 +19,11 @@ dependencies:
   collection: ^1.18.0
   flutter_riverpod: ^2.4.9
   flutter_svg: ^2.0.9
+  riverpod: ^2.4.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^5.1.0
 
 flutter:
   generate: true

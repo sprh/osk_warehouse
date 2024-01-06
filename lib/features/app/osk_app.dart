@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:osk_warehouse/navigation/navigation_manager.dart';
-import 'package:osk_warehouse/navigation/routes.dart';
-import 'package:osk_warehouse/navigation/routes_builder.dart';
+import 'package:osk_warehouse/features/navigation/logic/navigation_manager.dart';
+import 'package:osk_warehouse/features/navigation/models/routes.dart';
+import 'package:osk_warehouse/features/navigation/routes_builder.dart';
 import 'package:osk_warehouse/theme/theme_constants.dart';
 
 class OskApp extends StatelessWidget {
@@ -27,6 +27,5 @@ class OskApp extends StatelessWidget {
         navigatorKey: NavigationManager.navigatorKey,
         initialRoute: Routes.initial.name,
         onGenerateRoute: RoutesBuilder.generateRoutes,
-        home: const Scaffold(),
       );
 }

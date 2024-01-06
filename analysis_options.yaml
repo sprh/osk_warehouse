@@ -8,4 +8,5 @@ analyzer:
   errors:
     public_member_api_docs: ignore
     sort_constructors_first: ignore
+    strict_raw_type: ignore
     sort_pub_dependencies: ignore

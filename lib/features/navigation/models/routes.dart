@@ -1,5 +1,5 @@
 enum Routes {
   initial,
-  // welcome,
+  welcome,
   // login;
 }

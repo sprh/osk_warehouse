@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/features/initial/initial_page.dart';
-import 'package:osk_warehouse/navigation/routes.dart';
+import 'package:osk_warehouse/features/initial_page/presentation/initial_page.dart';
+import 'package:osk_warehouse/features/navigation/models/routes.dart';
+import 'package:osk_warehouse/features/welcome/presentation/welcome_page.dart';
 
 class RoutesBuilder {
   RoutesBuilder._();
@@ -17,12 +18,10 @@ class RoutesBuilder {
     switch (route) {
       case Routes.initial:
         screen = const InitialPage();
-      // case Routes.welcome:
-      //   // TODO: Handle this case.
-      //   break;
-      // case Routes.login:
-      //   // TODO: Handle this case.
-      //   break;
+        break;
+      case Routes.welcome:
+        screen = const WelcomePage();
+        break;
     }
 
     return MaterialPageRoute(

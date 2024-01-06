@@ -23,12 +23,14 @@ class OskText extends StatelessWidget {
   final OskfontWeight fontWeight;
   final bool minorText;
   final double fontSize;
+  final TextAlign textAlign;
 
   const OskText._({
     required this.text,
     required this.fontWeight,
     required this.fontSize,
     required this.minorText,
+    required this.textAlign,
     super.key,
   });
 
@@ -36,6 +38,7 @@ class OskText extends StatelessWidget {
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
     bool minorText = false,
+    TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
       OskText._(
@@ -43,6 +46,7 @@ class OskText extends StatelessWidget {
         fontWeight: fontWeight,
         fontSize: 24,
         minorText: minorText,
+        textAlign: textAlign,
         key: key,
       );
 
@@ -50,13 +54,15 @@ class OskText extends StatelessWidget {
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
     bool minorText = false,
+    TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
       OskText._(
         text: text,
         fontWeight: fontWeight,
-        fontSize: 18,
+        fontSize: 20,
         minorText: minorText,
+        textAlign: textAlign,
         key: key,
       );
 
@@ -64,13 +70,15 @@ class OskText extends StatelessWidget {
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
     bool minorText = false,
+    TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
       OskText._(
         text: text,
         fontWeight: fontWeight,
-        fontSize: 16,
+        fontSize: 18,
         minorText: minorText,
+        textAlign: textAlign,
         key: key,
       );
 
@@ -78,13 +86,15 @@ class OskText extends StatelessWidget {
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
     bool minorText = false,
+    TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
       OskText._(
         text: text,
         fontWeight: fontWeight,
-        fontSize: 14,
+        fontSize: 16,
         minorText: minorText,
+        textAlign: textAlign,
         key: key,
       );
 
@@ -92,13 +102,15 @@ class OskText extends StatelessWidget {
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
     bool minorText = false,
+    TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
       OskText._(
         text: text,
         fontWeight: fontWeight,
-        fontSize: 12,
+        fontSize: 14,
         minorText: minorText,
+        textAlign: textAlign,
         key: key,
       );
 
@@ -113,6 +125,7 @@ class OskText extends StatelessWidget {
         fontWeight: fontWeight.fontWeight,
         color: minorText ? theme.minorText : theme.mainText,
       ),
+      textAlign: textAlign,
     );
   }
 }

@@ -1,13 +1,16 @@
-import 'package:osk_warehouse/theme/text_theme_extension.dart';
+import 'package:flutter/material.dart';
+import 'package:osk_warehouse/theme/button/main_button_theme_extension.dart';
+import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
 
 class ThemeConstants {
   ThemeConstants._();
 
   static const fontFamily = 'Nunito';
 
-  static const extensionsLight = [
+  static final List<ThemeExtension> extensionsLight = [
     TextThemeExtension.light,
+    MainButtonThemeExtension.light,
   ];
 
-  static const extensionsDark = extensionsLight;
+  static final extensionsDark = extensionsLight;
 }

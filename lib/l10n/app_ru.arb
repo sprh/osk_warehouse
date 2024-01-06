@@ -1,5 +1,6 @@
 {
-    "loginButtonTitle": "Войти",
+    "welcomeButtonTitle": "Войти",
     "oskCompanyName": "Объединенная сервисная компания",
-    "loginInfoSubtitle": "Войдите, чтобы получить доступ к приложению"
+    "welcomeInfoSubtitle": "Войдите, чтобы получить доступ к приложению",
+    "welcomeAppVersion": "Версия 1.0.0"
 }

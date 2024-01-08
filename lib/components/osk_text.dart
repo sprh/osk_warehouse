@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
 import 'package:osk_warehouse/theme/utils/theme_from_context.dart';
 
 enum OskfontWeight {
@@ -18,10 +19,27 @@ enum OskfontWeight {
   }
 }
 
+enum OskTextColorType {
+  main,
+  minor,
+  highlightedYellow;
+
+  Color colorFromTheme(TextThemeExtension textTheme) {
+    switch (this) {
+      case OskTextColorType.main:
+        return textTheme.mainText;
+      case OskTextColorType.minor:
+        return textTheme.minorText;
+      case OskTextColorType.highlightedYellow:
+        return textTheme.highlightedYellow;
+    }
+  }
+}
+
 class OskText extends StatelessWidget {
   final String text;
   final OskfontWeight fontWeight;
-  final bool minorText;
+  final OskTextColorType colorType;
   final double fontSize;
   final TextAlign textAlign;
 
@@ -29,7 +47,7 @@ class OskText extends StatelessWidget {
     required this.text,
     required this.fontWeight,
     required this.fontSize,
-    required this.minorText,
+    required this.colorType,
     required this.textAlign,
     super.key,
   });
@@ -37,7 +55,7 @@ class OskText extends StatelessWidget {
   factory OskText.header({
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
-    bool minorText = false,
+    OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
@@ -45,7 +63,7 @@ class OskText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: 24,
-        minorText: minorText,
+        colorType: colorType,
         textAlign: textAlign,
         key: key,
       );
@@ -53,7 +71,7 @@ class OskText extends StatelessWidget {
   factory OskText.title1({
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
-    bool minorText = false,
+    OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
@@ -61,7 +79,7 @@ class OskText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: 20,
-        minorText: minorText,
+        colorType: colorType,
         textAlign: textAlign,
         key: key,
       );
@@ -69,7 +87,7 @@ class OskText extends StatelessWidget {
   factory OskText.title2({
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
-    bool minorText = false,
+    OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
@@ -77,7 +95,7 @@ class OskText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: 18,
-        minorText: minorText,
+        colorType: colorType,
         textAlign: textAlign,
         key: key,
       );
@@ -85,7 +103,7 @@ class OskText extends StatelessWidget {
   factory OskText.body({
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
-    bool minorText = false,
+    OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
@@ -93,7 +111,7 @@ class OskText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: 16,
-        minorText: minorText,
+        colorType: colorType,
         textAlign: textAlign,
         key: key,
       );
@@ -101,7 +119,7 @@ class OskText extends StatelessWidget {
   factory OskText.caption({
     required String text,
     OskfontWeight fontWeight = OskfontWeight.regular,
-    bool minorText = false,
+    OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
     Key? key,
   }) =>
@@ -109,7 +127,7 @@ class OskText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: 14,
-        minorText: minorText,
+        colorType: colorType,
         textAlign: textAlign,
         key: key,
       );
@@ -123,7 +141,7 @@ class OskText extends StatelessWidget {
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight.fontWeight,
-        color: minorText ? theme.minorText : theme.mainText,
+        color: colorType.colorFromTheme(theme),
       ),
       textAlign: textAlign,
       maxLines: null,

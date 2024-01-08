@@ -37,7 +37,7 @@ class OskActionBlock extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: theme.blockShadowColor,
-                      blurRadius: 16,
+                      blurRadius: 8,
                       offset: Offset(0, 2),
                     ),
                   ],

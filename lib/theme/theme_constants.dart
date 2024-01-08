@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osk_warehouse/theme/action_block/action_block_theme_extension.dart';
 import 'package:osk_warehouse/theme/button/main_button_theme_extension.dart';
 import 'package:osk_warehouse/theme/scaffold/scaffold_theme_extension.dart';
 import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
@@ -14,6 +15,7 @@ class ThemeConstants {
     MainButtonThemeExtension.light,
     TextFieldThemeExtension.light,
     ScaffoldThemeExtension.light,
+    ActionBlockThemeExtension.light,
   ];
 
   static final List<ThemeExtension> extensionsDark = [
@@ -21,5 +23,6 @@ class ThemeConstants {
     MainButtonThemeExtension.dark,
     TextFieldThemeExtension.dark,
     ScaffoldThemeExtension.dark,
+    ActionBlockThemeExtension.dark,
   ];
 }

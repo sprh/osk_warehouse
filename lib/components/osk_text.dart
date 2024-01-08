@@ -126,6 +126,7 @@ class OskText extends StatelessWidget {
         color: minorText ? theme.minorText : theme.mainText,
       ),
       textAlign: textAlign,
+      maxLines: null,
     );
   }
 }

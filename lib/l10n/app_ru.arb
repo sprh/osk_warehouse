@@ -6,5 +6,13 @@
     "loginPageLoginTextFieldLabel": "Логин",
     "loginPageLoginTextFieldHint": "pavel_pavlov",
     "loginPagePasswordTextFieldLabel": "Пароль",
-    "loginPagePasswordTextFieldHint": "********"
+    "loginPagePasswordTextFieldHint": "********",
+    "loginPageButtonTitle": "Войти",
+    "nineMoreNotifications": "9+",
+    "createRequest": "Создать заявку",
+    "requests": "Заявки",
+    "warehouses": "Склады",
+    "workers": "Сотрудники",
+    "reports": "Отчеты",
+    "productCards": "Карточки товаров"
 }

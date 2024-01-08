@@ -16,7 +16,7 @@ class LoginPage extends FeatureView<LoginPageViewModel, void> {
 
   @override
   FeatureViewBuilder<LoginPageViewModel, void> get builder =>
-      (manager, state) => const _LoginPage();
+      (viewModel, state) => _LoginPage(viewModel);
 
   @override
   StateNotifierProvider<LoginPageViewModel, void> get viewModel =>
@@ -24,7 +24,9 @@ class LoginPage extends FeatureView<LoginPageViewModel, void> {
 }
 
 class _LoginPage extends StatefulWidget {
-  const _LoginPage();
+  final LoginPageViewModel viewModel;
+
+  const _LoginPage(this.viewModel);
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -79,9 +81,9 @@ class _LoginPageState extends State<_LoginPage> {
           ),
           const SizedBox(height: 16),
           OskButton.main(
-            title: strings.welcomeButtonTitle,
+            title: strings.loginPageButtonTitle,
             sizeProportion: 2 / 3,
-            onTap: () {}, // TODO(sktimokhina)
+            onTap: widget.viewModel.onLoginButtonTap,
           ),
           const SizedBox(height: 16),
         ],

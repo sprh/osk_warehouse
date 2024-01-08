@@ -7,6 +7,8 @@ abstract class NavigationManager {
   void openWelcome();
 
   void openLogin();
+
+  void openMain();
 }
 
 class NavigationManagerImpl extends NavigationManager {
@@ -18,5 +20,11 @@ class NavigationManagerImpl extends NavigationManager {
   void openLogin() =>
       NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
         Routes.login.name,
+      );
+
+  @override
+  void openMain() =>
+      NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
+        Routes.main.name,
       );
 }

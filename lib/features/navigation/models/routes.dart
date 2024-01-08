@@ -1,7 +1,8 @@
 enum Routes {
   initial,
   welcome,
-  login;
+  login,
+  main;
 
-  static String get initialRouteName => Routes.login.name; // TODO: remove
+  static String get initialRouteName => Routes.main.name; // TODO: remove
 }

@@ -2,5 +2,9 @@
     "welcomeButtonTitle": "Войти",
     "oskCompanyName": "Объединенная сервисная компания",
     "welcomeInfoSubtitle": "Войдите, чтобы получить доступ к приложению",
-    "welcomeAppVersion": "Версия 1.0.0"
+    "welcomeAppVersion": "Версия 1.0.0",
+    "loginPageLoginTextFieldLabel": "Логин",
+    "loginPageLoginTextFieldHint": "pavel_pavlov",
+    "loginPagePasswordTextFieldLabel": "Пароль",
+    "loginPagePasswordTextFieldHint": "********"
 }

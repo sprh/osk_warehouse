@@ -9,7 +9,7 @@ class TextThemeExtension extends ThemeExtension<TextThemeExtension> {
     minorText: Color(0xFFC6C6C6),
   );
 
-  static const dart = light;
+  static const dark = light;
 
   const TextThemeExtension({
     required this.mainText,

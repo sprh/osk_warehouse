@@ -10,3 +10,4 @@ analyzer:
     sort_constructors_first: ignore
     strict_raw_type: ignore
     sort_pub_dependencies: ignore
+    prefer_const_constructors: error

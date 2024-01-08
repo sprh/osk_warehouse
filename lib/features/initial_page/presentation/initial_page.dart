@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:osk_warehouse/assets/assets_provider.dart';
+import 'package:osk_warehouse/components/osk_scaffold.dart';
 import 'package:osk_warehouse/features/initial_page/di.dart';
 import 'package:osk_warehouse/features/initial_page/presentation/initial_page_view_model.dart';
 import 'package:osk_warehouse/mvvm/feature_widget.dart';
@@ -22,7 +23,7 @@ class _InitialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
 
-    return Scaffold(
+    return OskScaffold(
       body: SvgPicture.asset(
         AssetsProvider.splash,
         alignment: AlignmentDirectional.centerStart,

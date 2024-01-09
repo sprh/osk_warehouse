@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:osk_warehouse/assets/assets_provider.dart';
-import 'package:osk_warehouse/components/osk_scaffold.dart';
-import 'package:osk_warehouse/features/initial_page/di.dart';
-import 'package:osk_warehouse/features/initial_page/presentation/initial_page_view_model.dart';
-import 'package:osk_warehouse/mvvm/feature_widget.dart';
+
+import '../../../components/osk_image.dart';
+import '../../../components/osk_scaffold.dart';
+import '../../../mvvm/feature_widget.dart';
+import '../di.dart';
+import 'initial_page_view_model.dart';
 
 class InitialPage extends FeatureView<InitialPageViewModel, void> {
   const InitialPage({super.key});
@@ -24,8 +24,7 @@ class _InitialPage extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context).size;
 
     return OskScaffold(
-      body: SvgPicture.asset(
-        AssetsProvider.splash,
+      body: OskImage.splash(
         alignment: AlignmentDirectional.centerStart,
         fit: BoxFit.cover,
         width: mediaQuery.width,

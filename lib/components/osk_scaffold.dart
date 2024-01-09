@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/theme/utils/theme_from_context.dart';
+
+import '../theme/utils/theme_from_context.dart';
 
 class OskScaffold extends StatelessWidget {
   final Widget body;

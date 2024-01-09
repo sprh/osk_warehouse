@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/features/navigation/models/routes.dart';
+
+import '../models/routes.dart';
 
 abstract class NavigationManager {
   static final navigatorKey = GlobalKey<NavigatorState>();

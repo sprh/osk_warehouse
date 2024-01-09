@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/components/osk_text.dart';
-import 'package:osk_warehouse/l10n/utils/l10n_from_context.dart';
+
+import '../../../../components/osk_text.dart';
+import '../../../../l10n/utils/l10n_from_context.dart';
 
 class MainPageHeader extends StatelessWidget {
   @override
@@ -20,15 +21,11 @@ class MainPageHeader extends StatelessWidget {
               colorType: OskTextColorType.highlightedYellow,
               fontWeight: OskfontWeight.medium,
             ),
+            SizedBox(height: 4),
             OskText.body(
               text: 'Марина Марьина',
               colorType: OskTextColorType.main,
               fontWeight: OskfontWeight.bold,
-            ),
-            OskText.caption(
-              text: 'Склад Око', // TODO: icon
-              colorType: OskTextColorType.main,
-              fontWeight: OskfontWeight.medium,
             ),
           ],
         ),

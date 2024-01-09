@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
+
+import '../text/text_theme_extension.dart';
 
 class TextFieldThemeExtension extends ThemeExtension<TextFieldThemeExtension> {
   final Color labelTextColor;

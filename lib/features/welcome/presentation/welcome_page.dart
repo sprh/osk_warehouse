@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:osk_warehouse/assets/assets_provider.dart';
-import 'package:osk_warehouse/components/osk_button.dart';
-import 'package:osk_warehouse/components/osk_scaffold.dart';
-import 'package:osk_warehouse/components/osk_text.dart';
-import 'package:osk_warehouse/features/welcome/presentation/welcome_page_view_model.dart';
-import 'package:osk_warehouse/features/welcome/welcome_di.dart';
-import 'package:osk_warehouse/l10n/utils/l10n_from_context.dart';
-import 'package:osk_warehouse/mvvm/feature_widget.dart';
 import 'package:riverpod/riverpod.dart';
+
+import '../../../components/osk_button.dart';
+import '../../../components/osk_image.dart';
+import '../../../components/osk_scaffold.dart';
+import '../../../components/osk_text.dart';
+import '../../../l10n/utils/l10n_from_context.dart';
+import '../../../mvvm/feature_widget.dart';
+import '../welcome_di.dart';
+import 'welcome_page_view_model.dart';
 
 class WelcomePage extends FeatureView<WelcomePageViewModel, void> {
   const WelcomePage({super.key});
@@ -38,8 +38,7 @@ class _WelcomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            AssetsProvider.welcomeHeader,
+          OskImage.welcomeHeader(
             fit: BoxFit.cover,
             alignment: AlignmentDirectional.centerStart,
             width: size.width,

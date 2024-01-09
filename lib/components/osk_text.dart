@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
-import 'package:osk_warehouse/theme/utils/theme_from_context.dart';
+
+import '../theme/text/text_theme_extension.dart';
+import '../theme/utils/theme_from_context.dart';
 
 enum OskfontWeight {
   regular,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:osk_warehouse/mvvm/feature_view_model.dart';
+
+import 'feature_view_model.dart';
 
 typedef FeatureViewBuilder<ViewModel, FeatureState> = Widget Function(
   ViewModel manager,

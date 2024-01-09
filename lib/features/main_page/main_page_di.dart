@@ -1,5 +1,6 @@
-import 'package:osk_warehouse/features/main_page/presentation/main_page_view_model.dart';
 import 'package:riverpod/riverpod.dart';
+
+import 'presentation/main_page_view_model.dart';
 
 class MainPageDi {
   MainPageDi._();

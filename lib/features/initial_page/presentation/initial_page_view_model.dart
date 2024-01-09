@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:osk_warehouse/features/navigation/logic/navigation_manager.dart';
-import 'package:osk_warehouse/mvvm/feature_view_model.dart';
+import '../../../mvvm/feature_view_model.dart';
+import '../../navigation/logic/navigation_manager.dart';
 
 abstract class InitialPageViewModel extends FeatureViewModel<void> {
   InitialPageViewModel() : super(null);

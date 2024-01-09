@@ -29,7 +29,9 @@ class ScaffoldThemeExtension extends ThemeExtension<ScaffoldThemeExtension> {
 
   @override
   ThemeExtension<ScaffoldThemeExtension> lerp(
-      covariant ThemeExtension<ScaffoldThemeExtension>? other, double t) {
+    covariant ThemeExtension<ScaffoldThemeExtension>? other,
+    double t,
+  ) {
     // TODO: implement lerp
     throw UnimplementedError();
   }

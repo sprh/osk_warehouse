@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/theme/button/button_theme_extension.dart';
-import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
+
+import '../text/text_theme_extension.dart';
+import 'button_theme_extension.dart';
 
 final class MainButtonThemeExtension
     extends ThemeExtension<MainButtonThemeExtension>

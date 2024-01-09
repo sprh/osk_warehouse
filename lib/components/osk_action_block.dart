@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:osk_warehouse/components/osk_tap_animation.dart';
-import 'package:osk_warehouse/components/osk_text.dart';
-import 'package:osk_warehouse/theme/utils/theme_from_context.dart';
+
+import '../theme/utils/theme_from_context.dart';
+import 'osk_service_icons.dart';
+import 'osk_tap_animation.dart';
+import 'osk_text.dart';
 
 class OskActionBlock extends StatelessWidget {
   final String title;
-  final String iconPath;
+  final OskServiceIcon icon;
   final VoidCallback onTap;
   final int? notificationsCount;
 
   const OskActionBlock({
     required this.title,
-    required this.iconPath,
+    required this.icon,
     required this.onTap,
     this.notificationsCount,
   });
@@ -65,10 +66,7 @@ class OskActionBlock extends StatelessWidget {
             Positioned(
               bottom: 0,
               left: 0,
-              child: SvgPicture.asset(
-                iconPath,
-                height: 35,
-              ),
+              child: icon,
             ),
           ],
         ),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/assets/assets_provider.dart';
-import 'package:osk_warehouse/components/osk_action_block.dart';
-import 'package:osk_warehouse/components/osk_scaffold.dart';
-import 'package:osk_warehouse/features/main_page/main_page_di.dart';
-import 'package:osk_warehouse/features/main_page/presentation/components/main_page_header.dart';
-import 'package:osk_warehouse/features/main_page/presentation/main_page_view_model.dart';
-import 'package:osk_warehouse/l10n/utils/l10n_from_context.dart';
-import 'package:osk_warehouse/mvvm/feature_widget.dart';
 import 'package:riverpod/src/state_notifier_provider.dart';
+
+import '../../../components/osk_action_block.dart';
+import '../../../components/osk_scaffold.dart';
+import '../../../components/osk_service_icons.dart';
+import '../../../l10n/utils/l10n_from_context.dart';
+import '../../../mvvm/feature_widget.dart';
+import '../main_page_di.dart';
+import 'components/main_page_header.dart';
+import 'main_page_view_model.dart';
 
 class MainPage extends FeatureView<MainPageViewModel, void> {
   const MainPage({super.key});
@@ -51,33 +52,33 @@ class _MainPage extends StatelessWidget {
                 children: [
                   OskActionBlock(
                     title: strings.createRequest,
-                    iconPath: AssetsProvider.createRequest,
+                    icon: OskServiceIcon.createRequest(),
                     onTap: () {},
                     notificationsCount: 9,
                   ),
                   OskActionBlock(
                     title: strings.requests,
-                    iconPath: AssetsProvider.request,
+                    icon: OskServiceIcon.request(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.warehouses,
-                    iconPath: AssetsProvider.warehouse,
+                    icon: OskServiceIcon.warehouse(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.workers,
-                    iconPath: AssetsProvider.worker,
+                    icon: OskServiceIcon.worker(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.reports,
-                    iconPath: AssetsProvider.report,
+                    icon: OskServiceIcon.report(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.productCards,
-                    iconPath: AssetsProvider.products,
+                    icon: const OskServiceIcon.products(),
                     onTap: () {},
                   ),
                 ],

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:osk_warehouse/mvvm/feature_view_model.dart';
+import '../../../mvvm/feature_view_model.dart';
 
 abstract class MainPageViewModel extends FeatureViewModel<void> {
   MainPageViewModel() : super(null);

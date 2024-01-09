@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/features/initial_page/presentation/initial_page.dart';
-import 'package:osk_warehouse/features/login/presentation/login_page.dart';
-import 'package:osk_warehouse/features/main_page/presentation/main_page.dart';
-import 'package:osk_warehouse/features/navigation/models/routes.dart';
-import 'package:osk_warehouse/features/welcome/presentation/welcome_page.dart';
+
+import '../../initial_page/presentation/initial_page.dart';
+import '../../login/presentation/login_page.dart';
+import '../../main_page/presentation/main_page.dart';
+import '../../welcome/presentation/welcome_page.dart';
+import '../models/routes.dart';
 
 class RoutesBuilder {
   RoutesBuilder._();

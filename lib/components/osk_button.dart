@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/components/osk_tap_animation.dart';
-import 'package:osk_warehouse/components/osk_text.dart';
-import 'package:osk_warehouse/theme/button/button_theme_extension.dart';
-import 'package:osk_warehouse/theme/utils/theme_from_context.dart';
+
+import '../theme/button/button_theme_extension.dart';
+import '../theme/utils/theme_from_context.dart';
+import 'osk_tap_animation.dart';
+import 'osk_text.dart';
 
 enum OskButtonType {
   main;

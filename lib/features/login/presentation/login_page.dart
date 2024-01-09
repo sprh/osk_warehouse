@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:osk_warehouse/assets/assets_provider.dart';
-import 'package:osk_warehouse/components/osk_button.dart';
-import 'package:osk_warehouse/components/osk_scaffold.dart';
-import 'package:osk_warehouse/components/osk_text.dart';
-import 'package:osk_warehouse/components/osk_text_field.dart';
-import 'package:osk_warehouse/features/login/login_di.dart';
-import 'package:osk_warehouse/features/login/presentation/login_page_view_model.dart';
-import 'package:osk_warehouse/l10n/utils/l10n_from_context.dart';
-import 'package:osk_warehouse/mvvm/feature_widget.dart';
 import 'package:riverpod/src/state_notifier_provider.dart';
+
+import '../../../components/osk_button.dart';
+import '../../../components/osk_image.dart';
+import '../../../components/osk_scaffold.dart';
+import '../../../components/osk_text.dart';
+import '../../../components/osk_text_field.dart';
+import '../../../l10n/utils/l10n_from_context.dart';
+import '../../../mvvm/feature_widget.dart';
+import '../login_di.dart';
+import 'login_page_view_model.dart';
 
 class LoginPage extends FeatureView<LoginPageViewModel, void> {
   const LoginPage();
@@ -94,8 +94,7 @@ class _LoginPageState extends State<_LoginPage> {
             SafeArea(
               child: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                child: SvgPicture.asset(
-                  AssetsProvider.loginPageHeader,
+                child: OskImage.loginPageHeader(
                   fit: BoxFit.cover,
                   alignment: AlignmentDirectional.centerStart,
                   width: size.width - 32,

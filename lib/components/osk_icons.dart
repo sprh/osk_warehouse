@@ -17,10 +17,12 @@ enum OskIconSize {
 class OskIcon extends StatelessWidget {
   final String path;
   final OskIconSize size;
+  final Color? color;
 
   const OskIcon._({
     required this.path,
     required this.size,
+    this.color,
   });
 
   const OskIcon.notification({
@@ -37,10 +39,37 @@ class OskIcon extends StatelessWidget {
           size: size,
         );
 
+  const OskIcon.close({
+    OskIconSize size = OskIconSize.medium,
+  }) : this._(
+          path: AssetsProvider.close,
+          size: size,
+        );
+
+  const OskIcon.hide({
+    OskIconSize size = OskIconSize.medium,
+    Color? color,
+  }) : this._(
+          path: AssetsProvider.hide,
+          size: size,
+          color: color,
+        );
+
+  const OskIcon.show({
+    OskIconSize size = OskIconSize.medium,
+    Color? color,
+  }) : this._(
+          path: AssetsProvider.show,
+          size: size,
+          color: color,
+        );
+
   @override
   Widget build(BuildContext context) => SvgPicture.asset(
         path,
         height: size.size,
         width: size.size,
+        colorFilter:
+            color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
       );
 }

@@ -5,6 +5,7 @@ import '../../initial_page/presentation/initial_page.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../welcome/presentation/welcome_page.dart';
+import '../../worker/new_worker/new_worket_page.dart';
 import '../models/routes.dart';
 
 class RoutesBuilder {
@@ -30,6 +31,10 @@ class RoutesBuilder {
         break;
       case Routes.main:
         screen = MainPage();
+        break;
+      case Routes.newWorker:
+        screen = NewWorkerPage();
+        break;
     }
 
     return MaterialPageRoute(

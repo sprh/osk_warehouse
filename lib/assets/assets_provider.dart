@@ -9,6 +9,9 @@ class AssetsProvider {
   // icons
   static const notification = '$_svgIconPath/notification.svg';
   static const setting = '$_svgIconPath/setting.svg';
+  static const close = '$_svgIconPath/close.svg';
+  static const hide = '$_svgIconPath/hide.svg';
+  static const show = '$_svgIconPath/show.svg';
 
   // images
   static const splash = '$_svgImagePath/splash_screen.svg';

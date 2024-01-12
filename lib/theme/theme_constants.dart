@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'action_block/action_block_theme_extension.dart';
 import 'button/main_button_theme_extension.dart';
+import 'dropdown/dropdown_theme_extension.dart';
+import 'icon_button/icon_button_theme_extension.dart';
+import 'line_divider/line_divider_theme_extension.dart';
 import 'scaffold/scaffold_theme_extension.dart';
 import 'text/text_theme_extension.dart';
 import 'text_field/text_field_theme_extension.dart';
@@ -17,6 +20,9 @@ class ThemeConstants {
     TextFieldThemeExtension.light,
     ScaffoldThemeExtension.light,
     ActionBlockThemeExtension.light,
+    IconButtonThemeExtension.light,
+    LineDividerThemeExtension.light,
+    DropdownThemeExtension.light,
   ];
 
   static final List<ThemeExtension> extensionsDark = [
@@ -25,5 +31,8 @@ class ThemeConstants {
     TextFieldThemeExtension.dark,
     ScaffoldThemeExtension.dark,
     ActionBlockThemeExtension.dark,
+    IconButtonThemeExtension.dark,
+    LineDividerThemeExtension.dark,
+    DropdownThemeExtension.dark,
   ];
 }

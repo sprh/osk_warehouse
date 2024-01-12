@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/src/state_notifier_provider.dart';
 
 import '../../../components/osk_action_block.dart';
+import '../../../components/osk_icon_button.dart';
+import '../../../components/osk_icons.dart';
 import '../../../components/osk_scaffold.dart';
 import '../../../components/osk_service_icons.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
@@ -32,7 +34,20 @@ class _MainPage extends StatelessWidget {
     final strings = context.strings;
 
     return OskScaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          OskIconButton(
+            icon: OskIcon.notification(),
+            onTap: () {}, // TODO
+          ),
+          SizedBox(width: 16),
+          OskIconButton(
+            icon: OskIcon.setting(),
+            onTap: () {}, // TODO
+          ),
+          SizedBox(width: 16),
+        ],
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

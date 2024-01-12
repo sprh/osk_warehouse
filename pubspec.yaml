@@ -30,7 +30,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/svg/
+    - assets/svg/icons/
+    - assets/svg/images/
+    - assets/svg/service_icons/
 
   fonts:
     - family: Nunito

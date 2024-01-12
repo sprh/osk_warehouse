@@ -15,5 +15,10 @@
     "workers": "Сотрудники",
     "reports": "Отчеты",
     "productCards": "Карточки товаров",
-    "mainPageHi": "Привет 👋 ,"
+    "mainPageHi": "Привет 👋 ,",
+    "createRequestBottomsheetTitle": "Создать заявку",
+    "requestSendType": "Отправить",
+    "requestAcceptType": "Принять",
+    "requestSignOutType": "Списать",
+    "requestRejectType": "Браковать"
 }

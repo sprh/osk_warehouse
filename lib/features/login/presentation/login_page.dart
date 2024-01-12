@@ -33,14 +33,13 @@ class _LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<_LoginPage> {
-  late final _loginTextFieldFocusNode = FocusNode();
-  late final _passwordTextFieldFocusNode = FocusNode();
+  late final focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _loginTextFieldFocusNode.requestFocus(),
+      (_) => focusNode.requestFocus(),
     );
   }
 
@@ -50,34 +49,24 @@ class _LoginPageState extends State<_LoginPage> {
     final strings = context.strings;
 
     return GestureDetector(
-      onTap: () {
-        _loginTextFieldFocusNode.unfocus();
-        _passwordTextFieldFocusNode.unfocus();
-      },
+      onTap: FocusScope.of(context).unfocus,
       child: OskScaffold(
         floatingActions: [
           const SizedBox(height: 16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: OskTextField(
-              hintText: strings.loginPageLoginTextFieldHint,
-              label: strings.loginPageLoginTextFieldLabel,
-              focusNode: _loginTextFieldFocusNode,
-              autocorrect: false,
-              enableSuggestions: false,
-            ),
+          OskTextField(
+            hintText: strings.loginPageLoginTextFieldHint,
+            label: strings.loginPageLoginTextFieldLabel,
+            focusNode: focusNode,
+            autocorrect: false,
+            enableSuggestions: false,
           ),
           const SizedBox(height: 16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: OskTextField(
-              hintText: strings.loginPagePasswordTextFieldHint,
-              label: strings.loginPagePasswordTextFieldLabel,
-              focusNode: _passwordTextFieldFocusNode,
-              obscureText: true,
-              autocorrect: false,
-              enableSuggestions: false,
-            ),
+          OskTextField(
+            hintText: strings.loginPagePasswordTextFieldHint,
+            label: strings.loginPagePasswordTextFieldLabel,
+            showobscureTextIcon: true,
+            autocorrect: false,
+            enableSuggestions: false,
           ),
           const SizedBox(height: 16),
           OskButton.main(

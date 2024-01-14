@@ -8,23 +8,27 @@ class OskImage extends StatelessWidget {
   final BoxFit fit;
   final AlignmentGeometry alignment;
   final double? width;
+  final double? height;
 
   const OskImage._({
     required this.name,
     required this.fit,
     required this.alignment,
     this.width,
+    this.height,
   });
 
   const OskImage.welcomeHeader({
     BoxFit fit = BoxFit.contain,
     AlignmentGeometry alignment = Alignment.center,
     double? width,
+    double? height,
   }) : this._(
           name: AssetsProvider.welcomeHeader,
           fit: fit,
           alignment: alignment,
           width: width,
+          height: height,
         );
 
   const OskImage.splash({
@@ -55,5 +59,6 @@ class OskImage extends StatelessWidget {
         fit: fit,
         alignment: alignment,
         width: width,
+        height: height,
       );
 }

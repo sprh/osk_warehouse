@@ -5,7 +5,6 @@ import '../../../components/dropdown/osk_multiselect_dropdown.dart';
 import '../../../components/osk_button.dart';
 import '../../../components/osk_close_icon_button.dart';
 import '../../../components/osk_scaffold.dart';
-import '../../../components/osk_scaffold_header.dart';
 import '../../../components/osk_service_icons.dart';
 import '../../../components/osk_text_field.dart';
 
@@ -34,69 +33,62 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
         FocusScope.of(context).unfocus();
       },
       child: OskScaffold(
-        appBar: AppBar(
+        header: OskScaffoldHeader(
+          title: 'Новый сотрудник',
+          leading: OskServiceIcon.worker(),
           actions: [
-            OskCloseIconButton(onClose: () {}), // TODO
+            OskCloseIconButton(onClose: () {}),
             SizedBox(width: 8),
           ],
         ),
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  OskScaffoldHeader(
-                    icon: OskServiceIcon.worker(),
-                    title: 'Новый сотрудник',
-                  ),
-                  SizedBox(height: 24),
-                  OskTextField(
-                    label: 'ФИО',
-                    hintText: 'Аркадий Аркадий Васильев',
-                    focusNode: focusNode,
-                  ),
-                  SizedBox(height: 16),
-                  OskTextField(
-                    label: 'Логин',
-                    hintText: 'aa_vasilev',
-                  ),
-                  SizedBox(height: 16),
-                  OskTextField(
-                    label: 'Пароль',
-                    hintText: '******',
-                    showobscureTextIcon: true,
-                  ),
-                  SizedBox(height: 16),
-                  // TODO: пока непонятны значения
-                  MultiselectDropDown<String>(
-                    label: 'Доступные склады',
-                    items: [
-                      OskDropdownMenuItem(label: 'Склад 1', value: '1'),
-                      OskDropdownMenuItem(label: 'Склад 2', value: '2'),
-                      OskDropdownMenuItem(label: 'Склад 3', value: '3'),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  MultiselectDropDown<String>(
-                    label: 'Доcтупы',
-                    items: [
-                      OskDropdownMenuItem(
-                        label: 'Удаление пользователей',
-                        value: '1',
-                      ),
-                      OskDropdownMenuItem(
-                        label: 'Добавление товаров',
-                        value: '2',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 24),
+            OskTextField(
+              label: 'ФИО',
+              hintText: 'Аркадий Аркадий Васильев',
+              focusNode: focusNode,
+            ),
+            SizedBox(height: 16),
+            OskTextField(
+              label: 'Логин',
+              hintText: 'aa_vasilev',
+            ),
+            SizedBox(height: 16),
+            OskTextField(
+              label: 'Пароль',
+              hintText: '******',
+              showobscureTextIcon: true,
+            ),
+            SizedBox(height: 16),
+            // TODO: пока непонятны значения
+            MultiselectDropDown<String>(
+              label: 'Доступные склады',
+              items: [
+                OskDropdownMenuItem(label: 'Склад 1', value: '1'),
+                OskDropdownMenuItem(label: 'Склад 2', value: '2'),
+                OskDropdownMenuItem(label: 'Склад 3', value: '3'),
+              ],
+            ),
+            SizedBox(height: 16),
+            MultiselectDropDown<String>(
+              label: 'Доcтупы',
+              items: [
+                OskDropdownMenuItem(
+                  label: 'Удаление пользователей',
+                  value: '1',
+                ),
+                OskDropdownMenuItem(
+                  label: 'Добавление товаров',
+                  value: '2',
+                ),
+              ],
             ),
           ],
         ),
-        floatingActions: [
+        actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: OskButton.main(

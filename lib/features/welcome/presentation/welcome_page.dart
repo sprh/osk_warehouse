@@ -30,7 +30,6 @@ class _WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final safeArea = MediaQuery.of(context).padding;
     final strings = context.strings;
 
     return OskScaffold(
@@ -39,7 +38,7 @@ class _WelcomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           OskImage.welcomeHeader(
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             alignment: AlignmentDirectional.centerStart,
             width: size.width,
           ),
@@ -49,7 +48,6 @@ class _WelcomePage extends StatelessWidget {
             fontWeight: OskfontWeight.bold,
             textAlign: TextAlign.center,
           ),
-          Spacer(),
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: size.width * 2 / 3),
@@ -60,20 +58,17 @@ class _WelcomePage extends StatelessWidget {
               colorType: OskTextColorType.minor,
             ),
           ),
-          SizedBox(height: 16),
-          OskButton.main(
+        ],
+      ),
+      actions: [
+        Center(
+          child: OskButton.main(
             title: strings.welcomeButtonTitle,
             sizeProportion: 2 / 3,
             onTap: viewModel.onLoginButtonTap,
           ),
-          Spacer(),
-          OskText.caption(
-            text: strings.welcomeAppVersion,
-            colorType: OskTextColorType.minor,
-          ),
-          SizedBox(height: safeArea.bottom + 4),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

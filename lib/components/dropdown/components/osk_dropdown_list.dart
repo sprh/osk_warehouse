@@ -23,38 +23,37 @@ class OskDropdownList extends StatelessWidget {
       sizeFactor: animation,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: ClipRect(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(
-                left: borderSide,
-                right: borderSide,
-                bottom: borderSide,
-              ),
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(8),
-              ),
-              color: Colors.white,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border(
+              left: borderSide,
+              right: borderSide,
+              bottom: borderSide,
             ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widgets.length,
-              itemBuilder: (context, index) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8.0),
-                    child: widgets[index],
-                  ),
-                  if (index != widgets.length - 1)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 4),
-                      child: OskLineDivider(),
-                    )
-                  else
-                    SizedBox(height: 4),
-                ],
-              ),
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(8),
+            ),
+            color: Colors.white,
+          ),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widgets.length,
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(bottom: 4.0),
+                  child: widgets[index],
+                ),
+                if (index != widgets.length - 1)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4),
+                    child: OskLineDivider(),
+                  )
+                else
+                  SizedBox(height: 4),
+              ],
             ),
           ),
         ),

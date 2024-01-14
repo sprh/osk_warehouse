@@ -33,8 +33,10 @@ class _MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.strings;
 
-    return OskScaffold(
-      appBar: AppBar(
+    return OskScaffold.slivers(
+      appBar: SliverAppBar(
+        pinned: true,
+        primary: true,
         actions: [
           OskIconButton(
             icon: OskIcon.notification(),
@@ -48,60 +50,50 @@ class _MainPage extends StatelessWidget {
           SizedBox(width: 16),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      slivers: [
+        SliverToBoxAdapter(child: MainPageHeader()),
+        SliverPadding(
+          padding: EdgeInsets.all(16),
+          sliver: SliverGrid.count(
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 4,
+            crossAxisCount: 2,
             children: [
-              MainPageHeader(),
-              SizedBox(height: 24),
-              GridView.count(
-                primary: false,
-                shrinkWrap: true,
-                clipBehavior: Clip.none,
-                padding: const EdgeInsets.all(16),
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 4,
-                crossAxisCount: 2,
-                children: [
-                  OskActionBlock(
-                    title: strings.createRequest,
-                    icon: OskServiceIcon.createRequest(),
-                    onTap: () {},
-                    notificationsCount: 9,
-                  ),
-                  OskActionBlock(
-                    title: strings.requests,
-                    icon: OskServiceIcon.request(),
-                    onTap: () {},
-                  ),
-                  OskActionBlock(
-                    title: strings.warehouses,
-                    icon: OskServiceIcon.warehouse(),
-                    onTap: () {},
-                  ),
-                  OskActionBlock(
-                    title: strings.workers,
-                    icon: OskServiceIcon.worker(),
-                    onTap: () {},
-                  ),
-                  OskActionBlock(
-                    title: strings.reports,
-                    icon: OskServiceIcon.report(),
-                    onTap: () {},
-                  ),
-                  OskActionBlock(
-                    title: strings.productCards,
-                    icon: const OskServiceIcon.products(),
-                    onTap: () {},
-                  ),
-                ],
+              OskActionBlock(
+                title: strings.createRequest,
+                icon: OskServiceIcon.createRequest(),
+                onTap: () {},
+                notificationsCount: 9,
+              ),
+              OskActionBlock(
+                title: strings.requests,
+                icon: OskServiceIcon.request(),
+                onTap: () {},
+              ),
+              OskActionBlock(
+                title: strings.warehouses,
+                icon: OskServiceIcon.warehouse(),
+                onTap: () {},
+              ),
+              OskActionBlock(
+                title: strings.workers,
+                icon: OskServiceIcon.worker(),
+                onTap: () {},
+              ),
+              OskActionBlock(
+                title: strings.reports,
+                icon: OskServiceIcon.report(),
+                onTap: () {},
+              ),
+              OskActionBlock(
+                title: strings.productCards,
+                icon: const OskServiceIcon.products(),
+                onTap: () {},
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

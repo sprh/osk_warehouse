@@ -51,7 +51,7 @@ class _LoginPageState extends State<_LoginPage> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: OskScaffold(
-        floatingActions: [
+        actions: [
           const SizedBox(height: 16),
           OskTextField(
             hintText: strings.loginPageLoginTextFieldHint,
@@ -77,8 +77,8 @@ class _LoginPageState extends State<_LoginPage> {
           const SizedBox(height: 16),
         ],
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SafeArea(
               child: Padding(
@@ -96,7 +96,6 @@ class _LoginPageState extends State<_LoginPage> {
               fontWeight: OskfontWeight.bold,
               textAlign: TextAlign.center,
             ),
-            Spacer(),
           ],
         ),
       ),

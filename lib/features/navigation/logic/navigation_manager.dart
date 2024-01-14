@@ -12,6 +12,12 @@ abstract class NavigationManager {
   void openLogin();
 
   void openMain();
+
+  void openNewWorker();
+
+  void openWorkersList();
+
+  void pop();
 }
 
 class _NavigationManagerImpl implements NavigationManager {
@@ -34,4 +40,19 @@ class _NavigationManagerImpl implements NavigationManager {
       NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
         Routes.welcome.name,
       );
+
+  @override
+  void openNewWorker() =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.newWorker.name,
+      );
+
+  @override
+  void openWorkersList() =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.newWorker.name,
+      );
+
+  @override
+  void pop() => NavigationManager.navigatorKey.currentState?.maybePop();
 }

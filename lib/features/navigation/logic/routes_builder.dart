@@ -5,7 +5,7 @@ import '../../login/presentation/login_page.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../warehouse/new_warehouse/new_warehouse.dart';
 import '../../welcome/presentation/welcome_page.dart';
-import '../../worker/new_worker/new_worket_page.dart';
+import '../../worker/new_worker/presentation/new_worket_page.dart';
 import '../../worker/workers_list/presentation/workers_list_page.dart';
 import 'models/routes.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../components/button/osk_button.dart';
+import '../../../components/button/osk_close_icon_button.dart';
 import '../../../components/dropdown/components/osk_dropdown_menu_item.dart';
 import '../../../components/dropdown/osk_multiselect_dropdown.dart';
-import '../../../components/osk_button.dart';
-import '../../../components/osk_close_icon_button.dart';
-import '../../../components/osk_scaffold.dart';
-import '../../../components/osk_service_icons.dart';
-import '../../../components/osk_text_field.dart';
+import '../../../components/icon/osk_service_icons.dart';
+import '../../../components/scaffold/osk_scaffold.dart';
+import '../../../components/text/osk_text_field.dart';
 
 class NewWorkerPage extends StatefulWidget {
   const NewWorkerPage({super.key});

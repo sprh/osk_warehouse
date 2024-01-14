@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/utils/theme_from_context.dart';
-import 'osk_text.dart';
+import '../../theme/utils/theme_from_context.dart';
+import '../text/osk_text.dart';
 
 class OskScaffold extends StatefulWidget {
   final List<Widget>? actions;

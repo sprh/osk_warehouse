@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../assets/assets_provider.dart';
+import '../../assets/assets_provider.dart';
 
 enum OskServiceIconSize {
   medium;

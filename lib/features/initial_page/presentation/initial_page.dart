@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/osk_image.dart';
-import '../../../components/osk_scaffold.dart';
+import '../../../components/scaffold/osk_scaffold.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/osk_button.dart';
-import '../../../components/osk_close_icon_button.dart';
-import '../../../components/osk_scaffold.dart';
-import '../../../components/osk_service_icons.dart';
-import '../../../components/osk_text_field.dart';
+import '../../../components/button/osk_button.dart';
+import '../../../components/button/osk_close_icon_button.dart';
+import '../../../components/icon/osk_service_icons.dart';
+import '../../../components/scaffold/osk_scaffold.dart';
+import '../../../components/text/osk_text_field.dart';
 
 class NewWarehousePage extends StatefulWidget {
   const NewWarehousePage({super.key});

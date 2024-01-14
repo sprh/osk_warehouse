@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../theme/utils/theme_from_context.dart';
-import 'osk_icon_button.dart';
-import 'osk_icons.dart';
+import '../../theme/utils/theme_from_context.dart';
+import '../icon/osk_icon_button.dart';
+import '../icon/osk_icons.dart';
 
 class OskTextField extends StatefulWidget {
   final String hintText;

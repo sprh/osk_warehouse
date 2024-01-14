@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/utils/theme_from_context.dart';
-import '../../osk_tap_animation.dart';
-import '../../osk_text.dart';
+import '../../tap/osk_tap_animation.dart';
+import '../../text/osk_text.dart';
 
 class OskDropdownMenuItem<T> {
   final String label;

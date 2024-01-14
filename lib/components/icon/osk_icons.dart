@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../assets/assets_provider.dart';
+import '../../assets/assets_provider.dart';
 
 enum OskIconSize {
   medium;
@@ -60,6 +60,24 @@ class OskIcon extends StatelessWidget {
     Color? color,
   }) : this._(
           path: AssetsProvider.show,
+          size: size,
+          color: color,
+        );
+
+  const OskIcon.delete({
+    OskIconSize size = OskIconSize.medium,
+    Color? color,
+  }) : this._(
+          path: AssetsProvider.delete,
+          size: size,
+          color: color,
+        );
+
+  const OskIcon.edit({
+    OskIconSize size = OskIconSize.medium,
+    Color? color,
+  }) : this._(
+          path: AssetsProvider.edit,
           size: size,
           color: color,
         );

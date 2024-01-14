@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'osk_service_icons.dart';
-import 'osk_text.dart';
+import '../icon/osk_service_icons.dart';
+import '../text/osk_text.dart';
 
 class OskScaffoldHeader extends StatelessWidget {
   final OskServiceIcon icon;

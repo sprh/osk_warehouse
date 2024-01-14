@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:riverpod/src/state_notifier_provider.dart';
 
 import '../../../components/osk_action_block.dart';
 import '../../../components/osk_icon_button.dart';
@@ -7,27 +6,10 @@ import '../../../components/osk_icons.dart';
 import '../../../components/osk_scaffold.dart';
 import '../../../components/osk_service_icons.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
-import '../../../mvvm/feature_widget.dart';
-import '../main_page_di.dart';
 import 'components/main_page_header.dart';
-import 'main_page_view_model.dart';
 
-class MainPage extends FeatureView<MainPageViewModel, void> {
-  const MainPage({super.key});
-
-  @override
-  FeatureViewBuilder<MainPageViewModel, void> get builder =>
-      (viewModel, _) => _MainPage(viewModel);
-
-  @override
-  StateNotifierProvider<MainPageViewModel, void> get viewModel =>
-      MainPageDi.viewModel;
-}
-
-class _MainPage extends StatelessWidget {
-  final MainPageViewModel viewModel;
-
-  const _MainPage(this.viewModel);
+class MainPage extends StatelessWidget {
+  const MainPage();
 
   @override
   Widget build(BuildContext context) {

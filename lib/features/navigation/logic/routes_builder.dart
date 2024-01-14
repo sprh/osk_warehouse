@@ -1,12 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../initial_page/presentation/initial_page.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../welcome/presentation/welcome_page.dart';
 import '../../worker/new_worker/new_worket_page.dart';
-import '../models/routes.dart';
+import 'models/routes.dart';
 
 class RoutesBuilder {
   RoutesBuilder._();
@@ -15,14 +14,11 @@ class RoutesBuilder {
     final route = Routes.values.firstWhereOrNull(
           (route) => route.name == settings.name,
         ) ??
-        Routes.initial;
+        Routes.welcome;
 
     late final Widget screen;
 
     switch (route) {
-      case Routes.initial:
-        screen = const InitialPage();
-        break;
       case Routes.welcome:
         screen = const WelcomePage();
         break;

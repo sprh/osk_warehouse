@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../models/routes.dart';
+import 'models/routes.dart';
 
 abstract class NavigationManager {
   static final navigatorKey = GlobalKey<NavigatorState>();
+
+  factory NavigationManager() => _NavigationManagerImpl();
 
   void openWelcome();
 
@@ -12,12 +14,10 @@ abstract class NavigationManager {
   void openMain();
 }
 
-class NavigationManagerImpl extends NavigationManager {
-  void openWelcome() =>
-      NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
-        Routes.welcome.name,
-      );
+class _NavigationManagerImpl implements NavigationManager {
+  const _NavigationManagerImpl();
 
+  @override
   void openLogin() =>
       NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
         Routes.login.name,
@@ -27,5 +27,11 @@ class NavigationManagerImpl extends NavigationManager {
   void openMain() =>
       NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
         Routes.main.name,
+      );
+
+  @override
+  void openWelcome() =>
+      NavigationManager.navigatorKey.currentState?.pushReplacementNamed(
+        Routes.welcome.name,
       );
 }

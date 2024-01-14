@@ -62,16 +62,19 @@ class _OskScaffoldState extends State<OskScaffold> {
           physics: AlwaysScrollableScrollPhysics(),
           slivers: widget.slivers,
         ),
-        bottomNavigationBar: Container(
+        bottomNavigationBar: SizedBox(
           height: MediaQuery.of(context).viewInsets.bottom,
         ),
         persistentFooterButtons: actions != null
             ? [
                 Padding(
                   padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: actions,
+                  child: ColoredBox(
+                    color: theme.backgroundColor,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: actions,
+                    ),
                   ),
                 ),
               ]

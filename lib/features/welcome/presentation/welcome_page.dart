@@ -60,7 +60,6 @@ class _WelcomePageLoginAction extends StatelessWidget {
   Widget build(BuildContext context) => Center(
         child: OskButton.main(
           title: context.strings.welcomeButtonTitle,
-          sizeProportion: 2 / 3,
           onTap: BlocProvider.of<WelcomePageBloc>(context).onLoginButtonTap,
         ),
       );

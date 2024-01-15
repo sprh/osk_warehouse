@@ -5,17 +5,17 @@ import '../icon/osk_icon_button.dart';
 import '../icon/osk_icons.dart';
 
 class OskCloseIconButton extends StatelessWidget {
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   const OskCloseIconButton({
-    required this.onClose,
+    this.onClose,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => OskIconButton(
         icon: OskIcon.close(),
-        onTap: onClose,
+        onTap: onClose ?? Navigator.of(context).maybePop,
         backgroundColor: context.textTheme.minorText.withOpacity(0.3),
       );
 }

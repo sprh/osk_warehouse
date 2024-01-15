@@ -35,7 +35,7 @@ class _NewWarehousePageState extends State<NewWarehousePage> {
           title: 'Новый склад',
           leading: OskServiceIcon.warehouse(),
           actions: [
-            OskCloseIconButton(onClose: () {}),
+            OskCloseIconButton(),
             SizedBox(width: 8),
           ],
         ),

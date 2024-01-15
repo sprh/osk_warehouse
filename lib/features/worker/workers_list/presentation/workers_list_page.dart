@@ -11,6 +11,7 @@ import '../bloc/workers_list_bloc.dart';
 import '../bloc/workers_list_event.dart';
 
 class WorkersListPage extends StatelessWidget {
+  // TODO: change state
   static final workers = [
     for (int i = 0; i < 10; ++i) i.toString(),
   ];
@@ -20,34 +21,44 @@ class WorkersListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => WorkersListBloc(NavigationScope.of(context)),
-        child: OskScaffold(
-          header: OskScaffoldHeader(
-            leading: OskServiceIcon.worker(),
-            title: 'Сотрудники',
-            actions: [
-              OskCloseIconButton(onClose: () {}),
-              SizedBox(width: 8),
-            ],
-          ),
-          body: Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Column(
-              children: workers
-                  .expand(
-                    (w) => [
-                      OskInfoSlot(
-                        title: w,
-                        onTap: () {},
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                    ],
-                  )
-                  .toList(),
-            ),
-          ),
-          actions: [_NewWorkerAction()],
+        child: Builder(
+          builder: (context) {
+            return OskScaffold(
+              header: OskScaffoldHeader(
+                leading: OskServiceIcon.worker(),
+                title: 'Сотрудники',
+                actions: [
+                  OskCloseIconButton(),
+                  SizedBox(width: 8),
+                ],
+              ),
+              body: Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  children: workers
+                      .expand(
+                        (w) => [
+                          OskInfoSlot(
+                            title: w,
+                            onTap: () {},
+                            onDelete: () {
+                              WorkersListBloc.of(context).add(
+                                WorkersListEventDeleteUser(),
+                              );
+                              return Future.value(false);
+                            },
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      )
+                      .toList(),
+                ),
+              ),
+              actions: [_NewWorkerAction()],
+            );
+          },
         ),
       );
 }

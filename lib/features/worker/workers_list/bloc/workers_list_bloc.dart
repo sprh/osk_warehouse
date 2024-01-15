@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../components/button/osk_button.dart';
+import '../../../../components/modal/modal_dialog_actions.dart';
 import '../../../navigation/logic/navigation_manager.dart';
 import 'workers_list_event.dart';
 
@@ -24,6 +26,23 @@ class _WorkersListBloc extends Bloc<WorkersListEvent, dynamic>
       case WorkersListEventAddNewUser():
         _navigationManager.openNewWorker();
         break;
+      case WorkersListEventDeleteUser():
+        _navigationManager.showModalDialog(
+          title: 'Вы уверены, что хотите удалить пользователя?',
+          actions: ModalDialogActions(
+            direction: Axis.vertical,
+            widgets: [
+              OskButton.main(
+                title: '123',
+                onTap: () {},
+              ),
+              OskButton.main(
+                title: '123',
+                onTap: () {},
+              ),
+            ],
+          ),
+        );
     }
   }
 }

@@ -21,14 +21,12 @@ class OskButton extends StatelessWidget {
   final VoidCallback onTap;
   final OskButtonType type;
   final bool disabled;
-  final double sizeProportion;
 
   const OskButton._({
     required this.title,
     required this.onTap,
     required this.type,
     required this.disabled,
-    required this.sizeProportion,
     super.key,
   });
 
@@ -36,7 +34,6 @@ class OskButton extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
     bool disabled = false,
-    double sizeProportion = 1.0,
     Key? key,
   }) =>
       OskButton._(
@@ -44,7 +41,6 @@ class OskButton extends StatelessWidget {
         onTap: onTap,
         type: OskButtonType.main,
         disabled: disabled,
-        sizeProportion: sizeProportion,
         key: key,
       );
 
@@ -52,8 +48,7 @@ class OskButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = type.getTheme(context);
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * sizeProportion,
+    return Expanded(
       child: OskTapAnimationBuilder(
         onTap: onTap,
         disabled: disabled,

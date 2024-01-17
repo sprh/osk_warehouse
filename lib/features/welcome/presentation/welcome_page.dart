@@ -6,7 +6,6 @@ import '../../../components/osk_image.dart';
 import '../../../components/scaffold/osk_scaffold.dart';
 import '../../../components/text/osk_text.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
-import '../../navigation/scope/navigation_scope.dart';
 import '../bloc/welcome_page_bloc.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -17,39 +16,36 @@ class WelcomePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final strings = context.strings;
 
-    return BlocProvider(
-      create: (context) => WelcomePageBloc(NavigationScope.of(context)),
-      child: OskScaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OskImage.welcomeHeader(
-              alignment: AlignmentDirectional.centerStart,
-              width: size.width,
-            ),
-            const SizedBox(height: 24),
-            OskText.header(
-              text: strings.oskCompanyName,
+    return OskScaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          OskImage.welcomeHeader(
+            alignment: AlignmentDirectional.centerStart,
+            width: size.width,
+          ),
+          const SizedBox(height: 24),
+          OskText.header(
+            text: strings.oskCompanyName,
+            fontWeight: OskfontWeight.bold,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: size.width * 2 / 3),
+            child: OskText.caption(
+              text: strings.welcomeInfoSubtitle,
               fontWeight: OskfontWeight.bold,
               textAlign: TextAlign.center,
+              colorType: OskTextColorType.minor,
             ),
-            const SizedBox(height: 16),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: size.width * 2 / 3),
-              child: OskText.caption(
-                text: strings.welcomeInfoSubtitle,
-                fontWeight: OskfontWeight.bold,
-                textAlign: TextAlign.center,
-                colorType: OskTextColorType.minor,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          _WelcomePageLoginAction(),
+          ),
         ],
       ),
+      actions: [
+        _WelcomePageLoginAction(),
+      ],
     );
   }
 }

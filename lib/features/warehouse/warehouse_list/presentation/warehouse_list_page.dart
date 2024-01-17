@@ -5,22 +5,23 @@ import '../../../../components/button/osk_close_icon_button.dart';
 import '../../../../components/icon/osk_service_icons.dart';
 import '../../../../components/osk_info_slot/osk_info_slot.dart';
 import '../../../../components/scaffold/osk_scaffold.dart';
-import '../bloc/workers_list_bloc.dart';
-import '../bloc/workers_list_event.dart';
+import '../../models/warehouse.dart';
+import '../bloc/warehouse_list_bloc.dart';
+import '../bloc/warehouse_list_event.dart';
 
-class WorkersListPage extends StatelessWidget {
-  // TODO: change state
-  static final workers = [
-    for (int i = 0; i < 10; ++i) i.toString(),
+class WarehouseListPage extends StatelessWidget {
+  static final warehouses = [
+    for (int i = 0; i < 10; ++i)
+      Warehouse(name: '$i warehouse', description: i.toString()),
   ];
 
-  const WorkersListPage({super.key});
+  const WarehouseListPage({super.key});
 
   @override
   Widget build(BuildContext context) => OskScaffold(
         header: const OskScaffoldHeader(
-          leading: OskServiceIcon.worker(),
-          title: 'Сотрудники',
+          leading: OskServiceIcon.warehouse(),
+          title: 'Склады',
           actions: [
             OskCloseIconButton(),
             SizedBox(width: 8),
@@ -29,16 +30,20 @@ class WorkersListPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.only(top: 16),
           child: Column(
-            children: workers
+            children: warehouses
                 .expand(
                   (w) => [
                     OskInfoSlot(
-                      title: w,
+                      title: w.name,
+                      subtitle: w.description,
                       onTap: () {},
                       onDelete: () {
-                        WorkersListBloc.of(context).add(
-                          WorkersListEventDeleteUser(),
-                        );
+                        // WorkersListBloc.of(context).add(
+                        //   WorkersListEventDeleteUser(),
+                        // );
+                        return Future.value(false);
+                      },
+                      onEdit: () {
                         return Future.value(false);
                       },
                     ),
@@ -48,18 +53,13 @@ class WorkersListPage extends StatelessWidget {
                 .toList(),
           ),
         ),
-        actions: const [_NewWorkerAction()],
-      );
-}
-
-class _NewWorkerAction extends StatelessWidget {
-  const _NewWorkerAction();
-
-  @override
-  Widget build(BuildContext context) => OskButton.main(
-        title: 'Добавить',
-        onTap: () => WorkersListBloc.of(context).add(
-          WorkersListEventAddNewUser(),
-        ),
+        actions: [
+          OskButton.main(
+            title: 'Добавить',
+            onTap: () => WarehouseListBloc.of(context).add(
+              WarehouseListEventOnCreateWarehouseTap(),
+            ),
+          ),
+        ],
       );
 }

@@ -19,6 +19,10 @@ abstract class NavigationManager {
 
   void openWorkersList();
 
+  void openWarehouseList();
+
+  void openNewWarehouse();
+
   void pop();
 
   void showModalDialog({
@@ -89,4 +93,16 @@ class _NavigationManagerImpl implements NavigationManager {
       );
     }
   }
+
+  @override
+  void openNewWarehouse() =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.newWarehouse.name,
+      );
+
+  @override
+  void openWarehouseList() =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.warehouseList.name,
+      );
 }

@@ -88,6 +88,7 @@ class OskInfoSlot extends StatelessWidget {
               children: [
                 const SizedBox(width: 16),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     OskText.body(
                       text: title,

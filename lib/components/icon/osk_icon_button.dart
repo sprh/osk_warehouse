@@ -12,6 +12,7 @@ class OskIconButton extends StatelessWidget {
   const OskIconButton({
     required this.icon,
     required this.onTap,
+    super.key,
     this.backgroundColor,
   });
 

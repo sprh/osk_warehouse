@@ -7,17 +7,21 @@ final class MainButtonThemeExtension
     extends ThemeExtension<MainButtonThemeExtension>
     implements ButtonThemeExtension {
   static final light = MainButtonThemeExtension(
-    backgroundColor: Color(0xFFFFCFA3),
-    disabledBackgroundColor: Color(0xFFFFF0E3),
+    backgroundColor: const Color(0xFFFFCFA3),
+    disabledBackgroundColor: const Color(0xFFFFF0E3),
     disabledTextColor: TextThemeExtension.light.minorText,
     borderColor: Colors.transparent,
   );
 
   static final dark = light;
 
+  @override
   final Color backgroundColor;
+  @override
   final Color disabledBackgroundColor;
+  @override
   final Color disabledTextColor;
+  @override
   final Color borderColor;
 
   const MainButtonThemeExtension({

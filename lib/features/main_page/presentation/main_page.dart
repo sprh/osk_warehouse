@@ -13,7 +13,7 @@ import '../bloc/main_page_event.dart';
 import 'components/main_page_header.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage();
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,24 +25,23 @@ class MainPage extends StatelessWidget {
         builder: (context) => OskScaffold.slivers(
           appBar: SliverAppBar(
             pinned: true,
-            primary: true,
             actions: [
               OskIconButton(
-                icon: OskIcon.notification(),
+                icon: const OskIcon.notification(),
                 onTap: () {}, // TODO
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               OskIconButton(
-                icon: OskIcon.setting(),
+                icon: const OskIcon.setting(),
                 onTap: () {}, // TODO
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
             ],
           ),
           slivers: [
-            SliverToBoxAdapter(child: MainPageHeader()),
+            const SliverToBoxAdapter(child: MainPageHeader()),
             SliverPadding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               sliver: SliverGrid.count(
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 4,
@@ -50,30 +49,30 @@ class MainPage extends StatelessWidget {
                 children: [
                   OskActionBlock(
                     title: strings.createRequest,
-                    icon: OskServiceIcon.createRequest(),
+                    icon: const OskServiceIcon.createRequest(),
                     onTap: () {},
                     notificationsCount: 9,
                   ),
                   OskActionBlock(
                     title: strings.requests,
-                    icon: OskServiceIcon.request(),
+                    icon: const OskServiceIcon.request(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.warehouses,
-                    icon: OskServiceIcon.warehouse(),
+                    icon: const OskServiceIcon.warehouse(),
                     onTap: () {},
                   ),
                   OskActionBlock(
                     title: strings.workers,
-                    icon: OskServiceIcon.worker(),
+                    icon: const OskServiceIcon.worker(),
                     onTap: () => MainPageBloc.of(context).add(
                       MainPageEventOpenWorkersList(),
                     ),
                   ),
                   OskActionBlock(
                     title: strings.reports,
-                    icon: OskServiceIcon.report(),
+                    icon: const OskServiceIcon.report(),
                     onTap: () {},
                   ),
                   OskActionBlock(

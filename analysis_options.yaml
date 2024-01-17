@@ -42,3 +42,4 @@ analyzer:
     unused_import: error
     prefer_relative_imports: error
     directives_ordering: error
+    flutter_style_todos: ignore

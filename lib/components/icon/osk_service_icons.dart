@@ -26,44 +26,56 @@ class OskServiceIcon extends StatelessWidget {
 
   const OskServiceIcon.createRequest({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.createRequest,
           size: size,
+          key: key,
         );
 
   const OskServiceIcon.request({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.request,
           size: size,
+          key: key,
         );
 
   const OskServiceIcon.warehouse({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.warehouse,
           size: size,
+          key: key,
         );
 
   const OskServiceIcon.worker({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.worker,
           size: size,
+          key: key,
         );
 
   const OskServiceIcon.report({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.report,
           size: size,
+          key: key,
         );
 
   const OskServiceIcon.products({
     OskServiceIconSize size = OskServiceIconSize.medium,
+    Key? key,
   }) : this._(
           path: AssetsProvider.products,
           size: size,
+          key: key,
         );
 
   @override

@@ -4,7 +4,7 @@ import '../../../components/osk_image.dart';
 import '../../../components/scaffold/osk_scaffold.dart';
 
 class InitialPage extends StatelessWidget {
-  const InitialPage();
+  const InitialPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -31,8 +31,6 @@ class ScaffoldThemeExtension extends ThemeExtension<ScaffoldThemeExtension> {
   ThemeExtension<ScaffoldThemeExtension> lerp(
     covariant ThemeExtension<ScaffoldThemeExtension>? other,
     double t,
-  ) {
-    // TODO: implement lerp
-    throw UnimplementedError();
-  }
+  ) =>
+      this;
 }

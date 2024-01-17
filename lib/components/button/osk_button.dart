@@ -76,7 +76,6 @@ class OskButton extends StatelessWidget {
                 : theme.backgroundColor,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              width: 1.0,
               color: theme.borderColor,
             ),
           ),

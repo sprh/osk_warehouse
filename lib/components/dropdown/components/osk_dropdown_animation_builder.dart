@@ -6,7 +6,7 @@ typedef OskDropdownBuilder = Widget Function(
 );
 
 mixin OskDropdownAnimationBuilder<T extends StatefulWidget> on State<T> {
-  static final _halfTween = Tween<double>(begin: 0.0, end: 0.5);
+  static final _halfTween = Tween<double>(begin: 0, end: 0.5);
 
   late final AnimationController animationController;
   late final Animation<double> iconTurns;

@@ -25,7 +25,6 @@ class _WorkersListBloc extends Bloc<WorkersListEvent, dynamic>
     switch (event) {
       case WorkersListEventAddNewUser():
         _navigationManager.openNewWorker();
-        break;
       case WorkersListEventDeleteUser():
         _navigationManager.showModalDialog(
           title: 'Вы уверены, что хотите удалить пользователя?',

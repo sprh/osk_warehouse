@@ -14,6 +14,7 @@ class OskDropdownButton extends StatelessWidget {
     required this.label,
     required this.onTap,
     required this.iconAnimation,
+    super.key,
     this.selectedItemText,
   });
 
@@ -27,14 +28,13 @@ class OskDropdownButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: theme.borderSideColor,
-            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: 54),
+          constraints: const BoxConstraints(minHeight: 54),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -15,7 +15,7 @@ class OskTapAnimationBuilder extends StatefulWidget {
   });
 
   @override
-  _TapAnimationBuilderState createState() => _TapAnimationBuilderState();
+  State<StatefulWidget> createState() => _TapAnimationBuilderState();
 }
 
 class _TapAnimationBuilderState extends State<OskTapAnimationBuilder>

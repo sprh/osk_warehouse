@@ -16,13 +16,14 @@ class OskDropdownMenuItem<T> {
 
 class OskDropdownItemWidget<T> extends StatelessWidget {
   final OskDropdownMenuItem<T> item;
-  final Function(OskDropdownMenuItem<T>) onSelect;
+  final void Function(OskDropdownMenuItem<T>) onSelect;
   // Если itemSelected != null, то показывается чекбокс
   final bool? itemSelected;
 
   const OskDropdownItemWidget({
     required this.item,
     required this.onSelect,
+    super.key,
     this.itemSelected,
   });
 
@@ -33,7 +34,7 @@ class OskDropdownItemWidget<T> extends StatelessWidget {
     return OskTapAnimationBuilder(
       onTap: () => onSelect(item),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         child: Row(
           children: [
             if (itemSelected != null)
@@ -49,12 +50,12 @@ class OskDropdownItemWidget<T> extends StatelessWidget {
                       return theme.checkboxActiveBackground;
                     },
                   ),
-                  shape: CircleBorder(),
+                  shape: const CircleBorder(),
                   value: itemSelected,
                   onChanged: (_) => onSelect(item),
                 ),
               ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             OskText.caption(
               text: item.label,
               fontWeight: OskfontWeight.medium,

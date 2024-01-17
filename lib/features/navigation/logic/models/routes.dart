@@ -5,7 +5,8 @@ enum Routes {
   main,
   newWorker,
   newWarehouse,
-  workersList;
+  workersList,
+  warehouseList;
 
   static String get initialRouteName => Routes.main.name; // TODO: remove
 }

@@ -6,7 +6,7 @@ class ModalDialogThemeExtension
   final Color barrierColor;
 
   static final light = ModalDialogThemeExtension(
-    backgroundColor: Color(0xFFFFFFFF),
+    backgroundColor: const Color(0xFFFFFFFF),
     barrierColor: Colors.black.withOpacity(0.5),
   );
 

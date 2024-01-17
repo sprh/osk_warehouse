@@ -6,15 +6,11 @@ import 'components/osk_dropdown_list.dart';
 import 'components/osk_dropdown_menu_item.dart';
 
 class DropDownController<T> {
-  T? _selectedValue;
+  T? selectedValue;
 
-  DropDownController() : _selectedValue = null;
+  DropDownController() : selectedValue = null;
 
-  set value(T? value) => _selectedValue = value;
-
-  T? get value => _selectedValue;
-
-  void clear() => _selectedValue = null;
+  void clear() => selectedValue = null;
 }
 
 class DropDown<T> extends StatefulWidget {
@@ -24,28 +20,30 @@ class DropDown<T> extends StatefulWidget {
 
   final DropDownController<T>? controller;
 
-  DropDown({
+  const DropDown({
     required this.items,
     required this.label,
     this.onSelectedItemChanged,
     this.controller,
+    super.key,
   });
 
   @override
-  State createState() => _DropDownState();
+  State createState() => _DropDownState<T>();
 }
 
 class _DropDownState<T> extends State<DropDown<T>>
     with SingleTickerProviderStateMixin, OskDropdownAnimationBuilder {
-  DropDown<T>? selectedValue = null;
+  DropDown<T>? selectedValue;
 
   late Set<OskDropdownMenuItem<T>> listOFSelectedItem = {};
 
+  @override
   TickerProvider get vsync => this;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             OskDropdownButton(
@@ -63,10 +61,10 @@ class _DropDownState<T> extends State<DropDown<T>>
                       onSelect: (item) {
                         if (listOFSelectedItem.contains(item)) {
                           listOFSelectedItem.remove(item);
-                          widget.controller?.value = item.value;
+                          widget.controller?.selectedValue = item.value;
                         } else {
                           listOFSelectedItem.add(item);
-                          widget.controller?.value = item.value;
+                          widget.controller?.selectedValue = item.value;
                         }
                         widget.onSelectedItemChanged?.call(item.value);
 

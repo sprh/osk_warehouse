@@ -23,7 +23,6 @@ class _NewWorkerBloc extends Bloc<NewWorkerPageEvent, dynamic>
     switch (event) {
       case NewWorkerPageEventClose():
         _navigationManager.pop();
-        break;
     }
   }
 }

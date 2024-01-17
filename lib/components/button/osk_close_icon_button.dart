@@ -14,7 +14,7 @@ class OskCloseIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => OskIconButton(
-        icon: OskIcon.close(),
+        icon: const OskIcon.close(),
         onTap: onClose ?? Navigator.of(context).maybePop,
         backgroundColor: context.textTheme.minorText.withOpacity(0.3),
       );

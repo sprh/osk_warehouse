@@ -17,9 +17,9 @@ class OskScaffoldHeader extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(width: 24),
+          const SizedBox(width: 24),
           icon,
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           OskText.header(
             text: title,
             fontWeight: OskfontWeight.bold,

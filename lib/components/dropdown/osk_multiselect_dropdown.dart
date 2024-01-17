@@ -6,9 +6,9 @@ import 'components/osk_dropdown_list.dart';
 import 'components/osk_dropdown_menu_item.dart';
 
 class MultiSelectDropDownController<T> {
-  final Set<T> _selectedValues;
+  final Set<T> _selectedValues = const {};
 
-  const MultiSelectDropDownController() : _selectedValues = const {};
+  MultiSelectDropDownController();
 
   Set<T> get selectedValues => _selectedValues;
 
@@ -26,15 +26,16 @@ class MultiselectDropDown<T> extends StatefulWidget {
 
   final MultiSelectDropDownController<T>? controller;
 
-  MultiselectDropDown({
+  const MultiselectDropDown({
     required this.items,
     required this.label,
+    super.key,
     this.onSelectedItemsChanged,
     this.controller,
   });
 
   @override
-  State createState() => _MultiselectDropDownState();
+  State createState() => _MultiselectDropDownState<T>();
 }
 
 class _MultiselectDropDownState<T> extends State<MultiselectDropDown<T>>
@@ -43,11 +44,12 @@ class _MultiselectDropDownState<T> extends State<MultiselectDropDown<T>>
 
   late Set<OskDropdownMenuItem<T>> listOFSelectedItem = {};
 
+  @override
   TickerProvider get vsync => this;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             OskDropdownButton(

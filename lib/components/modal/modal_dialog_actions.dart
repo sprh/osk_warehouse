@@ -8,6 +8,7 @@ class ModalDialogActions extends StatelessWidget {
   const ModalDialogActions({
     required this.widgets,
     this.direction = Axis.horizontal,
+    super.key,
   });
 
   bool get _horizontal => direction == Axis.horizontal;

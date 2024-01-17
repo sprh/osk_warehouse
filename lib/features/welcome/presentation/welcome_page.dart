@@ -10,7 +10,7 @@ import '../../navigation/scope/navigation_scope.dart';
 import '../bloc/welcome_page_bloc.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage();
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,6 @@ class WelcomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             OskImage.welcomeHeader(
-              fit: BoxFit.contain,
               alignment: AlignmentDirectional.centerStart,
               width: size.width,
             ),

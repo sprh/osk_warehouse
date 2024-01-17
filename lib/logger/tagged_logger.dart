@@ -14,8 +14,8 @@ class TaggedLogger extends LogPrinter {
   }
 
   String _labelFor(Level level) {
-    var prefix = SimplePrinter.levelPrefixes[level]!;
-    var color = SimplePrinter.levelColors[level]!;
+    final prefix = SimplePrinter.levelPrefixes[level]!;
+    final color = SimplePrinter.levelColors[level]!;
 
     return color(prefix);
   }

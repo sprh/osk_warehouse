@@ -11,7 +11,7 @@ import '../../navigation/scope/navigation_scope.dart';
 import '../bloc/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage();
+  const LoginPage({super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: OskImage.loginPageHeader(
                     fit: BoxFit.cover,
                     alignment: AlignmentDirectional.centerStart,

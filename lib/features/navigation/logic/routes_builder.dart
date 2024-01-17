@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../warehouse/new_warehouse/new_warehouse.dart';
+import '../../warehouse/warehouse_list/presentation/warehouse_list_page.dart';
 import '../../welcome/presentation/welcome_page.dart';
 import '../../worker/new_worker/presentation/new_worket_page.dart';
 import '../../worker/workers_list/presentation/workers_list_page.dart';
@@ -23,22 +24,18 @@ class RoutesBuilder {
     switch (route) {
       case Routes.welcome:
         screen = const WelcomePage();
-        break;
       case Routes.login:
         screen = const LoginPage();
-        break;
       case Routes.main:
-        screen = MainPage();
-        break;
+        screen = const MainPage();
       case Routes.newWorker:
-        screen = NewWorkerPage();
-        break;
+        screen = const NewWorkerPage();
       case Routes.newWarehouse:
-        screen = NewWarehousePage();
-        break;
+        screen = const NewWarehousePage();
       case Routes.workersList:
-        screen = WorkersListPage();
-        break;
+        screen = const WorkersListPage();
+      case Routes.warehouseList:
+        screen = const WarehouseListPage();
     }
 
     return MaterialPageRoute(

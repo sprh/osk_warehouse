@@ -24,7 +24,7 @@ class WorkersListPage extends StatelessWidget {
         child: Builder(
           builder: (context) {
             return OskScaffold(
-              header: OskScaffoldHeader(
+              header: const OskScaffoldHeader(
                 leading: OskServiceIcon.worker(),
                 title: 'Сотрудники',
                 actions: [
@@ -33,7 +33,7 @@ class WorkersListPage extends StatelessWidget {
                 ],
               ),
               body: Padding(
-                padding: EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.only(top: 16),
                 child: Column(
                   children: workers
                       .expand(
@@ -48,15 +48,13 @@ class WorkersListPage extends StatelessWidget {
                               return Future.value(false);
                             },
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
+                          const SizedBox(height: 8),
                         ],
                       )
                       .toList(),
                 ),
               ),
-              actions: [_NewWorkerAction()],
+              actions: const [_NewWorkerAction()],
             );
           },
         ),

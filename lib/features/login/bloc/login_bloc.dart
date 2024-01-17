@@ -20,7 +20,6 @@ class _LoginBloc extends Bloc<LoginEvent, dynamic> implements LoginBloc {
     switch (event) {
       case LoginEventButtonSignInTap():
         _navigationManager.openMain();
-        break;
     }
   }
 }

@@ -12,6 +12,7 @@ class OskScaffold extends StatefulWidget {
     this.actions,
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
+    super.key,
   }) : slivers = [
           if (appBar != null) appBar,
           if (header != null)
@@ -28,6 +29,7 @@ class OskScaffold extends StatefulWidget {
     this.actions,
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
+    super.key,
   }) : slivers = [
           if (appBar != null) appBar,
           if (header != null) SliverToBoxAdapter(child: header),
@@ -35,7 +37,7 @@ class OskScaffold extends StatefulWidget {
         ];
 
   @override
-  _OskScaffoldState createState() => _OskScaffoldState();
+  State<StatefulWidget> createState() => _OskScaffoldState();
 }
 
 class _OskScaffoldState extends State<OskScaffold> {
@@ -59,7 +61,7 @@ class _OskScaffoldState extends State<OskScaffold> {
         body: CustomScrollView(
           shrinkWrap: true,
           clipBehavior: Clip.none,
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           slivers: widget.slivers,
         ),
         bottomNavigationBar: SizedBox(
@@ -68,7 +70,7 @@ class _OskScaffoldState extends State<OskScaffold> {
         persistentFooterButtons: actions != null
             ? [
                 Padding(
-                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: ColoredBox(
                     color: theme.backgroundColor,
                     child: Column(
@@ -90,7 +92,8 @@ class OskScaffoldHeader extends StatelessWidget {
   final Widget? leading;
   final List<Widget>? actions;
 
-  OskScaffoldHeader({
+  const OskScaffoldHeader({
+    super.key,
     this.title,
     this.leading,
     this.expandedHeight = 100,
@@ -106,13 +109,13 @@ class OskScaffoldHeader extends StatelessWidget {
       child: ColoredBox(
         color: theme.backgroundColor,
         child: Padding(
-          padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: Center(
             child: Row(
               children: [
                 if (leading != null) ...[
                   leading!,
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                 ],
                 if (title != null)
                   OskText.title1(
@@ -120,7 +123,7 @@ class OskScaffoldHeader extends StatelessWidget {
                     fontWeight: OskfontWeight.bold,
                   ),
                 if (actions != null) ...[
-                  Spacer(),
+                  const Spacer(),
                   Row(children: actions!),
                 ],
               ],

@@ -9,9 +9,10 @@ class NavigationScope extends InheritedWidget {
       .getInheritedWidgetOfExactType<NavigationScope>()!
       ._navigationManager;
 
-  NavigationScope({
+  const NavigationScope({
     required NavigationManager navigationManager,
     required super.child,
+    super.key,
   }) : _navigationManager = navigationManager;
 
   @override

@@ -41,38 +41,38 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
             child: OskScaffold(
               header: OskScaffoldHeader(
                 title: 'Новый сотрудник',
-                leading: OskServiceIcon.worker(),
+                leading: const OskServiceIcon.worker(),
                 actions: [
                   OskCloseIconButton(
                     onClose: () => NewWorkerBloc.of(context).add(
                       NewWorkerPageEventClose(),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                 ],
               ),
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   OskTextField(
                     label: 'ФИО',
                     hintText: 'Аркадий Аркадий Васильев',
                     focusNode: focusNode,
                   ),
-                  SizedBox(height: 16),
-                  OskTextField(
+                  const SizedBox(height: 16),
+                  const OskTextField(
                     label: 'Логин',
                     hintText: 'aa_vasilev',
                   ),
-                  SizedBox(height: 16),
-                  OskTextField(
+                  const SizedBox(height: 16),
+                  const OskTextField(
                     label: 'Пароль',
                     hintText: '******',
                     showobscureTextIcon: true,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   // TODO: пока непонятны значения
                   MultiselectDropDown<String>(
                     label: 'Доступные склады',
@@ -82,7 +82,7 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
                       OskDropdownMenuItem(label: 'Склад 3', value: '3'),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   MultiselectDropDown<String>(
                     label: 'Доcтупы',
                     items: [
@@ -100,7 +100,7 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
               ),
               actions: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: OskButton.main(
                     title: 'Добавить',
                     onTap: () {},

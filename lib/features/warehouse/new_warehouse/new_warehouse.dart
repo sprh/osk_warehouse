@@ -31,7 +31,7 @@ class _NewWarehousePageState extends State<NewWarehousePage> {
         FocusScope.of(context).unfocus();
       },
       child: OskScaffold(
-        header: OskScaffoldHeader(
+        header: const OskScaffoldHeader(
           title: 'Новый склад',
           leading: OskServiceIcon.warehouse(),
           actions: [
@@ -43,14 +43,14 @@ class _NewWarehousePageState extends State<NewWarehousePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             OskTextField(
               label: 'Название',
               hintText: 'Склад 1',
               focusNode: focusNode,
             ),
-            SizedBox(height: 16),
-            OskTextField(
+            const SizedBox(height: 16),
+            const OskTextField(
               label: 'Описание',
               hintText: 'Описание склада',
             ),
@@ -58,7 +58,7 @@ class _NewWarehousePageState extends State<NewWarehousePage> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: OskButton.main(
               title: 'Добавить',
               onTap: () {},

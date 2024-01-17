@@ -7,7 +7,7 @@ import 'models/routes.dart';
 abstract class NavigationManager {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  factory NavigationManager() => _NavigationManagerImpl();
+  factory NavigationManager() => const _NavigationManagerImpl();
 
   void openWelcome();
 
@@ -74,7 +74,7 @@ class _NavigationManagerImpl implements NavigationManager {
   }) {
     final context = NavigationManager.navigatorKey.currentState?.context;
     if (context != null) {
-      showDialog(
+      showDialog<void>(
         context: context,
         barrierDismissible: dismissible,
         barrierColor: context.modalDialogTheme.barrierColor,

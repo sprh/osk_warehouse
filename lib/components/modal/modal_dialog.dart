@@ -12,13 +12,14 @@ class ModalDialog extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.actions,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) => Material(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Center(
             child: DecoratedBox(
               decoration: BoxDecoration(
@@ -26,7 +27,7 @@ class ModalDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -36,7 +37,7 @@ class ModalDialog extends StatelessWidget {
                       fontWeight: OskfontWeight.bold,
                     ),
                     if (subtitle != null) ...[
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       OskText.caption(
                         text: subtitle!,
                         textAlign: TextAlign.center,

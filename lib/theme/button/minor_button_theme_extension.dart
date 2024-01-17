@@ -5,18 +5,22 @@ import 'button_theme_extension.dart';
 final class MinorButtonThemeExtension
     extends ThemeExtension<MinorButtonThemeExtension>
     implements ButtonThemeExtension {
-  static final light = MinorButtonThemeExtension(
+  static const light = MinorButtonThemeExtension(
     backgroundColor: Color(0xFFFFFFFF),
     disabledBackgroundColor: Color(0xFFCAC8C8),
     disabledTextColor: Color(0xFF787D80),
     borderColor: Color(0xFF515B60),
   );
 
-  static final dark = light;
+  static const dark = light;
 
+  @override
   final Color backgroundColor;
+  @override
   final Color disabledBackgroundColor;
+  @override
   final Color disabledTextColor;
+  @override
   final Color borderColor;
 
   const MinorButtonThemeExtension({

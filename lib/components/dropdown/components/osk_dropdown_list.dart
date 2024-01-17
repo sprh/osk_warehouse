@@ -4,13 +4,14 @@ import '../../../theme/utils/theme_from_context.dart';
 import '../../osk_line_divider.dart';
 import 'osk_dropdown_menu_item.dart';
 
-class OskDropdownList extends StatelessWidget {
-  final List<OskDropdownItemWidget> widgets;
+class OskDropdownList<T> extends StatelessWidget {
+  final List<OskDropdownItemWidget<T>> widgets;
   final Animation<double> animation;
 
   const OskDropdownList({
     required this.widgets,
     required this.animation,
+    super.key,
   });
 
   @override
@@ -19,10 +20,10 @@ class OskDropdownList extends StatelessWidget {
     final borderSide = BorderSide(color: theme.borderSideColor);
 
     return SizeTransition(
-      axisAlignment: 1.0,
+      axisAlignment: 1,
       sizeFactor: animation,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
@@ -30,7 +31,7 @@ class OskDropdownList extends StatelessWidget {
               right: borderSide,
               bottom: borderSide,
             ),
-            borderRadius: BorderRadius.vertical(
+            borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(8),
             ),
             color: Colors.white,
@@ -43,16 +44,16 @@ class OskDropdownList extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 4.0),
+                  margin: const EdgeInsets.only(bottom: 4),
                   child: widgets[index],
                 ),
                 if (index != widgets.length - 1)
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(bottom: 4),
                     child: OskLineDivider(),
                   )
                 else
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
               ],
             ),
           ),

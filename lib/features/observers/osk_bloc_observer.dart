@@ -10,30 +10,27 @@ class OskBlocObserver extends BlocObserver {
   );
 
   @override
-  void onCreate(BlocBase bloc) {
+  void onCreate(BlocBase<dynamic> bloc) {
     _logger.i('${bloc.runtimeType} created');
     super.onCreate(bloc);
   }
 
   @override
-  void onEvent(Bloc bloc, Object? event) {
+  void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     _logger.i('${bloc.runtimeType} receive event ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
 
   @override
-  void onChange(BlocBase bloc, Change change) {
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     _logger.i(
-      '''${bloc.runtimeType} change state.
-OldState: ${change.currentState}.
-New state: ${change.nextState}
-''',
+      '''${bloc.runtimeType} change state. OldState: ${change.currentState}. New state: ${change.nextState}''',
     );
     super.onChange(bloc, change);
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
     _logger.e(
       '${bloc.runtimeType} error!',
       error: error,

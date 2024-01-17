@@ -145,7 +145,6 @@ class OskText extends StatelessWidget {
         color: colorType.colorFromTheme(theme),
       ),
       textAlign: textAlign,
-      maxLines: null,
     );
   }
 }

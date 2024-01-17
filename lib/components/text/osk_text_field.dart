@@ -26,6 +26,7 @@ class OskTextField extends StatefulWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.onChanged,
+    super.key,
   });
 
   @override
@@ -40,9 +41,9 @@ class _OskTextFieldState extends State<OskTextField> {
     final theme = context.textFiledTheme;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 54),
+        constraints: const BoxConstraints(maxHeight: 54),
         child: TextFormField(
           focusNode: widget.focusNode,
           controller: widget.textEditingController,
@@ -61,11 +62,11 @@ class _OskTextFieldState extends State<OskTextField> {
                   )
                 : null,
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: theme.outlineColor, width: 1.0),
+              borderSide: BorderSide(color: theme.outlineColor),
               borderRadius: BorderRadius.circular(8),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: theme.outlineColor, width: 1.0),
+              borderSide: BorderSide(color: theme.outlineColor),
               borderRadius: BorderRadius.circular(8),
             ),
             label: Text(widget.label),

@@ -21,6 +21,7 @@ class OskInfoSlot extends StatelessWidget {
     this.onDelete,
     this.onEdit,
     this.dismissibleKey,
+    super.key,
   });
 
   DismissDirection get _dismissDirection {
@@ -44,15 +45,15 @@ class OskInfoSlot extends StatelessWidget {
       direction: _dismissDirection,
       background: Container(
         alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 27),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 27),
           child: OskIcon.edit(),
         ),
       ),
       secondaryBackground: Container(
         alignment: Alignment.centerRight,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 27),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 27),
           child: OskIcon.delete(),
         ),
       ),
@@ -85,7 +86,7 @@ class OskInfoSlot extends StatelessWidget {
             ),
             child: Row(
               children: [
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Column(
                   children: [
                     OskText.body(

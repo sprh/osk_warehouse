@@ -9,9 +9,9 @@ class TextFieldThemeExtension extends ThemeExtension<TextFieldThemeExtension> {
   final Color textColor;
 
   static final light = TextFieldThemeExtension(
-    labelTextColor: Color(0xFFAEAEAE),
-    hintTextColor: Color(0xFFA3A3A3),
-    outlineColor: Color(0xFFAEAEAE),
+    labelTextColor: const Color(0xFFAEAEAE),
+    hintTextColor: const Color(0xFFA3A3A3),
+    outlineColor: const Color(0xFFAEAEAE),
     textColor: TextThemeExtension.light.mainText,
   );
 

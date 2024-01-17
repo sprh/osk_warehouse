@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/modal/modal_dialog.dart';
+import '../../../theme/utils/theme_from_context.dart';
 import 'models/routes.dart';
 
 abstract class NavigationManager {
@@ -62,7 +63,7 @@ class _NavigationManagerImpl implements NavigationManager {
       );
 
   @override
-  void pop() => NavigationManager.navigatorKey.currentState?.maybePop();
+  void pop() => NavigationManager.navigatorKey.currentState?.pop();
 
   @override
   void showModalDialog({
@@ -71,12 +72,12 @@ class _NavigationManagerImpl implements NavigationManager {
     Widget? actions,
     bool dismissible = false,
   }) {
-    final context = NavigationManager.navigatorKey.currentContext;
+    final context = NavigationManager.navigatorKey.currentState?.context;
     if (context != null) {
       showDialog(
         context: context,
         barrierDismissible: dismissible,
-        barrierColor: Colors.black.withOpacity(0.5),
+        barrierColor: context.modalDialogTheme.barrierColor,
         builder: (context) => PopScope(
           canPop: dismissible,
           child: ModalDialog(

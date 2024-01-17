@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../text/text_theme_extension.dart';
 import 'button_theme_extension.dart';
 
-final class MainButtonThemeExtension
-    extends ThemeExtension<MainButtonThemeExtension>
+final class MinorButtonThemeExtension
+    extends ThemeExtension<MinorButtonThemeExtension>
     implements ButtonThemeExtension {
-  static final light = MainButtonThemeExtension(
-    backgroundColor: Color(0xFFFFCFA3),
-    disabledBackgroundColor: Color(0xFFFFF0E3),
-    disabledTextColor: TextThemeExtension.light.minorText,
-    borderColor: Colors.transparent,
+  static final light = MinorButtonThemeExtension(
+    backgroundColor: Color(0xFFFFFFFF),
+    disabledBackgroundColor: Color(0xFFCAC8C8),
+    disabledTextColor: Color(0xFF787D80),
+    borderColor: Color(0xFF515B60),
   );
 
   static final dark = light;
@@ -20,7 +19,7 @@ final class MainButtonThemeExtension
   final Color disabledTextColor;
   final Color borderColor;
 
-  const MainButtonThemeExtension({
+  const MinorButtonThemeExtension({
     required this.backgroundColor,
     required this.disabledBackgroundColor,
     required this.disabledTextColor,
@@ -28,20 +27,20 @@ final class MainButtonThemeExtension
   });
 
   @override
-  ThemeExtension<MainButtonThemeExtension> lerp(
-    covariant ThemeExtension<MainButtonThemeExtension>? other,
+  ThemeExtension<MinorButtonThemeExtension> lerp(
+    covariant ThemeExtension<MinorButtonThemeExtension>? other,
     double t,
   ) =>
       this;
 
   @override
-  ThemeExtension<MainButtonThemeExtension> copyWith({
+  ThemeExtension<MinorButtonThemeExtension> copyWith({
     Color? backgroundColor,
     Color? disabledBackgroundColor,
     Color? disabledTextColor,
     Color? borderColor,
   }) =>
-      MainButtonThemeExtension(
+      MinorButtonThemeExtension(
         backgroundColor: backgroundColor ?? this.backgroundColor,
         disabledBackgroundColor:
             disabledBackgroundColor ?? this.disabledBackgroundColor,

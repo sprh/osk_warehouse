@@ -6,12 +6,15 @@ import '../tap/osk_tap_animation.dart';
 import '../text/osk_text.dart';
 
 enum OskButtonType {
-  main;
+  main,
+  minor;
 
   ButtonThemeExtension getTheme(BuildContext context) {
     switch (this) {
       case OskButtonType.main:
         return context.mainButtonTheme;
+      case OskButtonType.minor:
+        return context.minorButtonTheme;
     }
   }
 }
@@ -44,6 +47,20 @@ class OskButton extends StatelessWidget {
         key: key,
       );
 
+  factory OskButton.minor({
+    required String title,
+    required VoidCallback onTap,
+    bool disabled = false,
+    Key? key,
+  }) =>
+      OskButton._(
+        title: title,
+        onTap: onTap,
+        type: OskButtonType.minor,
+        disabled: disabled,
+        key: key,
+      );
+
   @override
   Widget build(BuildContext context) {
     final theme = type.getTheme(context);
@@ -58,6 +75,10 @@ class OskButton extends StatelessWidget {
                 ? theme.disabledBackgroundColor
                 : theme.backgroundColor,
             borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              width: 1.0,
+              color: theme.borderColor,
+            ),
           ),
           height: 54, // TODO(sktimokhina): maybe depend on screen size?
           child: Center(

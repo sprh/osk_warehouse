@@ -33,12 +33,12 @@ class _WorkersListBloc extends Bloc<WorkersListEvent, dynamic>
             direction: Axis.vertical,
             widgets: [
               OskButton.main(
-                title: '123',
-                onTap: () {},
+                title: 'Удалить',
+                onTap: () {}, // TODO
               ),
-              OskButton.main(
-                title: '123',
-                onTap: () {},
+              OskButton.minor(
+                title: 'Отмена',
+                onTap: _navigationManager.pop,
               ),
             ],
           ),

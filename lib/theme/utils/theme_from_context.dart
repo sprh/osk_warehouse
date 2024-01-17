@@ -2,31 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../action_block/action_block_theme_extension.dart';
 import '../button/main_button_theme_extension.dart';
+import '../button/minor_button_theme_extension.dart';
 import '../dropdown/dropdown_theme_extension.dart';
 import '../icon_button/icon_button_theme_extension.dart';
+import '../modal_dialog/modal_dialog_theme_extension.dart';
 import '../scaffold/scaffold_theme_extension.dart';
 import '../text/text_theme_extension.dart';
 import '../text_field/text_field_theme_extension.dart';
 
 extension ThemeFromContext on BuildContext {
-  TextThemeExtension get textTheme =>
-      Theme.of(this).extension<TextThemeExtension>()!;
+  ThemeData get _theme => Theme.of(this);
 
-  MainButtonThemeExtension get mainButtonTheme =>
-      Theme.of(this).extension<MainButtonThemeExtension>()!;
+  TextThemeExtension get textTheme => _theme.extension()!;
 
-  TextFieldThemeExtension get textFiledTheme =>
-      Theme.of(this).extension<TextFieldThemeExtension>()!;
+  MainButtonThemeExtension get mainButtonTheme => _theme.extension()!;
 
-  ScaffoldThemeExtension get scaffoldTheme =>
-      Theme.of(this).extension<ScaffoldThemeExtension>()!;
+  TextFieldThemeExtension get textFiledTheme => _theme.extension()!;
 
-  ActionBlockThemeExtension get actionBlockTheme =>
-      Theme.of(this).extension<ActionBlockThemeExtension>()!;
+  ScaffoldThemeExtension get scaffoldTheme => _theme.extension()!;
 
-  IconButtonThemeExtension get iconButtonTheme =>
-      Theme.of(this).extension<IconButtonThemeExtension>()!;
+  ActionBlockThemeExtension get actionBlockTheme => _theme.extension()!;
 
-  DropdownThemeExtension get dropdown =>
-      Theme.of(this).extension<DropdownThemeExtension>()!;
+  IconButtonThemeExtension get iconButtonTheme => _theme.extension()!;
+
+  DropdownThemeExtension get dropdownTheme => _theme.extension()!;
+
+  MinorButtonThemeExtension get minorButtonTheme => _theme.extension()!;
+
+  ModalDialogThemeExtension get modalDialogTheme => _theme.extension()!;
 }

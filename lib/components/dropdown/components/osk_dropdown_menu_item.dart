@@ -28,7 +28,7 @@ class OskDropdownItemWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.dropdown;
+    final theme = context.dropdownTheme;
 
     return OskTapAnimationBuilder(
       onTap: () => onSelect(item),

@@ -23,10 +23,10 @@ class WorkersListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => OskScaffold(
-        header: const OskScaffoldHeader(
-          leading: OskServiceIcon.worker(),
+        header: OskScaffoldHeader(
+          leading: const OskServiceIcon.worker(),
           title: 'Сотрудники',
-          actions: [
+          actions: const [
             OskCloseIconButton(),
             SizedBox(width: 8),
           ],

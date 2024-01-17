@@ -67,7 +67,7 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
               ),
               const SizedBox(height: 16),
               // TODO: пока непонятны значения
-              MultiselectDropDown<String>(
+              OskMultiSelectDropDown<String>(
                 label: 'Доступные склады',
                 items: [
                   OskDropdownMenuItem(label: 'Склад 1', value: '1'),
@@ -76,7 +76,7 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              MultiselectDropDown<String>(
+              OskMultiSelectDropDown<String>(
                 label: 'Доcтупы',
                 items: [
                   OskDropdownMenuItem(

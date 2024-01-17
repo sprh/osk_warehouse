@@ -51,7 +51,9 @@ class MainPage extends StatelessWidget {
               OskActionBlock(
                 title: strings.requests,
                 icon: const OskServiceIcon.request(),
-                onTap: () {}, // TODO:,
+                onTap: () => MainPageBloc.of(context).add(
+                  MainPageEventOpenRequestsList(),
+                ),
               ),
               OskActionBlock(
                 title: strings.warehouses,

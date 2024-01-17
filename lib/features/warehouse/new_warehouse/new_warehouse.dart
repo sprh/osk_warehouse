@@ -31,10 +31,10 @@ class _NewWarehousePageState extends State<NewWarehousePage> {
         FocusScope.of(context).unfocus();
       },
       child: OskScaffold(
-        header: const OskScaffoldHeader(
+        header: OskScaffoldHeader(
           title: 'Новый склад',
-          leading: OskServiceIcon.warehouse(),
-          actions: [
+          leading: const OskServiceIcon.warehouse(),
+          actions: const [
             OskCloseIconButton(),
             SizedBox(width: 8),
           ],

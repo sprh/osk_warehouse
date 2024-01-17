@@ -10,7 +10,9 @@ class OskLineDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: withMargin
+            ? const EdgeInsets.symmetric(horizontal: 16)
+            : EdgeInsets.zero,
         child: Container(
           color: const Color(0xFFA3A3A3).withOpacity(0.5),
           height: 0.5,

@@ -61,16 +61,16 @@ class OskInfoSlot extends StatelessWidget {
     return Dismissible(
       key: dismissibleKey ?? UniqueKey(),
       direction: _dismissDirection,
-      background: Container(
+      background: const Align(
         alignment: Alignment.centerLeft,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 27),
           child: OskIcon.edit(),
         ),
       ),
-      secondaryBackground: Container(
+      secondaryBackground: const Align(
         alignment: Alignment.centerRight,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 27),
           child: OskIcon.delete(),
         ),

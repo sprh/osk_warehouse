@@ -5,10 +5,10 @@ import 'components/osk_dropdown_button.dart';
 import 'components/osk_dropdown_list.dart';
 import 'components/osk_dropdown_menu_item.dart';
 
-class MultiSelectDropDownController<T> {
+class OskMultiSelectDropDownController<T> {
   final Set<T> _selectedValues = const {};
 
-  MultiSelectDropDownController();
+  OskMultiSelectDropDownController();
 
   Set<T> get selectedValues => _selectedValues;
 
@@ -19,14 +19,14 @@ class MultiSelectDropDownController<T> {
   void clear() => _selectedValues.clear();
 }
 
-class MultiselectDropDown<T> extends StatefulWidget {
+class OskMultiSelectDropDown<T> extends StatefulWidget {
   final List<OskDropdownMenuItem<T>> items;
   final void Function(List<T>)? onSelectedItemsChanged;
   final String label;
 
-  final MultiSelectDropDownController<T>? controller;
+  final OskMultiSelectDropDownController<T>? controller;
 
-  const MultiselectDropDown({
+  const OskMultiSelectDropDown({
     required this.items,
     required this.label,
     super.key,
@@ -35,10 +35,10 @@ class MultiselectDropDown<T> extends StatefulWidget {
   });
 
   @override
-  State createState() => _MultiselectDropDownState<T>();
+  State createState() => _OskMultiSelectDropDownState<T>();
 }
 
-class _MultiselectDropDownState<T> extends State<MultiselectDropDown<T>>
+class _OskMultiSelectDropDownState<T> extends State<OskMultiSelectDropDown<T>>
     with SingleTickerProviderStateMixin, OskDropdownAnimationBuilder {
   List<T> get selectedValues => listOFSelectedItem.map((e) => e.value).toList();
 

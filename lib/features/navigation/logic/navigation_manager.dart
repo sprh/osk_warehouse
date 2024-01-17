@@ -28,6 +28,9 @@ abstract class NavigationManager {
   // Products
   void openProductsList([String? warehouseId]);
 
+  // Requests
+  void openRequestsList();
+
   void pop();
 
   void showModalDialog({
@@ -116,5 +119,11 @@ class _NavigationManagerImpl implements NavigationManager {
       NavigationManager.navigatorKey.currentState?.pushNamed(
         Routes.producsList.name,
         arguments: warehouseId,
+      );
+
+  @override
+  void openRequestsList() =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.requestsList.name,
       );
 }

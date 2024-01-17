@@ -8,6 +8,8 @@ import '../../main_page/bloc/main_page_bloc.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../products/products_list/bloc/products_list_bloc.dart';
 import '../../products/products_list/presentation/products_list_page.dart';
+import '../../requests/requests_list/bloc/requests_list_bloc.dart';
+import '../../requests/requests_list/presentation/requests_list_page.dart';
 import '../../warehouse/new_warehouse/new_warehouse.dart';
 import '../../warehouse/warehouse_list/bloc/warehouse_list_bloc.dart';
 import '../../warehouse/warehouse_list/presentation/warehouse_list_page.dart';
@@ -72,6 +74,11 @@ class RoutesBuilder {
           child: ProductsListPage(
             warehouseId: warehouseId,
           ),
+        );
+      case Routes.requestsList:
+        screen = BlocProvider(
+          create: (context) => RequestsListBloc(),
+          child: const RequestsListPage(),
         );
     }
 

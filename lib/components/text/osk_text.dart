@@ -43,6 +43,7 @@ class OskText extends StatelessWidget {
   final OskTextColorType colorType;
   final double fontSize;
   final TextAlign textAlign;
+  final int? maxLines;
 
   const OskText._({
     required this.text,
@@ -50,6 +51,7 @@ class OskText extends StatelessWidget {
     required this.fontSize,
     required this.colorType,
     required this.textAlign,
+    this.maxLines,
     super.key,
   });
 
@@ -106,6 +108,7 @@ class OskText extends StatelessWidget {
     OskfontWeight fontWeight = OskfontWeight.regular,
     OskTextColorType colorType = OskTextColorType.main,
     TextAlign textAlign = TextAlign.start,
+    int? maxLines,
     Key? key,
   }) =>
       OskText._(
@@ -114,6 +117,7 @@ class OskText extends StatelessWidget {
         fontSize: 16,
         colorType: colorType,
         textAlign: textAlign,
+        maxLines: maxLines,
         key: key,
       );
 
@@ -145,6 +149,8 @@ class OskText extends StatelessWidget {
         color: colorType.colorFromTheme(theme),
       ),
       textAlign: textAlign,
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

@@ -88,16 +88,29 @@ class _OskScaffoldState extends State<OskScaffold> {
 
 class OskScaffoldHeader extends StatelessWidget {
   final double expandedHeight;
-  final String? title;
+  final Widget? titleWidget;
   final Widget? leading;
   final List<Widget>? actions;
 
-  const OskScaffoldHeader({
-    super.key,
-    this.title,
+  OskScaffoldHeader({
+    String? title,
     this.leading,
     this.expandedHeight = 100,
     this.actions,
+    super.key,
+  }) : titleWidget = title == null
+            ? null
+            : OskText.title1(
+                text: title,
+                fontWeight: OskfontWeight.bold,
+              );
+
+  const OskScaffoldHeader.customTitle({
+    required this.titleWidget,
+    this.leading,
+    this.expandedHeight = 100,
+    this.actions,
+    super.key,
   });
 
   @override
@@ -112,16 +125,13 @@ class OskScaffoldHeader extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: Center(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (leading != null) ...[
                   leading!,
                   const SizedBox(width: 16),
                 ],
-                if (title != null)
-                  OskText.title1(
-                    text: title!,
-                    fontWeight: OskfontWeight.bold,
-                  ),
+                if (titleWidget != null) titleWidget!,
                 if (actions != null) ...[
                   const Spacer(),
                   Row(children: actions!),

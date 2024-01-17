@@ -22,10 +22,10 @@ class ProductsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => OskScaffold(
-        header: const OskScaffoldHeader(
-          leading: OskServiceIcon.products(),
+        header: OskScaffoldHeader(
+          leading: const OskServiceIcon.products(),
           title: 'Продукты',
-          actions: [
+          actions: const [
             OskCloseIconButton(),
             SizedBox(width: 8),
           ],

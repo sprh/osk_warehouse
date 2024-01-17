@@ -23,10 +23,10 @@ class WarehouseListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => OskScaffold(
-        header: const OskScaffoldHeader(
-          leading: OskServiceIcon.warehouse(),
+        header: OskScaffoldHeader(
+          leading: const OskServiceIcon.warehouse(),
           title: 'Склады',
-          actions: [
+          actions: const [
             OskCloseIconButton(),
             SizedBox(width: 8),
           ],

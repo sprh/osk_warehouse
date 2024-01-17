@@ -23,6 +23,8 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, dynamic>
     switch (event) {
       case WarehouseListEventOnCreateWarehouseTap():
         _navigationManager.openNewWarehouse();
+      case WarehouseListEventOpenProductsList():
+        _navigationManager.openProductsList(event.warehouseId);
     }
   }
 }

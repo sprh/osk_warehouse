@@ -26,6 +26,8 @@ class _MainPageBloc extends Bloc<MainPageEvent, dynamic>
         _navigationManager.openWorkersList();
       case MainPageEventOpenWarehouseList():
         _navigationManager.openWarehouseList();
+      case MainPageEventOpenProductsList():
+        _navigationManager.openProductsList();
     }
   }
 }

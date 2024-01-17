@@ -6,6 +6,8 @@ import '../../login/bloc/login_bloc.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/bloc/main_page_bloc.dart';
 import '../../main_page/presentation/main_page.dart';
+import '../../products/products_list/bloc/products_list_bloc.dart';
+import '../../products/products_list/presentation/products_list_page.dart';
 import '../../warehouse/new_warehouse/new_warehouse.dart';
 import '../../warehouse/warehouse_list/bloc/warehouse_list_bloc.dart';
 import '../../warehouse/warehouse_list/presentation/warehouse_list_page.dart';
@@ -61,6 +63,15 @@ class RoutesBuilder {
         screen = BlocProvider(
           create: (context) => WarehouseListBloc(NavigationScope.of(context)),
           child: const WarehouseListPage(),
+        );
+      case Routes.producsList:
+        final warehouseId = settings.arguments as String?;
+
+        screen = BlocProvider(
+          create: (context) => ProductsListBloc(NavigationScope.of(context)),
+          child: ProductsListPage(
+            warehouseId: warehouseId,
+          ),
         );
     }
 

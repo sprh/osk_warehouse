@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/utils/theme_from_context.dart';
+import '../checkbox/osk_checkbox.dart';
 import '../icon/osk_icons.dart';
 import '../tap/osk_tap_animation.dart';
 import '../text/osk_text.dart';
@@ -13,16 +14,33 @@ class OskInfoSlot extends StatelessWidget {
   final Future<bool> Function()? onDelete;
   final Future<bool> Function()? onEdit;
   final Key? dismissibleKey;
+  final bool? selected;
+  final VoidCallback? onSelected;
 
   const OskInfoSlot({
     required this.title,
     required this.onTap,
     this.subtitle,
+    this.selected,
+    this.onSelected,
+    super.key,
+  })  : dismissibleKey = null,
+        onEdit = null,
+        onDelete = null;
+
+  const OskInfoSlot.dismissible({
+    required this.title,
+    required this.onTap,
+    required Key dismissibleKey,
+    this.subtitle,
     this.onDelete,
     this.onEdit,
-    this.dismissibleKey,
+    this.selected,
+    this.onSelected,
     super.key,
-  });
+  }) :
+        // ignore: prefer_initializing_formals
+        dismissibleKey = dismissibleKey;
 
   DismissDirection get _dismissDirection {
     if (onDelete != null && onEdit != null) {
@@ -84,24 +102,33 @@ class OskInfoSlot extends StatelessWidget {
               maxWidth: size.width / 10 * 9,
               minHeight: size.height / 12,
             ),
-            child: Row(
-              children: [
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OskText.body(
-                      text: title,
-                      fontWeight: OskfontWeight.medium,
-                    ),
-                    if (subtitle != null)
-                      OskText.caption(
-                        text: subtitle!,
-                        colorType: OskTextColorType.minor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      OskText.body(
+                        text: title,
+                        fontWeight: OskfontWeight.medium,
                       ),
-                  ],
-                ),
-              ],
+                      if (subtitle != null)
+                        OskText.caption(
+                          text: subtitle!,
+                          colorType: OskTextColorType.minor,
+                        ),
+                    ],
+                  ),
+                  if (selected != null && onSelected != null)
+                    OskCheckbox(
+                      onSelect: onSelected!,
+                      selected: selected!,
+                    ),
+                ],
+              ),
             ),
           ),
         ),

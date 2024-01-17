@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../action_block/action_block_theme_extension.dart';
 import '../button/main_button_theme_extension.dart';
 import '../button/minor_button_theme_extension.dart';
+import '../checkbox/checkox_theme_extension.dart';
 import '../dropdown/dropdown_theme_extension.dart';
 import '../icon_button/icon_button_theme_extension.dart';
 import '../modal_dialog/modal_dialog_theme_extension.dart';
@@ -30,4 +31,6 @@ extension ThemeFromContext on BuildContext {
   MinorButtonThemeExtension get minorButtonTheme => _theme.extension()!;
 
   ModalDialogThemeExtension get modalDialogTheme => _theme.extension()!;
+
+  CheckboxThemeExtension get checkboxTheme => _theme.extension()!;
 }

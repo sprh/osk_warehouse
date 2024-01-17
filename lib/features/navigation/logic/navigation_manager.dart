@@ -15,13 +15,18 @@ abstract class NavigationManager {
 
   void openMain();
 
+  // Workers
   void openNewWorker();
 
   void openWorkersList();
 
+  // Warehouse
   void openWarehouseList();
 
   void openNewWarehouse();
+
+  // Products
+  void openProductsList([String? warehouseId]);
 
   void pop();
 
@@ -104,5 +109,12 @@ class _NavigationManagerImpl implements NavigationManager {
   void openWarehouseList() =>
       NavigationManager.navigatorKey.currentState?.pushNamed(
         Routes.warehouseList.name,
+      );
+
+  @override
+  void openProductsList([String? warehouseId]) =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.producsList.name,
+        arguments: warehouseId,
       );
 }

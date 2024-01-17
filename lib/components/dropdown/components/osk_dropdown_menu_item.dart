@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/utils/theme_from_context.dart';
+import '../../checkbox/osk_checkbox.dart';
 import '../../tap/osk_tap_animation.dart';
 import '../../text/osk_text.dart';
 
@@ -28,41 +28,24 @@ class OskDropdownItemWidget<T> extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.dropdownTheme;
-
-    return OskTapAnimationBuilder(
-      onTap: () => onSelect(item),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Row(
-          children: [
-            if (itemSelected != null)
-              SizedBox.square(
-                dimension: 24,
-                child: Checkbox(
-                  checkColor: theme.checkboxBackground,
-                  fillColor: MaterialStateProperty.resolveWith<Color>(
-                    (states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return theme.checkboxActiveBackground.withOpacity(.32);
-                      }
-                      return theme.checkboxActiveBackground;
-                    },
-                  ),
-                  shape: const CircleBorder(),
-                  value: itemSelected,
-                  onChanged: (_) => onSelect(item),
+  Widget build(BuildContext context) => OskTapAnimationBuilder(
+        onTap: () => onSelect(item),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Row(
+            children: [
+              if (itemSelected != null)
+                OskCheckbox(
+                  onSelect: () => onSelect(item),
+                  selected: itemSelected!,
                 ),
+              const SizedBox(width: 8),
+              OskText.caption(
+                text: item.label,
+                fontWeight: OskfontWeight.medium,
               ),
-            const SizedBox(width: 8),
-            OskText.caption(
-              text: item.label,
-              fontWeight: OskfontWeight.medium,
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

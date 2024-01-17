@@ -23,12 +23,12 @@ class MainPage extends StatelessWidget {
         actions: [
           OskIconButton(
             icon: const OskIcon.notification(),
-            onTap: () {}, // TODO
+            onTap: () {}, // TODO:
           ),
           const SizedBox(width: 16),
           OskIconButton(
             icon: const OskIcon.setting(),
-            onTap: () {}, // TODO
+            onTap: () {}, // TODO:
           ),
           const SizedBox(width: 16),
         ],
@@ -45,13 +45,13 @@ class MainPage extends StatelessWidget {
               OskActionBlock(
                 title: strings.createRequest,
                 icon: const OskServiceIcon.createRequest(),
-                onTap: () {},
+                onTap: () {}, // TODO:
                 notificationsCount: 9,
               ),
               OskActionBlock(
                 title: strings.requests,
                 icon: const OskServiceIcon.request(),
-                onTap: () {},
+                onTap: () {}, // TODO:,
               ),
               OskActionBlock(
                 title: strings.warehouses,
@@ -70,12 +70,14 @@ class MainPage extends StatelessWidget {
               OskActionBlock(
                 title: strings.reports,
                 icon: const OskServiceIcon.report(),
-                onTap: () {},
+                onTap: () {}, // TODO:,
               ),
               OskActionBlock(
                 title: strings.productCards,
                 icon: const OskServiceIcon.products(),
-                onTap: () {},
+                onTap: () => MainPageBloc.of(context).add(
+                  MainPageEventOpenProductsList(),
+                ),
               ),
             ],
           ),

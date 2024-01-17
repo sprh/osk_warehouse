@@ -33,7 +33,7 @@ class _WorkersListBloc extends Bloc<WorkersListEvent, dynamic>
             widgets: [
               OskButton.main(
                 title: 'Удалить',
-                onTap: () {}, // TODO
+                onTap: () {}, // TODO:
               ),
               OskButton.minor(
                 title: 'Отмена',

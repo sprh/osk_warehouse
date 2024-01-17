@@ -12,7 +12,11 @@ import '../bloc/warehouse_list_event.dart';
 class WarehouseListPage extends StatelessWidget {
   static final warehouses = [
     for (int i = 0; i < 10; ++i)
-      Warehouse(name: '$i warehouse', description: i.toString()),
+      Warehouse(
+        name: '$i warehouse',
+        description: i.toString(),
+        id: i.toString(),
+      ),
   ];
 
   const WarehouseListPage({super.key});
@@ -33,17 +37,21 @@ class WarehouseListPage extends StatelessWidget {
             children: warehouses
                 .expand(
                   (w) => [
-                    OskInfoSlot(
+                    OskInfoSlot.dismissible(
                       title: w.name,
                       subtitle: w.description,
-                      onTap: () {},
+                      onTap: () => WarehouseListBloc.of(context).add(
+                        WarehouseListEventOpenProductsList(
+                          warehouseId: w.id,
+                        ),
+                      ),
+                      dismissibleKey: ValueKey(w.id),
                       onDelete: () {
-                        // WorkersListBloc.of(context).add(
-                        //   WorkersListEventDeleteUser(),
-                        // );
+                        // TODO:
                         return Future.value(false);
                       },
                       onEdit: () {
+                        // TODO:
                         return Future.value(false);
                       },
                     ),

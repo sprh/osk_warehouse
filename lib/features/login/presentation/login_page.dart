@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 16),
           OskButton.main(
             title: strings.loginPageButtonTitle,
-            onTap: () {},
+            onTap: () {}, // TODO:,
             // onTap: widget.viewModel.onLoginButtonTap,
           ),
           const SizedBox(height: 16),

@@ -96,7 +96,7 @@ class _NewWorkerPageState extends State<NewWorkerPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: OskButton.main(
                 title: 'Добавить',
-                onTap: () {},
+                onTap: () {}, // TODO:,
               ),
             ),
           ],

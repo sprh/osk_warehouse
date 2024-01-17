@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'action_block/action_block_theme_extension.dart';
 import 'button/main_button_theme_extension.dart';
 import 'button/minor_button_theme_extension.dart';
+import 'checkbox/checkox_theme_extension.dart';
 import 'dropdown/dropdown_theme_extension.dart';
 import 'icon_button/icon_button_theme_extension.dart';
 import 'line_divider/line_divider_theme_extension.dart';
@@ -27,6 +28,7 @@ class ThemeConstants {
     DropdownThemeExtension.light,
     MinorButtonThemeExtension.light,
     ModalDialogThemeExtension.light,
+    CheckboxThemeExtension.light,
   ];
 
   static final List<ThemeExtension> extensionsDark = [
@@ -40,5 +42,6 @@ class ThemeConstants {
     DropdownThemeExtension.dark,
     MinorButtonThemeExtension.dark,
     ModalDialogThemeExtension.dark,
+    CheckboxThemeExtension.dark,
   ];
 }

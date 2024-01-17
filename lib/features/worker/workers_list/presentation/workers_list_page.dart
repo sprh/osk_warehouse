@@ -5,13 +5,18 @@ import '../../../../components/button/osk_close_icon_button.dart';
 import '../../../../components/icon/osk_service_icons.dart';
 import '../../../../components/osk_info_slot/osk_info_slot.dart';
 import '../../../../components/scaffold/osk_scaffold.dart';
+import '../../models/worker.dart';
 import '../bloc/workers_list_bloc.dart';
 import '../bloc/workers_list_event.dart';
 
 class WorkersListPage extends StatelessWidget {
   // TODO: change state
   static final workers = [
-    for (int i = 0; i < 10; ++i) i.toString(),
+    for (int i = 0; i < 10; ++i)
+      Worker(
+        name: i.toString(),
+        id: i.toString(),
+      ),
   ];
 
   const WorkersListPage({super.key});
@@ -32,9 +37,10 @@ class WorkersListPage extends StatelessWidget {
             children: workers
                 .expand(
                   (w) => [
-                    OskInfoSlot(
-                      title: w,
+                    OskInfoSlot.dismissible(
+                      title: w.id,
                       onTap: () {},
+                      dismissibleKey: ValueKey(w.id),
                       onDelete: () {
                         WorkersListBloc.of(context).add(
                           WorkersListEventDeleteUser(),

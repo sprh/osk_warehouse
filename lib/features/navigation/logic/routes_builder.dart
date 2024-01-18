@@ -8,6 +8,7 @@ import '../../main_page/bloc/main_page_bloc.dart';
 import '../../main_page/presentation/main_page.dart';
 import '../../products/products_list/bloc/products_list_bloc.dart';
 import '../../products/products_list/presentation/products_list_page.dart';
+import '../../requests/request_info/presentation/request_info_page.dart';
 import '../../requests/requests_list/bloc/requests_list_bloc.dart';
 import '../../requests/requests_list/presentation/requests_list_page.dart';
 import '../../warehouse/new_warehouse/new_warehouse.dart';
@@ -70,16 +71,19 @@ class RoutesBuilder {
         final warehouseId = settings.arguments as String?;
 
         screen = BlocProvider(
-          create: (context) => ProductsListBloc(NavigationScope.of(context)),
-          child: ProductsListPage(
-            warehouseId: warehouseId,
+          create: (context) => ProductsListBloc(
+            NavigationScope.of(context),
+            warehouseId,
           ),
+          child: const ProductsListPage(),
         );
       case Routes.requestsList:
         screen = BlocProvider(
-          create: (context) => RequestsListBloc(),
+          create: (context) => RequestsListBloc(NavigationScope.of(context)),
           child: const RequestsListPage(),
         );
+      case Routes.requestInfo:
+        screen = const RequestInfoPage();
     }
 
     return MaterialPageRoute(

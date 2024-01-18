@@ -8,17 +8,12 @@ import '../../components/products_list.dart';
 import '../../models/product.dart';
 
 class ProductsListPage extends StatelessWidget {
-  final String? warehouseId;
-
   static final products = [
     for (int i = 0; i < 10; ++i)
       Product(description: i.toString(), name: i.toString(), id: i.toString()),
   ];
 
-  const ProductsListPage({
-    required this.warehouseId,
-    super.key,
-  });
+  const ProductsListPage({super.key});
 
   @override
   Widget build(BuildContext context) => OskScaffold(

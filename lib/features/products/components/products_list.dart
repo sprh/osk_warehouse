@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/info_slot/osk_info_slot.dart';
+import '../../../components/text/osk_text.dart';
 import '../models/product.dart';
 
 typedef OnProductAction = void Function(String id);
@@ -47,14 +48,24 @@ class ProductsList extends StatelessWidget {
                   dismissibleKey: ValueKey(w.id),
                   selected: selectedProducts?.contains(w.id),
                   onSelected: () => onSelected?.call(w.id),
-                  onDelete: () {
-                    // TODO:
-                    return Future.value(false);
-                  },
-                  onEdit: () {
-                    // TODO:
-                    return Future.value(false);
-                  },
+                  onDelete: onDelete == null
+                      ? null
+                      : () {
+                          onDelete!();
+                          return Future.value(false);
+                        },
+                  onEdit: onEdit == null
+                      ? null
+                      : () {
+                          onEdit!();
+                          return Future.value(false);
+                        },
+                  leading: w.count == null
+                      ? null
+                      : OskText.caption(
+                          text: '${w.count!} шт.', // TODO:
+                          fontWeight: OskfontWeight.medium,
+                        ),
                 ),
                 const SizedBox(height: 8),
               ],

@@ -5,6 +5,7 @@ import '../../theme/utils/theme_from_context.dart';
 import '../osk_line_divider.dart';
 import '../tap/osk_tap_animation.dart';
 import '../text/osk_text.dart';
+import 'request_info_status.dart';
 
 class OskRequestInfo extends StatelessWidget {
   final Request request;
@@ -47,22 +48,7 @@ class OskRequestInfo extends StatelessWidget {
                   text: 'Заявка #${request.id}',
                   fontWeight: OskfontWeight.bold,
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: theme.iconColor.fromRequestStatus(
-                          request.status,
-                        ),
-                      ),
-                      child: const SizedBox.square(dimension: 8),
-                    ),
-                    const SizedBox(width: 4),
-                    OskText.caption(text: request.status.name), // TODO
-                  ],
-                ),
+                OskRequestInfoStatus(status: request.status),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: OskLineDivider(),

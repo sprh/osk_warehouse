@@ -31,6 +31,8 @@ abstract class NavigationManager {
   // Requests
   void openRequestsList();
 
+  void openRequestInfoPage(String requestId);
+
   void pop();
 
   void showModalDialog({
@@ -125,5 +127,12 @@ class _NavigationManagerImpl implements NavigationManager {
   void openRequestsList() =>
       NavigationManager.navigatorKey.currentState?.pushNamed(
         Routes.requestsList.name,
+      );
+
+  @override
+  void openRequestInfoPage(String requestId) =>
+      NavigationManager.navigatorKey.currentState?.pushNamed(
+        Routes.requestInfo.name,
+        arguments: requestId,
       );
 }

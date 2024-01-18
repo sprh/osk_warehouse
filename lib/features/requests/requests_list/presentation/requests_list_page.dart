@@ -8,6 +8,8 @@ import '../../../../components/osk_request_info/osk_request_info.dart';
 import '../../../../components/scaffold/osk_scaffold.dart';
 import '../../../worker/models/worker.dart';
 import '../../models/request.dart';
+import '../bloc/requests_list_bloc.dart';
+import '../bloc/requests_list_events.dart';
 
 class RequestsListPage extends StatelessWidget {
   static final requests = [
@@ -19,6 +21,7 @@ class RequestsListPage extends StatelessWidget {
         worker: Worker(id: i.toString(), name: i.toString()),
       ),
   ];
+
   const RequestsListPage({super.key});
 
   @override
@@ -58,7 +61,10 @@ class RequestsListPage extends StatelessWidget {
                 .expand(
                   (r) => [
                     OskRequestInfo(
-                      request: r, onTap: () => {}, // TODO:
+                      request: r,
+                      onTap: () => RequestsListBloc.of(context).add(
+                        RequestsListEventOpenRequestInfo(r.id),
+                      ),
                     ),
                     const SizedBox(height: 8),
                   ],

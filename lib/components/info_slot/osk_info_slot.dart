@@ -17,12 +17,15 @@ class OskInfoSlot extends StatelessWidget {
   final bool? selected;
   final VoidCallback? onSelected;
 
+  final Widget? leading;
+
   const OskInfoSlot({
     required this.title,
     required this.onTap,
     this.subtitle,
     this.selected,
     this.onSelected,
+    this.leading,
     super.key,
   })  : dismissibleKey = null,
         onEdit = null,
@@ -37,6 +40,7 @@ class OskInfoSlot extends StatelessWidget {
     this.onEdit,
     this.selected,
     this.onSelected,
+    this.leading,
     super.key,
   }) :
         // ignore: prefer_initializing_formals
@@ -127,6 +131,7 @@ class OskInfoSlot extends StatelessWidget {
                       onSelect: onSelected!,
                       selected: selected!,
                     ),
+                  if (leading != null) leading!,
                 ],
               ),
             ),

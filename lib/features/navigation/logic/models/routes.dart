@@ -8,7 +8,8 @@ enum Routes {
   workersList,
   warehouseList,
   producsList,
-  requestsList;
+  requestsList,
+  requestInfo;
 
   static String get initialRouteName => Routes.main.name; // TODO: remove
 }

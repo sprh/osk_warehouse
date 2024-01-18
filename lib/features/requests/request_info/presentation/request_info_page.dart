@@ -77,13 +77,14 @@ class RequestInfoPage extends StatelessWidget {
             ],
           ),
         ),
+        actionsDirection: Axis.horizontal,
         actions: [
-          OskButton.main(
-            title: 'Добавить',
+          OskButton.minor(
+            title: 'Отклонить',
             onTap: () {}, // TODO:
           ),
           OskButton.main(
-            title: 'Добавить',
+            title: 'Подтвердить',
             onTap: () {}, // TODO:
           ),
         ],

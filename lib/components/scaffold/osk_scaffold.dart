@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/utils/theme_from_context.dart';
+import '../actions/actions_flex.dart';
 import '../text/osk_text.dart';
 
 class OskScaffold extends StatefulWidget {
   final List<Widget>? actions;
   final List<Widget> slivers;
+  final Axis actionsDirection;
 
   OskScaffold({
     required Widget body,
     this.actions,
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
+    this.actionsDirection = Axis.vertical,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -29,6 +32,7 @@ class OskScaffold extends StatefulWidget {
     this.actions,
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
+    this.actionsDirection = Axis.vertical,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -69,16 +73,7 @@ class _OskScaffoldState extends State<OskScaffold> {
         ),
         persistentFooterButtons: actions != null
             ? [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: ColoredBox(
-                    color: theme.backgroundColor,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: actions,
-                    ),
-                  ),
-                ),
+                _OskScaffoldActions(actions, widget.actionsDirection),
               ]
             : null,
       ),
@@ -143,4 +138,21 @@ class OskScaffoldHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+class _OskScaffoldActions extends StatelessWidget {
+  final List<Widget> actions;
+  final Axis axis;
+
+  const _OskScaffoldActions(this.actions, this.axis, {super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+        child: OskActionsFlex(
+          maxWidth: MediaQuery.of(context).size.width,
+          widgets: actions,
+          direction: axis,
+        ),
+      );
 }

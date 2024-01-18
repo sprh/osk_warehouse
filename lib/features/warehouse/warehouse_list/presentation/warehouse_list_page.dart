@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../components/button/osk_button.dart';
 import '../../../../components/button/osk_close_icon_button.dart';
 import '../../../../components/icon/osk_service_icons.dart';
-import '../../../../components/osk_info_slot/osk_info_slot.dart';
+import '../../../../components/info_slot/osk_info_slot.dart';
 import '../../../../components/scaffold/osk_scaffold.dart';
 import '../../models/warehouse.dart';
 import '../bloc/warehouse_list_bloc.dart';

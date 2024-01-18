@@ -150,7 +150,7 @@ class OskText extends StatelessWidget {
       ),
       textAlign: textAlign,
       maxLines: maxLines,
-      overflow: TextOverflow.ellipsis,
+      overflow: maxLines == null ? TextOverflow.clip : TextOverflow.ellipsis,
     );
   }
 }

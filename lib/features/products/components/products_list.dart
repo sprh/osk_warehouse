@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../components/osk_info_slot/osk_info_slot.dart';
+import '../../../components/info_slot/osk_info_slot.dart';
 import '../models/product.dart';
 
 typedef OnProductAction = void Function(String id);

@@ -23,8 +23,8 @@ class OskDropdownItemWidget<T> extends StatelessWidget {
   const OskDropdownItemWidget({
     required this.item,
     required this.onSelect,
-    super.key,
     this.itemSelected,
+    super.key,
   });
 
   @override

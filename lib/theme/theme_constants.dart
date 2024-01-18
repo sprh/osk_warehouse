@@ -8,6 +8,7 @@ import 'dropdown/dropdown_theme_extension.dart';
 import 'icon_button/icon_button_theme_extension.dart';
 import 'line_divider/line_divider_theme_extension.dart';
 import 'modal_dialog/modal_dialog_theme_extension.dart';
+import 'request_info/osk_request_info_theme_extension.dart';
 import 'scaffold/scaffold_theme_extension.dart';
 import 'text/text_theme_extension.dart';
 import 'text_field/text_field_theme_extension.dart';
@@ -29,6 +30,7 @@ class ThemeConstants {
     MinorButtonThemeExtension.light,
     ModalDialogThemeExtension.light,
     CheckboxThemeExtension.light,
+    OskRequestInfoThemeExtension.light,
   ];
 
   static final List<ThemeExtension> extensionsDark = [
@@ -43,5 +45,6 @@ class ThemeConstants {
     MinorButtonThemeExtension.dark,
     ModalDialogThemeExtension.dark,
     CheckboxThemeExtension.dark,
+    OskRequestInfoThemeExtension.dark,
   ];
 }

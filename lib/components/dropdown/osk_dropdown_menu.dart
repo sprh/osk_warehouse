@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import 'components/osk_dropdown_animation_builder.dart';
@@ -17,6 +18,7 @@ class OskDropDown<T> extends StatefulWidget {
   final List<OskDropdownMenuItem<T>> items;
   final void Function(T)? onSelectedItemChanged;
   final String label;
+  final T? selectedValuel;
 
   final OskDropDownController<T>? controller;
 
@@ -25,6 +27,7 @@ class OskDropDown<T> extends StatefulWidget {
     required this.label,
     this.onSelectedItemChanged,
     this.controller,
+    this.selectedValuel,
     super.key,
   });
 
@@ -34,7 +37,9 @@ class OskDropDown<T> extends StatefulWidget {
 
 class _OskDropDownState<T> extends State<OskDropDown<T>>
     with SingleTickerProviderStateMixin, OskDropdownAnimationBuilder {
-  OskDropdownMenuItem<T>? selectedValue;
+  late OskDropdownMenuItem<T>? selectedValue = widget.items.firstWhereOrNull(
+    (item) => item.value == widget.selectedValuel,
+  );
 
   @override
   TickerProvider get vsync => this;
@@ -60,6 +65,7 @@ class _OskDropDownState<T> extends State<OskDropDown<T>>
                         selectedValue = item;
                         widget.controller?.selectedValue = item.value;
                         widget.onSelectedItemChanged?.call(item.value);
+                        onChangeExpansion();
 
                         setState(() {});
                       },

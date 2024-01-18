@@ -7,6 +7,7 @@ import '../checkbox/checkox_theme_extension.dart';
 import '../dropdown/dropdown_theme_extension.dart';
 import '../icon_button/icon_button_theme_extension.dart';
 import '../modal_dialog/modal_dialog_theme_extension.dart';
+import '../request_info/osk_request_info_theme_extension.dart';
 import '../scaffold/scaffold_theme_extension.dart';
 import '../text/text_theme_extension.dart';
 import '../text_field/text_field_theme_extension.dart';
@@ -33,4 +34,6 @@ extension ThemeFromContext on BuildContext {
   ModalDialogThemeExtension get modalDialogTheme => _theme.extension()!;
 
   CheckboxThemeExtension get checkboxTheme => _theme.extension()!;
+
+  OskRequestInfoThemeExtension get requestInfoTheme => _theme.extension()!;
 }

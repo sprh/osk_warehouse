@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/authorization/authorization_scope.dart';
 import '../../login/bloc/login_bloc.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/bloc/main_page_bloc.dart';
@@ -42,7 +43,10 @@ class RoutesBuilder {
         );
       case Routes.login:
         screen = BlocProvider(
-          create: (context) => LoginBloc(NavigationScope.of(context)),
+          create: (context) => LoginBloc(
+            NavigationScope.of(context),
+            AuthorizationScope.of(context),
+          ),
           child: const LoginPage(),
         );
       case Routes.main:

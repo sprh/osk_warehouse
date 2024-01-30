@@ -6,6 +6,8 @@ import '../../../components/scaffold/osk_scaffold.dart';
 import '../../../components/text/osk_text.dart';
 import '../../../components/text/osk_text_field.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
+import '../bloc/login_bloc.dart';
+import '../bloc/login_events.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -53,8 +55,12 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 16),
           OskButton.main(
             title: strings.loginPageButtonTitle,
-            onTap: () {}, // TODO:,
-            // onTap: widget.viewModel.onLoginButtonTap,
+            onTap: () => LoginBloc.of(context).add(
+              const LoginEventButtonSignInTap(
+                username: 'officer',
+                password: 'testing',
+              ),
+            ),
           ),
           const SizedBox(height: 16),
         ],

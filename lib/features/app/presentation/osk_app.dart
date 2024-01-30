@@ -8,7 +8,12 @@ import '../../navigation/logic/routes_builder.dart';
 import 'app_scopes.dart';
 
 class OskApp extends StatelessWidget {
-  const OskApp({super.key});
+  final Routes initialRoute;
+
+  const OskApp({
+    required this.initialRoute,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) => AppScopesWrapper(
@@ -28,7 +33,7 @@ class OskApp extends StatelessWidget {
             brightness: Brightness.dark,
           ),
           navigatorKey: NavigationManager.navigatorKey,
-          initialRoute: Routes.initialRouteName,
+          initialRoute: initialRoute.name,
           onGenerateRoute: RoutesBuilder.generateRoutes,
         ),
       );

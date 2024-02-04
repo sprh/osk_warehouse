@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../components/actions/actions_flex.dart';
+import '../../../components/button/osk_button.dart';
 import '../../../core/authorization/data/manager.dart';
 import '../../navigation/logic/navigation_manager.dart';
 import 'login_events.dart';
+import 'login_page_state.dart';
 
-abstract class LoginBloc extends Bloc<LoginEvent, dynamic> {
+abstract class LoginBloc extends Bloc<LoginEvent, LoginPageState> {
   static LoginBloc of(BuildContext context) => BlocProvider.of(context);
 
   factory LoginBloc(
@@ -18,28 +21,44 @@ abstract class LoginBloc extends Bloc<LoginEvent, dynamic> {
       );
 }
 
-class _LoginBloc extends Bloc<LoginEvent, dynamic> implements LoginBloc {
+class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
   final NavigationManager _navigationManager;
   final AuthorizationDataManager _authorizationDataManager;
 
   _LoginBloc(this._navigationManager, this._authorizationDataManager)
-      : super(null) {
+      : super(LoginPageStateDefault()) {
     on<LoginEvent>(_onEvent);
   }
 
   void _onEvent(LoginEvent event, Emitter<dynamic> emit) {
     switch (event) {
       case LoginEventButtonSignInTap():
-        _authorize(event.username, event.password);
-
-      // _navigationManager.openMain();
+        _tryAuthorize(event.username, event.password);
     }
   }
 
-  Future<void> _authorize(String username, String password) async {
-    await _authorizationDataManager.getToken(
+  Future<void> _tryAuthorize(String username, String password) async {
+    final tokenData = await _authorizationDataManager.getToken(
       username: username,
       password: password,
     );
+
+    if (tokenData) {
+      _navigationManager.openMain();
+    } else {
+      // TODO: translate
+      _navigationManager.showModalDialog(
+        title: 'Не удалось авторизироваться',
+        subtitle: 'Проверьте правильность введенных данных',
+        actions: OskActionsFlex(
+          widgets: [
+            OskButton.main(
+              title: 'Хорошо',
+              onTap: _navigationManager.pop,
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

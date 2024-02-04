@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../components/actions/actions_flex.dart';
 import '../../../components/modal/modal_dialog.dart';
 import '../../../theme/utils/theme_from_context.dart';
 import 'models/routes.dart';
@@ -38,7 +39,7 @@ abstract class NavigationManager {
   void showModalDialog({
     required String title,
     String? subtitle,
-    Widget? actions,
+    OskActionsFlex? actions,
     bool dismissible = false,
   });
 }
@@ -83,7 +84,7 @@ class _NavigationManagerImpl implements NavigationManager {
   void showModalDialog({
     required String title,
     String? subtitle,
-    Widget? actions,
+    OskActionsFlex? actions,
     bool dismissible = false,
   }) {
     final context = NavigationManager.navigatorKey.currentState?.context;

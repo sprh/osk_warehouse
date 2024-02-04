@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/authorization/authorization_scope.dart';
+import '../../../scopes/app_scope.dart';
 import '../../login/bloc/login_bloc.dart';
 import '../../login/presentation/login_page.dart';
 import '../../main_page/bloc/main_page_bloc.dart';
@@ -21,7 +21,6 @@ import '../../worker/new_worker/bloc/new_worker_bloc.dart';
 import '../../worker/new_worker/presentation/new_worket_page.dart';
 import '../../worker/workers_list/bloc/workers_list_bloc.dart';
 import '../../worker/workers_list/presentation/workers_list_page.dart';
-import '../scope/navigation_scope.dart';
 import 'models/routes.dart';
 
 class RoutesBuilder {
@@ -38,37 +37,47 @@ class RoutesBuilder {
     switch (route) {
       case Routes.welcome:
         screen = BlocProvider(
-          create: (context) => WelcomePageBloc(NavigationScope.of(context)),
+          create: (context) => WelcomePageBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const WelcomePage(),
         );
       case Routes.login:
         screen = BlocProvider(
           create: (context) => LoginBloc(
-            NavigationScope.of(context),
-            AuthorizationScope.of(context),
+            AppScope.of(context).navigationManager,
+            AppScope.of(context).authManager,
           ),
           child: const LoginPage(),
         );
       case Routes.main:
         screen = BlocProvider(
-          create: (context) => MainPageBloc(NavigationScope.of(context)),
+          create: (context) => MainPageBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const MainPage(),
         );
       case Routes.newWorker:
         screen = BlocProvider(
-          create: (context) => NewWorkerBloc(NavigationScope.of(context)),
+          create: (context) => NewWorkerBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const NewWorkerPage(),
         );
       case Routes.newWarehouse:
         screen = const NewWarehousePage();
       case Routes.workersList:
         screen = BlocProvider(
-          create: (context) => WorkersListBloc(NavigationScope.of(context)),
+          create: (context) => WorkersListBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const WorkersListPage(),
         );
       case Routes.warehouseList:
         screen = BlocProvider(
-          create: (context) => WarehouseListBloc(NavigationScope.of(context)),
+          create: (context) => WarehouseListBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const WarehouseListPage(),
         );
       case Routes.producsList:
@@ -76,14 +85,16 @@ class RoutesBuilder {
 
         screen = BlocProvider(
           create: (context) => ProductsListBloc(
-            NavigationScope.of(context),
+            AppScope.of(context).navigationManager,
             warehouseId,
           ),
           child: const ProductsListPage(),
         );
       case Routes.requestsList:
         screen = BlocProvider(
-          create: (context) => RequestsListBloc(NavigationScope.of(context)),
+          create: (context) => RequestsListBloc(
+            AppScope.of(context).navigationManager,
+          ),
           child: const RequestsListPage(),
         );
       case Routes.requestInfo:

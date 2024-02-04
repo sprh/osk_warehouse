@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'core/authorization/authorization_scope.dart';
 import 'core/authorization/data/db.dart';
 import 'core/authorization/data/manager.dart';
 import 'core/authorization/data/repository.dart';
-import 'core/db/scope.dart';
 import 'core/network/dio_client.dart';
-import 'core/network/network_scope.dart';
 import 'features/app/presentation/osk_app.dart';
 import 'features/navigation/logic/models/routes.dart';
+import 'features/navigation/logic/navigation_manager.dart';
 import 'features/observers/osk_bloc_observer.dart';
 import 'features/observers/osk_flutter_error_observer.dart';
+import 'scopes/app_scope.dart';
 
 void main() {
   runZonedGuarded(
@@ -32,19 +31,17 @@ void main() {
         dioClient,
         secureStorage,
       );
+      final navigationManager = NavigationManager();
 
       final token = await authManager.getCachedToken();
       runApp(
-        AuthorizationScope(
-          authManager,
-          child: DBScope(
-            secureStorage,
-            child: NetworkScope(
-              dioClient,
-              child: OskApp(
-                initialRoute: token ? Routes.main : Routes.login,
-              ),
-            ),
+        AppScope(
+          secureStorage: secureStorage,
+          authManager: authManager,
+          dio: dioClient,
+          navigationManager: navigationManager,
+          child: OskApp(
+            initialRoute: token ? Routes.main : Routes.welcome,
           ),
         ),
       );

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../network/dio_client.dart';
 import '../../network/interceptors/token_interceptor.dart';
 import 'repository.dart';
@@ -39,14 +41,16 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
     required String username,
     required String password,
   }) async {
-    final token = await _repository.refreshToken(
-      username: username,
-      password: password,
-    );
-    if (token != null) {
-      _dio.addInterceptor(TokenInterceptor(token: token));
-      return true;
-    }
+    try {
+      final token = await _repository.refreshToken(
+        username: username,
+        password: password,
+      );
+      if (token != null) {
+        _dio.addInterceptor(TokenInterceptor(token: token));
+        return true;
+      }
+    } on DioException catch (e, s) {}
     return false;
   }
 }

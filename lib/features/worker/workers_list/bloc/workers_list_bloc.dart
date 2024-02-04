@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../components/actions/actions_flex.dart';
 import '../../../../components/button/osk_button.dart';
-import '../../../navigation/logic/navigation_manager.dart';
+import '../../../../core/navigation/manager/navigation_manager.dart';
 import 'workers_list_event.dart';
 
 abstract class WorkersListBloc extends Bloc<WorkersListEvent, dynamic> {
   static WorkersListBloc of(BuildContext context) => BlocProvider.of(context);
 
-  factory WorkersListBloc(NavigationManager navigationManager) =>
+  factory WorkersListBloc(AccountScopeNavigationManager navigationManager) =>
       _WorkersListBloc(navigationManager);
 }
 
 class _WorkersListBloc extends Bloc<WorkersListEvent, dynamic>
     implements WorkersListBloc {
-  final NavigationManager _navigationManager;
+  final AccountScopeNavigationManager _navigationManager;
 
   _WorkersListBloc(this._navigationManager) : super(null) {
     on<WorkersListEvent>(_onEvent);

@@ -1,0 +1,77 @@
+part of 'navigation_manager.dart';
+
+abstract class AccountScopeNavigationManager implements NavigationManager {
+  factory AccountScopeNavigationManager(
+    GlobalKey<NavigatorState> navigatorKey,
+  ) =>
+      _AccountScopeNavigationManager(navigatorKey);
+
+  void openMain();
+
+  // Workers
+  void openNewWorker();
+
+  void openWorkersList();
+
+  // Warehouse
+  void openWarehouseList();
+
+  void openNewWarehouse();
+
+  // Products
+  void openProductsList([String? warehouseId]);
+
+  // Requests
+  void openRequestsList();
+
+  void openRequestInfoPage(String requestId);
+}
+
+class _AccountScopeNavigationManager extends NavigationManager
+    implements AccountScopeNavigationManager {
+  _AccountScopeNavigationManager(super.navigatorKey);
+
+  @override
+  void openMain() => navigatorKey.currentState?.pushReplacementNamed(
+        AccountScopeRoutes.main.name,
+      );
+
+  @override
+  void openNewWorker() => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.newWorker.name,
+      );
+
+  @override
+  void openWorkersList() => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.workersList.name,
+      );
+
+  @override
+  void openNewWarehouse() => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.newWarehouse.name,
+      );
+
+  @override
+  void openWarehouseList() => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.warehouseList.name,
+      );
+
+  @override
+  void openProductsList([String? warehouseId]) =>
+      navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.producsList.name,
+        arguments: warehouseId,
+      );
+
+  @override
+  void openRequestsList() => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.requestsList.name,
+      );
+
+  @override
+  void openRequestInfoPage(String requestId) =>
+      navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.requestInfo.name,
+        arguments: requestId,
+      );
+}

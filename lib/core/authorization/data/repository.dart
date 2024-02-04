@@ -17,7 +17,7 @@ abstract class AuthorizationRepository {
 
   Future<String?> getCachedToken();
 
-  Future<String?> getCachedTokenByUserCreds();
+  Future<String?> getTokenByCachedUserCreds();
 }
 
 class _AuthorizationRepository implements AuthorizationRepository {
@@ -57,7 +57,7 @@ class _AuthorizationRepository implements AuthorizationRepository {
   }
 
   @override
-  Future<String?> getCachedTokenByUserCreds() async {
+  Future<String?> getTokenByCachedUserCreds() async {
     final (username, password) = await _db.getAuthData();
     if (username != null && password != null) {
       return refreshToken(password: password, username: username);

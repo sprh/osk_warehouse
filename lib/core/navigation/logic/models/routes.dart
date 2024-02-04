@@ -1,0 +1,4 @@
+enum AppScopeRoutes {
+  welcome,
+  login,
+}

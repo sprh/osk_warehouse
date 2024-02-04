@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../navigation/logic/navigation_manager.dart';
+import '../../../../core/navigation/manager/navigation_manager.dart';
 import 'requests_list_events.dart';
 
 abstract class RequestsListBloc extends Bloc<RequestsListEvent, dynamic> {
   static RequestsListBloc of(BuildContext context) => BlocProvider.of(context);
 
-  factory RequestsListBloc(NavigationManager navigationManager) =>
+  factory RequestsListBloc(AccountScopeNavigationManager navigationManager) =>
       _RequestsListBloc(navigationManager);
 }
 
 class _RequestsListBloc extends Bloc<RequestsListEvent, dynamic>
     implements RequestsListBloc {
-  final NavigationManager _navigationManager;
+  final AccountScopeNavigationManager _navigationManager;
 
   _RequestsListBloc(this._navigationManager) : super(null) {
     on<RequestsListEvent>(_onEvent);

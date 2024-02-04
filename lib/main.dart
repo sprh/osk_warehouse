@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'core/authorization/bloc/authorization_data_bloc.dart';
 import 'core/authorization/data/db.dart';
 import 'core/authorization/data/manager.dart';
 import 'core/authorization/data/repository.dart';
 import 'core/network/dio_client.dart';
 import 'features/app/presentation/osk_app.dart';
-import 'features/navigation/logic/models/routes.dart';
-import 'features/navigation/logic/navigation_manager.dart';
 import 'features/observers/osk_bloc_observer.dart';
 import 'features/observers/osk_flutter_error_observer.dart';
-import 'scopes/app_scope.dart';
+import 'utils/kotlin_utils.dart';
 
 void main() {
   runZonedGuarded(
@@ -27,21 +26,22 @@ void main() {
 
       final dioClient = _initializeNetwork();
       const secureStorage = FlutterSecureStorage();
+      final authDataBloc = AuthorizationDataBloc();
       final authManager = _initializeAuthorizationDataScope(
         dioClient,
         secureStorage,
+        authDataBloc,
       );
-      final navigationManager = NavigationManager();
 
-      final token = await authManager.getCachedToken();
+      await authManager.getCachedToken().callTrowable();
+
       runApp(
-        AppScope(
-          secureStorage: secureStorage,
-          authManager: authManager,
-          dio: dioClient,
-          navigationManager: navigationManager,
+        BlocProvider(
+          create: (_) => authDataBloc,
           child: OskApp(
-            initialRoute: token ? Routes.main : Routes.welcome,
+            dio: dioClient,
+            secureStorage: secureStorage,
+            authDataManager: authManager,
           ),
         ),
       );
@@ -62,9 +62,14 @@ DioClient _initializeNetwork() {
 AuthorizationDataManager _initializeAuthorizationDataScope(
   DioClient dio,
   FlutterSecureStorage secureStorage,
+  AuthorizationDataBloc authDataBloc,
 ) {
   final db = AuthorizationDB(secureStorage);
   final repository = AuthorizationRepository(db, dio);
-  final authorizationDataManager = AuthorizationDataManager(dio, repository);
+  final authorizationDataManager = AuthorizationDataManager(
+    dio,
+    repository,
+    authDataBloc,
+  );
   return authorizationDataManager;
 }

@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../navigation/logic/navigation_manager.dart';
+import '../../../core/navigation/manager/navigation_manager.dart';
 
 abstract class WelcomePageBloc extends Cubit<dynamic> {
-  factory WelcomePageBloc(NavigationManager navigationManager) =>
+  factory WelcomePageBloc(AppScopeNavigationManager navigationManager) =>
       _WelcomePageBloc(navigationManager);
 
   void onLoginButtonTap();
 }
 
 class _WelcomePageBloc extends Cubit<dynamic> implements WelcomePageBloc {
-  final NavigationManager _navigationManager;
+  final AppScopeNavigationManager _navigationManager;
 
   _WelcomePageBloc(this._navigationManager) : super(null);
 

@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../components/actions/actions_flex.dart';
 import '../../../components/button/osk_button.dart';
 import '../../../core/authorization/data/manager.dart';
-import '../../navigation/logic/navigation_manager.dart';
+import '../../../core/navigation/manager/navigation_manager.dart';
+import '../../../utils/kotlin_utils.dart';
 import 'login_events.dart';
 import 'login_page_state.dart';
 
@@ -12,7 +13,7 @@ abstract class LoginBloc extends Bloc<LoginEvent, LoginPageState> {
   static LoginBloc of(BuildContext context) => BlocProvider.of(context);
 
   factory LoginBloc(
-    NavigationManager navigationManager,
+    AppScopeNavigationManager navigationManager,
     AuthorizationDataManager authorizationDataManager,
   ) =>
       _LoginBloc(
@@ -22,7 +23,7 @@ abstract class LoginBloc extends Bloc<LoginEvent, LoginPageState> {
 }
 
 class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
-  final NavigationManager _navigationManager;
+  final AppScopeNavigationManager _navigationManager;
   final AuthorizationDataManager _authorizationDataManager;
 
   _LoginBloc(this._navigationManager, this._authorizationDataManager)
@@ -38,27 +39,26 @@ class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
   }
 
   Future<void> _tryAuthorize(String username, String password) async {
-    final tokenData = await _authorizationDataManager.getToken(
-      username: username,
-      password: password,
-    );
-
-    if (tokenData) {
-      _navigationManager.openMain();
-    } else {
-      // TODO: translate
-      _navigationManager.showModalDialog(
-        title: 'Не удалось авторизироваться',
-        subtitle: 'Проверьте правильность введенных данных',
-        actions: OskActionsFlex(
-          widgets: [
-            OskButton.main(
-              title: 'Хорошо',
-              onTap: _navigationManager.pop,
+    await _authorizationDataManager
+        .getToken(
+          username: username,
+          password: password,
+        )
+        .callTrowable(
+          onError: (_) =>
+              // TODO: translate
+              _navigationManager.showModalDialog(
+            title: 'Не удалось авторизироваться',
+            subtitle: 'Проверьте правильность введенных данных',
+            actions: OskActionsFlex(
+              widgets: [
+                OskButton.main(
+                  title: 'Хорошо',
+                  onTap: _navigationManager.pop,
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    }
+          ),
+        );
   }
 }

@@ -4,7 +4,7 @@ import '../../../../components/button/osk_close_icon_button.dart';
 import '../../../../components/dropdown/components/osk_dropdown_menu_item.dart';
 import '../../../../components/dropdown/osk_dropdown_menu.dart';
 import '../../../../components/icon/osk_service_icons.dart';
-import '../../../../components/osk_request_info/osk_request_info.dart';
+import '../../../../components/request_info/osk_request_info.dart';
 import '../../../../components/scaffold/osk_scaffold.dart';
 import '../../../worker/models/worker.dart';
 import '../../models/request.dart';

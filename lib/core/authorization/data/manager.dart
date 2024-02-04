@@ -1,19 +1,23 @@
-import 'package:dio/dio.dart';
-
 import '../../network/dio_client.dart';
 import '../../network/interceptors/token_interceptor.dart';
+import '../bloc/authorization_data_bloc.dart';
 import 'repository.dart';
 
 abstract class AuthorizationDataManager {
   factory AuthorizationDataManager(
     DioClient dio,
     AuthorizationRepository repository,
+    AuthorizationDataBloc authorizationDataBloc,
   ) =>
-      _AuthorizationDataManager(dio, repository);
+      _AuthorizationDataManager(
+        dio,
+        repository,
+        authorizationDataBloc,
+      );
 
-  Future<bool> getCachedToken();
+  Future<void> getCachedToken();
 
-  Future<bool> getToken({
+  Future<void> getToken({
     required String username,
     required String password,
   });
@@ -22,35 +26,40 @@ abstract class AuthorizationDataManager {
 class _AuthorizationDataManager implements AuthorizationDataManager {
   final DioClient _dio;
   final AuthorizationRepository _repository;
+  final AuthorizationDataBloc _authorizationDataBloc;
 
-  const _AuthorizationDataManager(this._dio, this._repository);
+  const _AuthorizationDataManager(
+    this._dio,
+    this._repository,
+    this._authorizationDataBloc,
+  );
 
   @override
-  Future<bool> getCachedToken() async {
+  Future<void> getCachedToken() async {
     final cachedToken = await _repository.getCachedToken() ??
-        await _repository.getCachedTokenByUserCreds();
+        await _repository.getTokenByCachedUserCreds();
     if (cachedToken != null) {
       _dio.addInterceptor(TokenInterceptor(token: cachedToken));
-      return true;
+      _authorizationDataBloc.setAuthorized();
+    } else {
+      _authorizationDataBloc.setNotAuthorized();
     }
-    return false;
   }
 
   @override
-  Future<bool> getToken({
+  Future<void> getToken({
     required String username,
     required String password,
   }) async {
-    try {
-      final token = await _repository.refreshToken(
-        username: username,
-        password: password,
-      );
-      if (token != null) {
-        _dio.addInterceptor(TokenInterceptor(token: token));
-        return true;
-      }
-    } on DioException catch (e, s) {}
-    return false;
+    final token = await _repository.refreshToken(
+      username: username,
+      password: password,
+    );
+    if (token != null) {
+      _dio.addInterceptor(TokenInterceptor(token: token));
+      _authorizationDataBloc.setAuthorized();
+    } else {
+      _authorizationDataBloc.setNotAuthorized();
+    }
   }
 }

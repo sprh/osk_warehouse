@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/utils/theme_from_context.dart';
+import '../../utils/kotlin_utils.dart';
 import '../actions/actions_flex.dart';
 import '../text/osk_text.dart';
 
@@ -8,6 +9,7 @@ class OskScaffold extends StatefulWidget {
   final List<Widget>? actions;
   final List<Widget> slivers;
   final Axis actionsDirection;
+  final bool actionsShadow;
 
   OskScaffold({
     required Widget body,
@@ -15,6 +17,7 @@ class OskScaffold extends StatefulWidget {
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
     this.actionsDirection = Axis.vertical,
+    this.actionsShadow = false,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -33,6 +36,7 @@ class OskScaffold extends StatefulWidget {
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
     this.actionsDirection = Axis.vertical,
+    this.actionsShadow = false,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -48,7 +52,6 @@ class _OskScaffoldState extends State<OskScaffold> {
   @override
   Widget build(BuildContext context) {
     final theme = context.scaffoldTheme;
-    final actions = widget.actions;
     final globalTheme = Theme.of(context);
 
     return Theme(
@@ -68,14 +71,36 @@ class _OskScaffoldState extends State<OskScaffold> {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: widget.slivers,
         ),
-        bottomNavigationBar: SizedBox(
-          height: MediaQuery.of(context).viewInsets.bottom,
+        bottomNavigationBar: widget.actions?.let(
+          (actions) => DecoratedBox(
+            decoration: BoxDecoration(
+              color: theme.floatingActionsBackgroundColor,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+              boxShadow: [
+                if (widget.actionsShadow)
+                  BoxShadow(
+                    blurRadius: 16,
+                    color: theme.actionsShadow,
+                  ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 16,
+                left: 16,
+                right: 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+              ),
+              child: OskActionsFlex(
+                maxWidth: MediaQuery.of(context).size.width,
+                widgets: actions,
+                direction: widget.actionsDirection,
+              ),
+            ),
+          ),
         ),
-        persistentFooterButtons: actions != null
-            ? [
-                _OskScaffoldActions(actions, widget.actionsDirection),
-              ]
-            : null,
       ),
     );
   }
@@ -138,21 +163,4 @@ class OskScaffoldHeader extends StatelessWidget {
       ),
     );
   }
-}
-
-class _OskScaffoldActions extends StatelessWidget {
-  final List<Widget> actions;
-  final Axis axis;
-
-  const _OskScaffoldActions(this.actions, this.axis, {super.key});
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-        child: OskActionsFlex(
-          maxWidth: MediaQuery.of(context).size.width,
-          widgets: actions,
-          direction: axis,
-        ),
-      );
 }

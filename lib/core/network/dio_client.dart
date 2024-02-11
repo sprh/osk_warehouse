@@ -10,6 +10,8 @@ abstract class DioClient {
   void addInterceptor(Interceptor interceptor);
 
   void removeInterceptorWhere(bool Function(Interceptor element) test);
+
+  Future<Response<T>> retry<T>(RequestOptions requestOptions);
 }
 
 class _DioClient implements DioClient {
@@ -41,5 +43,21 @@ class _DioClient implements DioClient {
           requestBody: true,
         ),
       );
+  }
+
+  @override
+  Future<Response<T>> retry<T>(RequestOptions requestOptions) async {
+    final opts = Options(
+      method: requestOptions.method,
+      headers: requestOptions.headers,
+    );
+    final cloneReq = await _core.request<T>(
+      requestOptions.path,
+      options: opts,
+      data: requestOptions.data,
+      queryParameters: requestOptions.queryParameters,
+    );
+
+    return cloneReq;
   }
 }

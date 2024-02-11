@@ -6,14 +6,14 @@ extension ObjectExt<T> on T {
 
 extension AsyncExtension<T> on Future<T> {
   Future<T> callTrowable({
-    void Function(dynamic error)? onError,
+    void Function(Exception error)? onError,
     void Function(T value)? onSuccess,
   }) async {
     try {
       final result = await this;
       onSuccess?.call(result);
       return result;
-    } catch (error) {
+    } on Exception catch (error) {
       onError?.call(error);
       rethrow;
     }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../components/button/osk_button.dart';
-import '../../../../components/button/osk_close_icon_button.dart';
-import '../../../../components/icon/osk_service_icons.dart';
-import '../../../../components/info_slot/osk_info_slot.dart';
-import '../../../../components/scaffold/osk_scaffold.dart';
+import '../../../../common/components/button/osk_button.dart';
+import '../../../../common/components/button/osk_close_icon_button.dart';
+import '../../../../common/components/icon/osk_service_icons.dart';
+import '../../../../common/components/info_slot/osk_info_slot.dart';
+import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../models/worker.dart';
 import '../bloc/workers_list_bloc.dart';
 import '../bloc/workers_list_event.dart';

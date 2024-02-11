@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../components/actions/actions_flex.dart';
-import '../../../components/button/osk_button.dart';
+import '../../../common/components/actions/actions_flex.dart';
+import '../../../common/components/button/osk_button.dart';
 import '../../../core/authorization/data/manager.dart';
 import '../../../core/navigation/manager/navigation_manager.dart';
 import '../../../utils/kotlin_utils.dart';

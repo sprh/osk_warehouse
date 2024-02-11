@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../components/text/osk_text.dart';
+import '../../../../common/components/text/osk_text.dart';
 import '../../../../l10n/utils/l10n_from_context.dart';
 
 class MainPageHeader extends StatelessWidget {

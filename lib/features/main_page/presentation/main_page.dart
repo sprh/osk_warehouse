@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/icon/osk_icon_button.dart';
-import '../../../components/icon/osk_icons.dart';
-import '../../../components/icon/osk_service_icons.dart';
-import '../../../components/osk_action_block.dart';
-import '../../../components/scaffold/osk_scaffold.dart';
+import '../../../common/components/icon/osk_icon_button.dart';
+import '../../../common/components/icon/osk_icons.dart';
+import '../../../common/components/icon/osk_service_icons.dart';
+import '../../../common/components/osk_action_block.dart';
+import '../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
 import '../bloc/main_page_bloc.dart';
 import '../bloc/main_page_event.dart';

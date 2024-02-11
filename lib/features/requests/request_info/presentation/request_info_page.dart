@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../components/button/osk_button.dart';
-import '../../../../components/button/osk_close_icon_button.dart';
-import '../../../../components/icon/osk_service_icons.dart';
-import '../../../../components/osk_line_divider.dart';
-import '../../../../components/request_info/request_info_status.dart';
-import '../../../../components/scaffold/osk_scaffold.dart';
-import '../../../../components/text/osk_text.dart';
+import '../../../../common/components/button/osk_button.dart';
+import '../../../../common/components/button/osk_close_icon_button.dart';
+import '../../../../common/components/icon/osk_service_icons.dart';
+import '../../../../common/components/osk_line_divider.dart';
+import '../../../../common/components/request_info/request_info_status.dart';
+import '../../../../common/components/scaffold/osk_scaffold.dart';
+import '../../../../common/components/text/osk_text.dart';
 import '../../../products/components/products_list.dart';
 import '../../../products/models/product.dart';
 import '../../models/request.dart';

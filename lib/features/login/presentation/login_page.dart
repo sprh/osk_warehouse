@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../components/button/osk_button.dart';
-import '../../../components/osk_image.dart';
-import '../../../components/scaffold/osk_scaffold.dart';
-import '../../../components/text/osk_text.dart';
-import '../../../components/text/osk_text_field.dart';
+import '../../../common/components/button/osk_button.dart';
+import '../../../common/components/osk_image.dart';
+import '../../../common/components/scaffold/osk_scaffold.dart';
+import '../../../common/components/text/osk_text.dart';
+import '../../../common/components/text/osk_text_field.dart';
 import '../../../l10n/utils/l10n_from_context.dart';
 import '../bloc/login_bloc.dart';
 import '../bloc/login_events.dart';

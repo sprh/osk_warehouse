@@ -1,30 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/error/repository_localized_error.dart';
+import '../../../../common/interface/repository.dart';
+import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/navigation_manager.dart';
-import 'warehouse_list_event.dart';
+import '../../data/repository.dart';
+import '../../models/warehouse.dart';
+import 'warehouse_list_state.dart';
 
-class WarehouseListBloc extends Bloc<WarehouseListEvent, dynamic> {
+part 'warehouse_list_event.dart';
+
+class WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState> {
   static WarehouseListBloc of(BuildContext context) => BlocProvider.of(context);
 
-  factory WarehouseListBloc(AccountScopeNavigationManager navigationManager) =>
-      _WarehouseListBloc(navigationManager);
+  factory WarehouseListBloc(
+    AccountScopeNavigationManager navigationManager,
+    WarehouseRepository repository,
+  ) =>
+      _WarehouseListBloc(navigationManager, repository);
 }
 
-class _WarehouseListBloc extends Bloc<WarehouseListEvent, dynamic>
+class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
+    with RepositorySubscriber<List<Warehouse>>
     implements WarehouseListBloc {
   final AccountScopeNavigationManager _navigationManager;
+  final WarehouseRepository _repository;
 
-  _WarehouseListBloc(this._navigationManager) : super(null) {
+  @override
+  Repository<List<Warehouse>> get repository => _repository;
+
+  _WarehouseListBloc(this._navigationManager, this._repository)
+      : super(WarehouseListIdleState()) {
     on<WarehouseListEvent>(_onEvent);
   }
 
-  void _onEvent(WarehouseListEvent event, Emitter<dynamic> emit) {
+  void _onEvent(WarehouseListEvent event, Emitter<WarehouseListState> emit) {
     switch (event) {
       case WarehouseListEventOnCreateWarehouseTap():
         _navigationManager.openNewWarehouse();
       case WarehouseListEventOpenProductsList():
         _navigationManager.openProductsList(event.warehouseId);
+      case WarehouseListEventInitialize():
+        _repository.start();
+        start();
+        _repository.refreshWarehouseList();
+      case _WarehouseListUpdateStateEvent():
+        emit(WarehouseListDataState(items: event.warehouses));
+      case _WarehouseListUpdateLoadingStateEvent():
+        if (state is WarehouseListDataState) {
+          emit(
+            (state as WarehouseListDataState).copyWith(loading: event.loading),
+          );
+        }
     }
   }
+
+  @override
+  void onData(List<Warehouse> value) => add(
+        _WarehouseListUpdateStateEvent(value),
+      );
+
+  @override
+  void onLoading(bool loading) => add(
+        _WarehouseListUpdateLoadingStateEvent(loading),
+      );
+
+  @override
+  void onRepositoryError(RepositoryLocalizedError error) =>
+      _navigationManager.showSomethingWentWrontDialog(error.message);
 }

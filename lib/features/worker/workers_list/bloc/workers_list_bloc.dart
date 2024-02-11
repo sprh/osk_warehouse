@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../components/actions/actions_flex.dart';
-import '../../../../components/button/osk_button.dart';
+import '../../../../common/components/actions/actions_flex.dart';
+import '../../../../common/components/button/osk_button.dart';
 import '../../../../core/navigation/manager/navigation_manager.dart';
 import 'workers_list_event.dart';
 

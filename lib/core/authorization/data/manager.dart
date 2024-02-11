@@ -1,4 +1,5 @@
 import '../../network/dio_client.dart';
+import '../../network/interceptors/expired_token_interceptor.dart';
 import '../../network/interceptors/token_interceptor.dart';
 import '../bloc/authorization_data_bloc.dart';
 import 'repository.dart';
@@ -39,10 +40,11 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
     final cachedToken = await _repository.getCachedToken() ??
         await _repository.getTokenByCachedUserCreds();
     if (cachedToken != null) {
-      _dio.addInterceptor(TokenInterceptor(token: cachedToken));
+      _addInterceptors(cachedToken);
       _authorizationDataBloc.setAuthorized();
     } else {
       _authorizationDataBloc.setNotAuthorized();
+      _removeInterceptors();
     }
   }
 
@@ -56,10 +58,38 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
       password: password,
     );
     if (token != null) {
-      _dio.addInterceptor(TokenInterceptor(token: token));
+      _addInterceptors(token);
       _authorizationDataBloc.setAuthorized();
     } else {
       _authorizationDataBloc.setNotAuthorized();
+      _removeInterceptors();
     }
   }
+
+  void _addInterceptors(String token) => _dio
+    ..addInterceptor(TokenInterceptor(token: token))
+    ..addInterceptor(
+      ExpiredTokenInterceptor(
+        refreshToken: () async {
+          final token = await _repository.getTokenByCachedUserCreds();
+          if (token != null) {
+            _dio
+              ..removeInterceptorWhere((it) => it is TokenInterceptor)
+              ..addInterceptor(TokenInterceptor(token: token));
+          } else {
+            _removeInterceptors();
+            _authorizationDataBloc.setNotAuthorized();
+          }
+
+          return token != null;
+        },
+        retry: _dio.retry,
+      ),
+    );
+
+  void _removeInterceptors() => _dio
+    ..removeInterceptorWhere((it) => it is TokenInterceptor)
+    ..removeInterceptorWhere(
+      (it) => it is ExpiredTokenInterceptor,
+    );
 }

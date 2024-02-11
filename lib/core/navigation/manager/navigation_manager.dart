@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/actions/actions_flex.dart';
-import '../../../components/modal/modal_dialog.dart';
+import '../../../common/components/actions/actions_flex.dart';
+import '../../../common/components/button/osk_button.dart';
+import '../../../common/components/modal/modal_dialog.dart';
 import '../../../theme/utils/theme_from_context.dart';
 import '../logic/models/account_scope_routes.dart';
 import '../logic/models/routes.dart';
@@ -39,4 +40,17 @@ abstract class NavigationManager {
       );
     }
   }
+
+  void showSomethingWentWrontDialog(String message) => showModalDialog(
+        title: 'Что-то пошло не так',
+        subtitle: message,
+        actions: OskActionsFlex(
+          widgets: [
+            OskButton.main(
+              title: 'Закрыть',
+              onTap: pop,
+            ),
+          ],
+        ),
+      );
 }

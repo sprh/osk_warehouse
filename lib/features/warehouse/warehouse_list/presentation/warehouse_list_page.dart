@@ -61,41 +61,39 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                       );
                     }
 
-                    return SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Column(
-                          children: state.items
-                              .expand(
-                                (w) => [
-                                  OskInfoSlot.dismissible(
-                                    title: w.name,
-                                    subtitle: w.address,
-                                    onTap: () =>
-                                        WarehouseListBloc.of(context).add(
-                                      WarehouseListEventOpenProductsList(
-                                        warehouseId: w.id,
-                                      ),
-                                    ),
-                                    dismissibleKey: ValueKey(w.id),
-                                    onDelete: () {
-                                      WarehouseListBloc.of(context).add(
-                                        WarehouseListEventDeleteWarehouse(w.id),
-                                      );
-                                      return Future.value(false);
-                                    },
-                                    onEdit: () {
-                                      WarehouseListBloc.of(context).add(
-                                        WarehouseListEventEditWarehouse(w.id),
-                                      );
-                                      return Future.value(false);
-                                    },
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                              )
-                              .toList(),
-                        ),
+                    return SliverPadding(
+                      padding: const EdgeInsets.only(top: 16),
+                      sliver: SliverList.separated(
+                        itemCount: state.items.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 8),
+                        itemBuilder: (_, index) {
+                          final item = state.items[index];
+
+                          return Center(
+                            child: OskInfoSlot.dismissible(
+                              title: item.name,
+                              subtitle: item.address,
+                              onTap: () => WarehouseListBloc.of(context).add(
+                                WarehouseListEventOpenProductsList(
+                                  warehouseId: item.id,
+                                ),
+                              ),
+                              dismissibleKey: ValueKey(item.id),
+                              onDelete: () {
+                                WarehouseListBloc.of(context).add(
+                                  WarehouseListEventDeleteWarehouse(item.id),
+                                );
+                                return Future.value(false);
+                              },
+                              onEdit: () {
+                                WarehouseListBloc.of(context).add(
+                                  WarehouseListEventEditWarehouse(item.id),
+                                );
+                                return Future.value(false);
+                              },
+                            ),
+                          );
+                        },
                       ),
                     );
                 }

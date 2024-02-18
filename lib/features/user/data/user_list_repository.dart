@@ -4,7 +4,13 @@ import '../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../models/user.dart';
 import 'api/api.dart';
 
-abstract class UserListRepository extends Repository<List<User>> {
+// ignore: one_member_abstracts
+abstract interface class UserListRefresher {
+  void refreshData();
+}
+
+abstract class UserListRepository extends Repository<List<User>>
+    implements UserListRefresher {
   factory UserListRepository(
     UserApi api,
     CurrentUsernameHolder currentUsernameHolder,
@@ -15,7 +21,7 @@ abstract class UserListRepository extends Repository<List<User>> {
 }
 
 class _UserListRepository extends Repository<List<User>>
-    implements UserListRepository {
+    implements UserListRepository, UserListRefresher {
   final UserApi _api;
   final CurrentUsernameHolder _currentUsernameHolder;
 
@@ -48,4 +54,7 @@ class _UserListRepository extends Repository<List<User>>
       );
     }
   }
+
+  @override
+  void refreshData() => refreshUserList();
 }

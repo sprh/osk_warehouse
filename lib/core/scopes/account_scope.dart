@@ -49,5 +49,6 @@ final class AccountScope extends Scope {
     userApi,
     warehouseRepository,
     authManager.currentUsernameHolder,
+    userListRepository,
   );
 }

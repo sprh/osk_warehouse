@@ -8,6 +8,7 @@ import '../../../../core/navigation/manager/navigation_manager.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/user_repository.dart';
 import '../../models/user.dart';
+import '../../models/user_access_types.dart';
 import 'state.dart';
 
 part 'events.dart';
@@ -18,12 +19,12 @@ abstract class UserDataBloc extends Bloc<UserDataPageEvent, UserDataState> {
   factory UserDataBloc(
     AccountScopeNavigationManager navigationManager,
     UserRepository repository,
-    String? userId,
+    String? username,
   ) =>
       _UserDataBloc(
         navigationManager,
         repository,
-        userId: userId,
+        username: username,
       );
 }
 
@@ -32,12 +33,12 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
     implements UserDataBloc {
   final AccountScopeNavigationManager _navigationManager;
   final UserRepository _repository;
-  final String? userId;
+  final String? username;
 
   _UserDataBloc(
     this._navigationManager,
     this._repository, {
-    required this.userId,
+    required this.username,
   }) : super(UserDataStateInitial()) {
     on<UserDataPageEvent>(_onEvent);
   }
@@ -53,11 +54,13 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
       case UserDataPageEventInitialize():
         _repository.start();
         start();
-        await _repository.refreshData(userId);
+        await _repository.refreshData(username);
       case _UserDataPageEventSetLoading():
         _maybeSetLoading(event.loading, emit);
       case _UserDataPageEventSetData():
         _setData(event.user, event.warehouses, emit);
+      case UserDataPageEventAddOrUpdateUser():
+        _addOrUpdateUser(event);
     }
   }
 
@@ -106,6 +109,39 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
     } else {
       emit(UserDataStateCreate(availableWarehouses: warehouses));
     }
+  }
+
+  void _addOrUpdateUser(
+    UserDataPageEventAddOrUpdateUser event,
+  ) {
+    try {
+      if (username != null) {
+        _repository.updateUser(
+          username: username!,
+          firstName: event.firstName,
+          lastName: event.lastName,
+          phoneNumber: event.phoneNumber,
+          warehouses: event.warehouses.map((w) => w.id).toList(),
+          isAdmin: event.accessTypes.contains(UserAccessTypes.admin),
+          isReviewer: event.accessTypes.contains(UserAccessTypes.reviewer),
+          isSuperuser: event.accessTypes.contains(UserAccessTypes.superuser),
+          password: event.password,
+        );
+      } else {
+        _repository.createUser(
+          username: event.username,
+          firstName: event.firstName,
+          lastName: event.lastName,
+          phoneNumber: event.phoneNumber,
+          warehouses: event.warehouses.map((w) => w.id).toList(),
+          isAdmin: event.accessTypes.contains(UserAccessTypes.admin),
+          isReviewer: event.accessTypes.contains(UserAccessTypes.reviewer),
+          isSuperuser: event.accessTypes.contains(UserAccessTypes.superuser),
+          password: event.password,
+        );
+      }
+      _navigationManager.pop();
+    } catch (_) {}
   }
 
   @override

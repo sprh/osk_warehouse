@@ -275,7 +275,17 @@ class __UserDataPageState extends State<_UserDataPage> {
                   : buttonEnabled
                       ? OskButtonState.enabled
                       : OskButtonState.disabled,
-              onTap: () {}, // TODO:
+              onTap: () => UserDataBloc.of(context).add(
+                UserDataPageEventAddOrUpdateUser(
+                  username: username,
+                  firstName: firstName,
+                  lastName: lastName,
+                  phoneNumber: phoneNumber,
+                  warehouses: warehouses,
+                  accessTypes: accessTypes,
+                  password: password,
+                ),
+              ),
             ),
           ],
         ),

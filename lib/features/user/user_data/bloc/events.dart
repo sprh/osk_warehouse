@@ -19,3 +19,23 @@ class _UserDataPageEventSetData implements UserDataPageEvent {
     required this.warehouses,
   });
 }
+
+class UserDataPageEventAddOrUpdateUser implements UserDataPageEvent {
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final Set<Warehouse> warehouses;
+  final Set<UserAccessTypes> accessTypes;
+  final String password;
+
+  const UserDataPageEventAddOrUpdateUser({
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    required this.warehouses,
+    required this.accessTypes,
+    required this.password,
+  });
+}

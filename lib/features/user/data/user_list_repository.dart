@@ -18,6 +18,8 @@ abstract class UserListRepository extends Repository<List<User>>
       _UserListRepository(api, currentUsernameHolder);
 
   Future<void> refreshUserList();
+
+  Future<void> deleteUser(String username);
 }
 
 class _UserListRepository extends Repository<List<User>>
@@ -35,6 +37,31 @@ class _UserListRepository extends Repository<List<User>>
     if (loading) {
       return;
     }
+
+    await _refreshData();
+  }
+
+  @override
+  void refreshData() => _refreshData();
+
+  @override
+  Future<void> deleteUser(String username) async {
+    setLoading();
+
+    try {
+      await _api.deleteUser(username);
+      await _refreshData();
+    } on Exception catch (_) {
+      emitError(
+        RepositoryLocalizedError(
+          message: 'Не удалось получить список пользователей',
+        ),
+      );
+    }
+  }
+
+  Future<void> _refreshData() async {
+    setLoading();
 
     try {
       final data = await _api.getUserList();
@@ -54,7 +81,4 @@ class _UserListRepository extends Repository<List<User>>
       );
     }
   }
-
-  @override
-  void refreshData() => refreshUserList();
 }

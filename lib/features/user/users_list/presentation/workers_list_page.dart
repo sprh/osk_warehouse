@@ -86,7 +86,7 @@ class _UserListPageState extends State<UserListPage> {
                                   ? null
                                   : () {
                                       UserListBloc.of(context).add(
-                                        UserListEventDeleteUser(),
+                                        UserListEventDeleteUser(user.username),
                                       );
                                       return Future.value(false);
                                     },

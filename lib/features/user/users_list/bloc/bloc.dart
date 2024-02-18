@@ -59,7 +59,10 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
             widgets: [
               OskButton.main(
                 title: 'Удалить',
-                onTap: () {}, // TODO:
+                onTap: () {
+                  _navigationManager.pop();
+                  _repository.deleteUser(event.username);
+                },
               ),
               OskButton.minor(
                 title: 'Отмена',

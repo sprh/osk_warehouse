@@ -16,6 +16,8 @@ abstract class AuthorizationDataManager {
         authorizationDataBloc,
       );
 
+  CurrentUsernameHolder get currentUsernameHolder;
+
   Future<void> getCachedToken();
 
   Future<void> getToken({
@@ -36,16 +38,23 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
   );
 
   @override
+  CurrentUsernameHolder get currentUsernameHolder => _authorizationDataBloc;
+
+  @override
   Future<void> getCachedToken() async {
     final cachedToken = await _repository.getCachedToken() ??
         await _repository.getTokenByCachedUserCreds();
     if (cachedToken != null) {
-      _addInterceptors(cachedToken);
-      _authorizationDataBloc.setAuthorized();
-    } else {
-      _authorizationDataBloc.setNotAuthorized();
-      _removeInterceptors();
+      final username = await _repository.username;
+      if (username != null) {
+        _addInterceptors(cachedToken);
+        _authorizationDataBloc.setAuthorized(username: username);
+        return;
+      }
     }
+
+    _authorizationDataBloc.setNotAuthorized();
+    _removeInterceptors();
   }
 
   @override
@@ -59,7 +68,7 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
     );
     if (token != null) {
       _addInterceptors(token);
-      _authorizationDataBloc.setAuthorized();
+      _authorizationDataBloc.setAuthorized(username: username);
     } else {
       _authorizationDataBloc.setNotAuthorized();
       _removeInterceptors();

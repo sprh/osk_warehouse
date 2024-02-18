@@ -9,7 +9,12 @@ import 'api/api.dart';
 import 'api/models/warehouse_create_request_dto.dart';
 import 'api/models/warehouse_dto.dart';
 
-abstract class WarehouseRepository extends Repository<List<Warehouse>> {
+mixin WarehouseListGetter {
+  Future<List<Warehouse>> get warehouseList;
+}
+
+abstract class WarehouseRepository extends Repository<List<Warehouse>>
+    with WarehouseListGetter {
   factory WarehouseRepository(WarehouseApi api) => _WarehouseRepository(api);
 
   Stream<Warehouse?> warehouseDataStreamById(String id);
@@ -26,10 +31,15 @@ abstract class WarehouseRepository extends Repository<List<Warehouse>> {
 }
 
 class _WarehouseRepository extends Repository<List<Warehouse>>
+    with WarehouseListGetter
     implements WarehouseRepository {
   final WarehouseApi _api;
 
   _WarehouseRepository(this._api);
+
+  @override
+  Future<List<Warehouse>> get warehouseList async =>
+      lastValue ?? await _getWarehouseList();
 
   @override
   Stream<Warehouse?> warehouseDataStreamById(String id) => dataStream.map(
@@ -57,14 +67,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
       return;
     }
 
-    await _api.getWarehouseList().callTrowable(
-          onError: (error) =>
-              emitError(RepositoryLocalizedError(message: 'todo')),
-          onSuccess: (data) {
-            final models = data.items.map(Warehouse.fromDto).toList();
-            emit(models);
-          },
-        );
+    await _getWarehouseList().callTrowable(
+      onError: (error) => emitError(RepositoryLocalizedError(message: 'todo')),
+      onSuccess: emit,
+    );
   }
 
   @override
@@ -108,4 +114,13 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
             ),
             onSuccess: (dto) => refreshWarehouseList(),
           );
+
+  Future<List<Warehouse>> _getWarehouseList() async {
+    try {
+      final data = await _api.getWarehouseList();
+      return data.items.map(Warehouse.fromDto).toList();
+    } on Exception catch (_) {
+      rethrow;
+    }
+  }
 }

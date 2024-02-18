@@ -17,11 +17,6 @@ class WarehouseDataPage extends StatefulWidget {
 }
 
 class _WarehouseDataPageState extends State<WarehouseDataPage> {
-  String? name;
-  String? address;
-
-  bool buttonEnabled = false;
-
   @override
   void initState() {
     super.initState();

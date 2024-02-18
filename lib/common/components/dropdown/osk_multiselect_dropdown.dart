@@ -21,8 +21,9 @@ class OskMultiSelectDropDownController<T> {
 
 class OskMultiSelectDropDown<T> extends StatefulWidget {
   final List<OskDropdownMenuItem<T>> items;
-  final void Function(List<T>)? onSelectedItemsChanged;
+  final void Function(Set<T>)? onSelectedItemsChanged;
   final String label;
+  final Set<T> initialSelectedValues;
 
   final OskMultiSelectDropDownController<T>? controller;
 
@@ -32,6 +33,7 @@ class OskMultiSelectDropDown<T> extends StatefulWidget {
     super.key,
     this.onSelectedItemsChanged,
     this.controller,
+    this.initialSelectedValues = const {},
   });
 
   @override
@@ -40,9 +42,7 @@ class OskMultiSelectDropDown<T> extends StatefulWidget {
 
 class _OskMultiSelectDropDownState<T> extends State<OskMultiSelectDropDown<T>>
     with SingleTickerProviderStateMixin, OskDropdownAnimationBuilder {
-  List<T> get selectedValues => listOFSelectedItem.map((e) => e.value).toList();
-
-  late Set<OskDropdownMenuItem<T>> listOFSelectedItem = {};
+  late Set<T> selectedValues = widget.initialSelectedValues;
 
   @override
   TickerProvider get vsync => this;
@@ -56,8 +56,12 @@ class _OskMultiSelectDropDownState<T> extends State<OskMultiSelectDropDown<T>>
               label: widget.label,
               iconAnimation: iconTurns,
               onTap: onChangeExpansion,
-              selectedItemText:
-                  listOFSelectedItem.isEmpty ? null : selectedValues.join(', '),
+              selectedItemText: selectedValues.isEmpty
+                  ? null
+                  : widget.items
+                      .where((item) => selectedValues.contains(item.value))
+                      .map((item) => item.label)
+                      .join(', '),
             ),
             OskDropdownList(
               animation: listExpand,
@@ -66,11 +70,12 @@ class _OskMultiSelectDropDownState<T> extends State<OskMultiSelectDropDown<T>>
                     (e) => OskDropdownItemWidget<T>(
                       item: e,
                       onSelect: (item) {
-                        if (listOFSelectedItem.contains(item)) {
-                          listOFSelectedItem.remove(item);
-                          widget.controller?.removeValue(item.value);
+                        final value = item.value;
+                        if (selectedValues.contains(value)) {
+                          selectedValues.remove(value);
+                          widget.controller?.removeValue(value);
                         } else {
-                          listOFSelectedItem.add(item);
+                          selectedValues.add(value);
                           widget.controller?.addValue(item.value);
                         }
                         widget.onSelectedItemsChanged?.call(selectedValues);

@@ -18,6 +18,8 @@ abstract class AuthorizationRepository {
   Future<String?> getCachedToken();
 
   Future<String?> getTokenByCachedUserCreds();
+
+  Future<String?> get username;
 }
 
 class _AuthorizationRepository implements AuthorizationRepository {
@@ -25,6 +27,12 @@ class _AuthorizationRepository implements AuthorizationRepository {
   final DioClient _dio;
 
   const _AuthorizationRepository(this._db, this._dio);
+
+  @override
+  Future<String?> get username async {
+    final data = await _db.getAuthData();
+    return data.$1;
+  }
 
   @override
   Future<String?> getCachedToken() => _db.getCachedToken();

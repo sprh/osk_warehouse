@@ -107,4 +107,10 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
       },
     );
   }
+
+  @override
+  Future<void> close() {
+    super.stop();
+    return super.close();
+  }
 }

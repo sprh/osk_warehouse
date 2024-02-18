@@ -44,7 +44,12 @@ class OskDropdownButton extends StatelessWidget {
                     colorType: OskTextColorType.minor,
                   )
                 else
-                  OskText.body(text: selectedItemText!),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.75,
+                    ),
+                    child: OskText.body(text: selectedItemText!),
+                  ),
                 RotationTransition(
                   turns: iconAnimation,
                   child: Icon(

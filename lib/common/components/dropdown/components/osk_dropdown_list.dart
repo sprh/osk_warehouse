@@ -40,6 +40,7 @@ class OskDropdownList<T> extends StatelessWidget {
             shrinkWrap: true,
             itemCount: widgets.length,
             padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => Column(
               mainAxisSize: MainAxisSize.min,
               children: [

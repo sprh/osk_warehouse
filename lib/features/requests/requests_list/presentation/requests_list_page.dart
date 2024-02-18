@@ -4,23 +4,19 @@ import '../../../../common/components/button/osk_close_icon_button.dart';
 import '../../../../common/components/dropdown/components/osk_dropdown_menu_item.dart';
 import '../../../../common/components/dropdown/osk_dropdown_menu.dart';
 import '../../../../common/components/icon/osk_service_icons.dart';
-import '../../../../common/components/request_info/osk_request_info.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
-import '../../../worker/models/worker.dart';
 import '../../models/request.dart';
-import '../bloc/requests_list_bloc.dart';
-import '../bloc/requests_list_events.dart';
 
 class RequestsListPage extends StatelessWidget {
-  static final requests = [
-    for (int i = 1; i < 10; ++i)
-      Request(
-        description: '123',
-        id: i.toString(),
-        status: RequestStatus.values[i % RequestStatus.values.length],
-        worker: Worker(id: i.toString(), name: i.toString()),
-      ),
-  ];
+  // static final requests = [
+  //   for (int i = 1; i < 10; ++i)
+  //     Request(
+  //       description: '123',
+  //       id: i.toString(),
+  //       status: RequestStatus.values[i % RequestStatus.values.length],
+  //       worker: User(id: i.toString(), name: i.toString()),
+  //     ),
+  // ];
 
   const RequestsListPage({super.key});
 
@@ -54,23 +50,23 @@ class RequestsListPage extends StatelessWidget {
             SizedBox(width: 8),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 8),
-          child: Column(
-            children: requests
-                .expand(
-                  (r) => [
-                    OskRequestInfo(
-                      request: r,
-                      onTap: () => RequestsListBloc.of(context).add(
-                        RequestsListEventOpenRequestInfo(r.id),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                )
-                .toList(),
-          ),
+        body: const Padding(
+          padding: EdgeInsets.only(top: 16, bottom: 8),
+          // child: Column(
+          //   children: requests
+          //       .expand(
+          //         (r) => [
+          //           OskRequestInfo(
+          //             request: r,
+          //             onTap: () => RequestsListBloc.of(context).add(
+          //               RequestsListEventOpenRequestInfo(r.id),
+          //             ),
+          //           ),
+          //           const SizedBox(height: 8),
+          //         ],
+          //       )
+          //       .toList(),
+          // ),
         ),
       );
 }

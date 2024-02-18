@@ -9,14 +9,14 @@ import '../../../features/products/products_list/presentation/products_list_page
 import '../../../features/requests/request_info/presentation/request_info_page.dart';
 import '../../../features/requests/requests_list/bloc/requests_list_bloc.dart';
 import '../../../features/requests/requests_list/presentation/requests_list_page.dart';
+import '../../../features/user/user_data/bloc/bloc.dart';
+import '../../../features/user/user_data/presentation/user_data_page.dart';
+import '../../../features/user/users_list/bloc/bloc.dart';
+import '../../../features/user/users_list/presentation/workers_list_page.dart';
 import '../../../features/warehouse/warehouse_data/bloc/bloc.dart';
 import '../../../features/warehouse/warehouse_data/presentation/warehouse_data.dart';
 import '../../../features/warehouse/warehouse_list/bloc/warehouse_list_bloc.dart';
 import '../../../features/warehouse/warehouse_list/presentation/warehouse_list_page.dart';
-import '../../../features/worker/new_worker/bloc/new_worker_bloc.dart';
-import '../../../features/worker/new_worker/presentation/new_worket_page.dart';
-import '../../../features/worker/workers_list/bloc/workers_list_bloc.dart';
-import '../../../features/worker/workers_list/presentation/workers_list_page.dart';
 import '../../scopes/account_scope.dart';
 import 'models/account_scope_routes.dart';
 
@@ -39,12 +39,16 @@ final class AccountScopeRoutesBuilder {
           ),
           child: const MainPage(),
         );
-      case AccountScopeRoutes.newWorker:
+      case AccountScopeRoutes.userData:
+        final username = settings.arguments as String?;
+
         screen = BlocProvider(
-          create: (context) => NewWorkerBloc(
+          create: (context) => UserDataBloc(
             AccountScope.of(context).navigationManager,
+            AccountScope.of(context).userRepository,
+            username,
           ),
-          child: const NewWorkerPage(),
+          child: const UserDataPage(),
         );
       case AccountScopeRoutes.warehouseData:
         final warehouseId = settings.arguments as String?;
@@ -59,10 +63,11 @@ final class AccountScopeRoutesBuilder {
         );
       case AccountScopeRoutes.workersList:
         screen = BlocProvider(
-          create: (context) => WorkersListBloc(
+          create: (context) => UserListBloc(
             AccountScope.of(context).navigationManager,
+            AccountScope.of(context).userListRepository,
           ),
-          child: const WorkersListPage(),
+          child: const UserListPage(),
         );
       case AccountScopeRoutes.warehouseList:
         screen = BlocProvider(

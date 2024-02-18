@@ -2,10 +2,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'state.dart';
 
-class AuthorizationDataBloc extends BlocBase<AuthorizationDataState> {
+mixin CurrentUsernameHolder {
+  String? get currentUserUsername;
+}
+
+class AuthorizationDataBloc extends BlocBase<AuthorizationDataState>
+    with CurrentUsernameHolder {
   AuthorizationDataBloc() : super(NotAuthorizedState());
 
-  void setAuthorized() => emit(AuthorizedState());
+  @override
+  String? get currentUserUsername {
+    final state = this.state;
+
+    switch (state) {
+      case AuthorizedState():
+        return state.username;
+      case NotAuthorizedState():
+        return null;
+    }
+  }
+
+  void setAuthorized({required String username}) => emit(
+        AuthorizedState(username),
+      );
 
   void setNotAuthorized() => emit(NotAuthorizedState());
 }

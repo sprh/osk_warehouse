@@ -34,6 +34,8 @@ mixin RepositorySubscriber<T> {
 
   @mustCallSuper
   void stop() {
+    repository.stop();
+
     _dataStreamSubscription?.cancel();
     _dataStreamSubscription = null;
 

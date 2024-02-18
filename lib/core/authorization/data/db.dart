@@ -8,7 +8,7 @@ abstract class AuthorizationDB {
 
   Future<void> setToken({required String token});
 
-  Future<(String?, String?)> getAuthData();
+  Future<(String? username, String? password)> getAuthData();
 
   Future<void> setAuthData({
     required String username,

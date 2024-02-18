@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../theme/utils/theme_from_context.dart';
 import '../icon/osk_icon_button.dart';
@@ -16,6 +17,8 @@ class OskTextField extends StatefulWidget {
   final bool autocorrect;
   final void Function(String)? onChanged;
   final bool showobscureTextIcon;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
 
   const OskTextField({
     required this.hintText,
@@ -28,6 +31,8 @@ class OskTextField extends StatefulWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.onChanged,
+    this.inputFormatters,
+    this.readOnly = false,
     super.key,
   });
 
@@ -47,6 +52,7 @@ class _OskTextFieldState extends State<OskTextField> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 54),
         child: TextFormField(
+          readOnly: widget.readOnly,
           focusNode: widget.focusNode,
           controller: widget.textEditingController,
           initialValue: widget.initialText,
@@ -55,6 +61,7 @@ class _OskTextFieldState extends State<OskTextField> {
           enableSuggestions: widget.enableSuggestions,
           autocorrect: widget.autocorrect,
           onChanged: widget.onChanged,
+          inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             suffixIcon: widget.showobscureTextIcon
                 ? OskIconButton(

@@ -151,7 +151,13 @@ class OskScaffoldHeader extends StatelessWidget {
                   leading!,
                   const SizedBox(width: 16),
                 ],
-                if (titleWidget != null) titleWidget!,
+                if (titleWidget != null)
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.65,
+                    ),
+                    child: titleWidget,
+                  ),
                 if (actions != null) ...[
                   const Spacer(),
                   Row(children: actions!),

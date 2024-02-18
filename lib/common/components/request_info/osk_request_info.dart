@@ -53,7 +53,7 @@ class OskRequestInfo extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: OskLineDivider(),
                 ),
-                OskText.body(text: request.worker.name),
+                // OskText.body(text: request.worker.name),
                 const SizedBox(height: 8),
                 OskText.body(text: request.description, maxLines: 1),
               ],

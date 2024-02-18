@@ -108,31 +108,43 @@ class OskInfoSlot extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      OskText.body(
-                        text: title,
-                        fontWeight: OskfontWeight.medium,
-                      ),
-                      if (subtitle != null)
-                        OskText.caption(
-                          text: subtitle!,
-                          colorType: OskTextColorType.minor,
+              child: LayoutBuilder(
+                builder: (_, constraints) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: constraints.maxWidth,
+                          ),
+                          child: OskText.body(
+                            text: title,
+                            fontWeight: OskfontWeight.medium,
+                          ),
                         ),
-                    ],
-                  ),
-                  if (selected != null && onSelected != null)
-                    OskCheckbox(
-                      onSelect: onSelected!,
-                      selected: selected!,
+                        if (subtitle != null)
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: constraints.maxWidth,
+                            ),
+                            child: OskText.caption(
+                              text: subtitle!,
+                              colorType: OskTextColorType.minor,
+                            ),
+                          ),
+                      ],
                     ),
-                  if (leading != null) leading!,
-                ],
+                    if (selected != null && onSelected != null)
+                      OskCheckbox(
+                        onSelect: onSelected!,
+                        selected: selected!,
+                      ),
+                    if (leading != null) leading!,
+                  ],
+                ),
               ),
             ),
           ),

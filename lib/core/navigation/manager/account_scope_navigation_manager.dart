@@ -9,7 +9,7 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   void openMain();
 
   // Workers
-  void openNewWorker();
+  void openUserData([String? username]);
 
   void openWorkersList();
 
@@ -37,8 +37,9 @@ class _AccountScopeNavigationManager extends NavigationManager
       );
 
   @override
-  void openNewWorker() => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.newWorker.name,
+  void openUserData([String? username]) => navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.userData.name,
+        arguments: username,
       );
 
   @override

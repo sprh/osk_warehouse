@@ -44,18 +44,11 @@ class WelcomePage extends StatelessWidget {
         ],
       ),
       actions: [
-        _WelcomePageLoginAction(),
-      ],
-    );
-  }
-}
-
-class _WelcomePageLoginAction extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Center(
-        child: OskButton.main(
+        OskButton.main(
           title: context.strings.welcomeButtonTitle,
           onTap: BlocProvider.of<WelcomePageBloc>(context).onLoginButtonTap,
         ),
-      );
+      ],
+    );
+  }
 }

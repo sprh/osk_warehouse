@@ -16,7 +16,7 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   // Warehouse
   void openWarehouseList();
 
-  void openNewWarehouse();
+  void openWarehouseData([String? warehouseId]);
 
   // Products
   void openProductsList([String? warehouseId]);
@@ -47,8 +47,10 @@ class _AccountScopeNavigationManager extends NavigationManager
       );
 
   @override
-  void openNewWarehouse() => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.newWarehouse.name,
+  void openWarehouseData([String? warehouseId]) =>
+      navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.warehouseData.name,
+        arguments: warehouseId,
       );
 
   @override

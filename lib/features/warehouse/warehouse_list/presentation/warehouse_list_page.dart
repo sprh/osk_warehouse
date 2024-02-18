@@ -53,7 +53,10 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                     if (state.items.isEmpty) {
                       return SliverFillRemaining(
                         child: Center(
-                          child: OskText.body(text: 'Складов пока нет'),
+                          child: OskText.body(
+                            text:
+                                'Складов пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                          ),
                         ),
                       );
                     }
@@ -76,11 +79,15 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                                     ),
                                     dismissibleKey: ValueKey(w.id),
                                     onDelete: () {
-                                      // TODO:
+                                      WarehouseListBloc.of(context).add(
+                                        WarehouseListEventDeleteWarehouse(w.id),
+                                      );
                                       return Future.value(false);
                                     },
                                     onEdit: () {
-                                      // TODO:
+                                      WarehouseListBloc.of(context).add(
+                                        WarehouseListEventEditWarehouse(w.id),
+                                      );
                                       return Future.value(false);
                                     },
                                   ),

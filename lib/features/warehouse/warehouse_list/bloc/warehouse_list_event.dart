@@ -14,6 +14,18 @@ class WarehouseListEventOpenProductsList implements WarehouseListEvent {
 
 class WarehouseListEventInitialize implements WarehouseListEvent {}
 
+class WarehouseListEventEditWarehouse implements WarehouseListEvent {
+  final String id;
+
+  const WarehouseListEventEditWarehouse(this.id);
+}
+
+class WarehouseListEventDeleteWarehouse implements WarehouseListEvent {
+  final String id;
+
+  const WarehouseListEventDeleteWarehouse(this.id);
+}
+
 class _WarehouseListUpdateStateEvent implements WarehouseListEvent {
   final List<Warehouse> warehouses;
 

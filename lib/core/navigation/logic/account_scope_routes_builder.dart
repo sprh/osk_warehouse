@@ -9,8 +9,8 @@ import '../../../features/products/products_list/presentation/products_list_page
 import '../../../features/requests/request_info/presentation/request_info_page.dart';
 import '../../../features/requests/requests_list/bloc/requests_list_bloc.dart';
 import '../../../features/requests/requests_list/presentation/requests_list_page.dart';
-import '../../../features/warehouse/new_warehouse/new_warehouse_bloc/new_warehouse_bloc.dart';
-import '../../../features/warehouse/new_warehouse/presentation/new_warehouse.dart';
+import '../../../features/warehouse/warehouse_data/bloc/bloc.dart';
+import '../../../features/warehouse/warehouse_data/presentation/warehouse_data.dart';
 import '../../../features/warehouse/warehouse_list/bloc/warehouse_list_bloc.dart';
 import '../../../features/warehouse/warehouse_list/presentation/warehouse_list_page.dart';
 import '../../../features/worker/new_worker/bloc/new_worker_bloc.dart';
@@ -46,13 +46,16 @@ final class AccountScopeRoutesBuilder {
           ),
           child: const NewWorkerPage(),
         );
-      case AccountScopeRoutes.newWarehouse:
+      case AccountScopeRoutes.warehouseData:
+        final warehouseId = settings.arguments as String?;
+
         screen = BlocProvider(
-          create: (context) => NewWarehouseBloc(
+          create: (context) => WarehouseDataBloc(
             AccountScope.of(context).warehouseRepository,
             AccountScope.of(context).navigationManager,
+            warehouseId,
           ),
-          child: const NewWarehousePage(),
+          child: const WarehouseDataPage(),
         );
       case AccountScopeRoutes.workersList:
         screen = BlocProvider(

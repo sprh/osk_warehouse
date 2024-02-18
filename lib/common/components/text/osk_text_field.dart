@@ -7,6 +7,7 @@ import '../icon/osk_icons.dart';
 class OskTextField extends StatefulWidget {
   final String hintText;
   final String label;
+  final String? initialText;
 
   final FocusNode? focusNode;
   final TextEditingController? textEditingController;
@@ -19,6 +20,7 @@ class OskTextField extends StatefulWidget {
   const OskTextField({
     required this.hintText,
     required this.label,
+    this.initialText,
     this.focusNode,
     this.textEditingController,
     this.textInputType,
@@ -47,6 +49,7 @@ class _OskTextFieldState extends State<OskTextField> {
         child: TextFormField(
           focusNode: widget.focusNode,
           controller: widget.textEditingController,
+          initialValue: widget.initialText,
           keyboardType: widget.textInputType,
           obscureText: obscureText,
           enableSuggestions: widget.enableSuggestions,

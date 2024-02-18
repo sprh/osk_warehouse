@@ -41,14 +41,21 @@ abstract class NavigationManager {
     }
   }
 
-  void showSomethingWentWrontDialog(String message) => showModalDialog(
+  void showSomethingWentWrontDialog(
+    String message, {
+    VoidCallback? onCloseTap,
+  }) =>
+      showModalDialog(
         title: 'Что-то пошло не так',
         subtitle: message,
         actions: OskActionsFlex(
           widgets: [
             OskButton.main(
               title: 'Закрыть',
-              onTap: pop,
+              onTap: () {
+                pop();
+                onCloseTap?.call();
+              },
             ),
           ],
         ),

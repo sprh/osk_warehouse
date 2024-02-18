@@ -1,7 +1,7 @@
 enum AccountScopeRoutes {
   main,
   newWorker,
-  newWarehouse,
+  warehouseData,
   workersList,
   warehouseList,
   producsList,

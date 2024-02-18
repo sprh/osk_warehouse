@@ -5,7 +5,7 @@ extension ObjectExt<T> on T {
 }
 
 extension AsyncExtension<T> on Future<T> {
-  Future<T> callTrowable({
+  Future<T?> callTrowable({
     void Function(Exception error)? onError,
     void Function(T value)? onSuccess,
   }) async {
@@ -15,7 +15,7 @@ extension AsyncExtension<T> on Future<T> {
       return result;
     } on Exception catch (error) {
       onError?.call(error);
-      rethrow;
     }
+    return null;
   }
 }

@@ -4,18 +4,13 @@ import '../../../common/components/actions/actions_flex.dart';
 import '../../../common/components/button/osk_button.dart';
 import '../../../common/components/modal/modal_dialog.dart';
 import '../../../theme/utils/theme_from_context.dart';
-import '../logic/models/account_scope_routes.dart';
-import '../logic/models/routes.dart';
 
-part 'account_scope_navigation_manager.dart';
-part 'app_scope_navigation_manager.dart';
+mixin NavigationManager {
+  GlobalKey<NavigatorState> get navigatorKey;
 
-abstract class NavigationManager {
-  final GlobalKey<NavigatorState> navigatorKey;
+  bool get canPop => navigatorKey.currentState?.canPop() ?? false;
 
-  const NavigationManager(this.navigatorKey);
-
-  void pop() => navigatorKey.currentState?.pop();
+  void pop();
 
   void showModalDialog({
     required String title,

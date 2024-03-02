@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
-import '../../../../core/navigation/manager/navigation_manager.dart';
+import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/product_repository.dart';
 import '../../models/product.dart';

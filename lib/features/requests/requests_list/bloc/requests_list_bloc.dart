@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/navigation/manager/navigation_manager.dart';
+import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import 'requests_list_events.dart';
 
 abstract class RequestsListBloc extends Bloc<RequestsListEvent, dynamic> {

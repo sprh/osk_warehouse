@@ -1,13 +1,30 @@
-part of 'navigation_manager.dart';
+import 'dart:collection';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../features/main_page/bloc/main_page_bloc.dart';
+import '../../../features/main_page/presentation/main_page.dart';
+import '../../../features/products/product_data/bloc/bloc.dart';
+import '../../../features/products/product_data/presentation/warehouse_data.dart';
+import '../../../features/products/product_list/bloc/bloc.dart';
+import '../../../features/products/product_list/presentation/product_list_page.dart';
+import '../../../features/requests/request_info/presentation/request_info_page.dart';
+import '../../../features/requests/requests_list/bloc/requests_list_bloc.dart';
+import '../../../features/requests/requests_list/presentation/requests_list_page.dart';
+import '../../../features/user/user_data/bloc/bloc.dart';
+import '../../../features/user/user_data/presentation/user_data_page.dart';
+import '../../../features/user/users_list/bloc/bloc.dart';
+import '../../../features/user/users_list/presentation/workers_list_page.dart';
+import '../../../features/warehouse/warehouse_data/bloc/bloc.dart';
+import '../../../features/warehouse/warehouse_data/presentation/warehouse_data.dart';
+import '../../../features/warehouse/warehouse_list/bloc/warehouse_list_bloc.dart';
+import '../../../features/warehouse/warehouse_list/presentation/warehouse_list_page.dart';
+import '../../scopes/account_scope.dart';
+import '../logic/models/account_scope_routes.dart';
+import 'navigation_manager.dart';
 
 abstract class AccountScopeNavigationManager implements NavigationManager {
-  factory AccountScopeNavigationManager(
-    GlobalKey<NavigatorState> navigatorKey,
-  ) =>
-      _AccountScopeNavigationManager(navigatorKey);
-
-  void openMain();
-
   // Workers
   void openUserData([String? username]);
 
@@ -29,61 +46,191 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   void openRequestInfoPage(String requestId);
 }
 
-class _AccountScopeNavigationManager extends NavigationManager
+class AccountScopeNavigationManagerImpl
+    extends RouterDelegate<AccountScopeRouteState>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin, NavigationManager
     implements AccountScopeNavigationManager {
-  _AccountScopeNavigationManager(super.navigatorKey);
+  AccountScopeRouteState state = AccountScopeRouteState(
+    routes: Queue()..add(AccountScopeRouteMain()),
+  );
+
+  final GlobalKey<NavigatorState> _navigatorKey;
+
+  AccountScopeNavigationManagerImpl(this._navigatorKey);
 
   @override
-  void openMain() => navigatorKey.currentState?.pushReplacementNamed(
-        AccountScopeRoutes.main.name,
+  Widget build(BuildContext context) => Navigator(
+        pages: [
+          for (final route in state.routes)
+            MaterialPage(
+              child: Builder(
+                builder: (_) {
+                  switch (route) {
+                    case AccountScopeRouteMain():
+                      return BlocProvider(
+                        create: (context) => MainPageBloc(
+                          this,
+                        ),
+                        child: const MainPage(),
+                      );
+                    case AccountScopeRouteUserData():
+                      return BlocProvider(
+                        create: (context) => UserDataBloc(
+                          this,
+                          AccountScope.of(context).userRepository,
+                          route.username,
+                        ),
+                        child: const UserDataPage(),
+                      );
+                    case AccountScopeRouteWorkersList():
+                      return BlocProvider(
+                        create: (context) => UserListBloc(
+                          this,
+                          AccountScope.of(context).userListRepository,
+                        ),
+                        child: const UserListPage(),
+                      );
+                    case AccountScopeRouteWarehouseData():
+                      return BlocProvider(
+                        create: (context) => WarehouseDataBloc(
+                          AccountScope.of(context).warehouseRepository,
+                          this,
+                          route.warehouseId,
+                        ),
+                        child: const WarehouseDataPage(),
+                      );
+                    case AccountScopeRouteWarehouseList():
+                      return BlocProvider(
+                        create: (context) => WarehouseListBloc(
+                          this,
+                          AccountScope.of(context).warehouseRepository,
+                        ),
+                        child: const WarehouseListPage(),
+                      );
+                    case AccountScopeRouteProductsList():
+                      return BlocProvider(
+                        create: (context) => ProductListBloc(
+                          this,
+                          AccountScope.of(context).productListRepository,
+                          route.warehouseId,
+                        ),
+                        child: const ProductListPage(),
+                      );
+                    case AccountScopeRouteRequestsList():
+                      return BlocProvider(
+                        create: (context) => RequestsListBloc(
+                          this,
+                        ),
+                        child: const RequestsListPage(),
+                      );
+                    case AccountScopeRouteRequestInfoPage():
+                      return const RequestInfoPage();
+                    case AccountScopeRouteProductData():
+                      return BlocProvider(
+                        create: (context) => ProductDataBloc(
+                          this,
+                          AccountScope.of(context).productRepository,
+                          route.productId,
+                        ),
+                        child: const ProductDataPage(),
+                      );
+                  }
+                },
+              ),
+            ),
+        ],
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) {
+            return false;
+          }
+
+          pop();
+
+          return true;
+        },
       );
 
   @override
-  void openUserData([String? username]) => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.userData.name,
-        arguments: username,
-      );
+  void pop() {
+    if (canPop) {
+      state.routes.removeLast();
+      notifyListeners();
+    }
+  }
 
   @override
-  void openWorkersList() => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.workersList.name,
-      );
+  bool get canPop => state.routes.length > 1;
 
   @override
-  void openWarehouseData([String? warehouseId]) =>
-      navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.warehouseData.name,
-        arguments: warehouseId,
-      );
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   @override
-  void openWarehouseList() => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.warehouseList.name,
-      );
+  Future<void> setNewRoutePath(AccountScopeRouteState configuration) {
+    state = configuration;
+    return Future.value();
+  }
 
   @override
-  void openProductsList([String? warehouseId]) =>
-      navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.productList.name,
-        arguments: warehouseId,
-      );
+  void openUserData([String? username]) {
+    state.routes.add(
+      AccountScopeRouteUserData(username),
+    );
+    notifyListeners();
+  }
 
   @override
-  void openRequestsList() => navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.requestsList.name,
-      );
+  void openWorkersList() {
+    state.routes.add(
+      AccountScopeRouteWorkersList(),
+    );
+    notifyListeners();
+  }
 
   @override
-  void openRequestInfoPage(String requestId) =>
-      navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.requestInfo.name,
-        arguments: requestId,
-      );
+  void openWarehouseData([String? warehouseId]) {
+    state.routes.add(
+      AccountScopeRouteWarehouseData(warehouseId),
+    );
+    notifyListeners();
+  }
 
   @override
-  void openProductData([String? productId]) =>
-      navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.productData.name,
-        arguments: productId,
-      );
+  void openWarehouseList() {
+    state.routes.add(
+      AccountScopeRouteWarehouseList(),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openProductsList([String? warehouseId]) {
+    state.routes.add(
+      AccountScopeRouteProductsList(warehouseId),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openRequestsList() {
+    state.routes.add(
+      AccountScopeRouteRequestsList(),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openRequestInfoPage(String requestId) {
+    state.routes.add(
+      AccountScopeRouteRequestInfoPage(requestId: requestId),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openProductData([String? productId]) {
+    state.routes.add(
+      AccountScopeRouteProductData(productId),
+    );
+    notifyListeners();
+  }
 }

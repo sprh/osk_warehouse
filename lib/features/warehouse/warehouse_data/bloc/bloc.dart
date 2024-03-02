@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/error/repository_localized_error.dart';
-import '../../../../core/navigation/manager/navigation_manager.dart';
+import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../../utils/kotlin_utils.dart';
 import '../../data/repository.dart';
 import 'state.dart';

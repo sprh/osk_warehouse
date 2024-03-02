@@ -4,7 +4,8 @@ enum AccountScopeRoutes {
   warehouseData,
   workersList,
   warehouseList,
-  producsList,
+  productList,
+  productData,
   requestsList,
   requestInfo;
 }

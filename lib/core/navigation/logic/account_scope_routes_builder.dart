@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../features/main_page/bloc/main_page_bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
-import '../../../features/products/products_list/bloc/products_list_bloc.dart';
-import '../../../features/products/products_list/presentation/products_list_page.dart';
+import '../../../features/products/product_data/bloc/bloc.dart';
+import '../../../features/products/product_data/presentation/warehouse_data.dart';
+import '../../../features/products/product_list/bloc/bloc.dart';
+import '../../../features/products/product_list/presentation/product_list_page.dart';
 import '../../../features/requests/request_info/presentation/request_info_page.dart';
 import '../../../features/requests/requests_list/bloc/requests_list_bloc.dart';
 import '../../../features/requests/requests_list/presentation/requests_list_page.dart';
@@ -77,15 +79,16 @@ final class AccountScopeRoutesBuilder {
           ),
           child: const WarehouseListPage(),
         );
-      case AccountScopeRoutes.producsList:
+      case AccountScopeRoutes.productList:
         final warehouseId = settings.arguments as String?;
 
         screen = BlocProvider(
-          create: (context) => ProductsListBloc(
+          create: (context) => ProductListBloc(
             AccountScope.of(context).navigationManager,
+            AccountScope.of(context).productListRepository,
             warehouseId,
           ),
-          child: const ProductsListPage(),
+          child: const ProductListPage(),
         );
       case AccountScopeRoutes.requestsList:
         screen = BlocProvider(
@@ -96,6 +99,17 @@ final class AccountScopeRoutesBuilder {
         );
       case AccountScopeRoutes.requestInfo:
         screen = const RequestInfoPage();
+      case AccountScopeRoutes.productData:
+        final productId = settings.arguments as String?;
+
+        screen = BlocProvider(
+          create: (context) => ProductDataBloc(
+            AccountScope.of(context).navigationManager,
+            AccountScope.of(context).productRepository,
+            productId,
+          ),
+          child: const ProductDataPage(),
+        );
     }
 
     return MaterialPageRoute(

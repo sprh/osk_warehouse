@@ -21,6 +21,8 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   // Products
   void openProductsList([String? warehouseId]);
 
+  void openProductData([String? productId]);
+
   // Requests
   void openRequestsList();
 
@@ -62,7 +64,7 @@ class _AccountScopeNavigationManager extends NavigationManager
   @override
   void openProductsList([String? warehouseId]) =>
       navigatorKey.currentState?.pushNamed(
-        AccountScopeRoutes.producsList.name,
+        AccountScopeRoutes.productList.name,
         arguments: warehouseId,
       );
 
@@ -76,5 +78,12 @@ class _AccountScopeNavigationManager extends NavigationManager
       navigatorKey.currentState?.pushNamed(
         AccountScopeRoutes.requestInfo.name,
         arguments: requestId,
+      );
+
+  @override
+  void openProductData([String? productId]) =>
+      navigatorKey.currentState?.pushNamed(
+        AccountScopeRoutes.productData.name,
+        arguments: productId,
       );
 }

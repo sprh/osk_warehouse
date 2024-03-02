@@ -12,8 +12,8 @@ class ProductsList extends StatelessWidget {
   final List<Product> products;
   final OnProductAction onProductTap;
   final Set<String>? selectedProducts;
-  final VoidCallback? onDelete;
-  final VoidCallback? onEdit;
+  final OnProductAction? onDelete;
+  final OnProductAction? onEdit;
   final OnProductAction? onSelected;
 
   const ProductsList({
@@ -37,39 +37,39 @@ class ProductsList extends StatelessWidget {
         onProductTap = onSelected;
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: products
-            .expand(
-              (w) => [
-                OskInfoSlot.dismissible(
-                  title: w.name,
-                  subtitle: w.description,
-                  onTap: () => onProductTap(w.id),
-                  dismissibleKey: ValueKey(w.id),
-                  selected: selectedProducts?.contains(w.id),
-                  onSelected: () => onSelected?.call(w.id),
-                  onDelete: onDelete == null
-                      ? null
-                      : () {
-                          onDelete!();
-                          return Future.value(false);
-                        },
-                  onEdit: onEdit == null
-                      ? null
-                      : () {
-                          onEdit!();
-                          return Future.value(false);
-                        },
-                  leading: w.count == null
-                      ? null
-                      : OskText.caption(
-                          text: '${w.count!} шт.', // TODO:
-                          fontWeight: OskfontWeight.medium,
-                        ),
-                ),
-                const SizedBox(height: 8),
-              ],
-            )
-            .toList(),
+  Widget build(BuildContext context) => SliverList.separated(
+        itemCount: products.length,
+        itemBuilder: (_, index) {
+          final product = products[index];
+
+          return Center(
+            child: OskInfoSlot.dismissible(
+              title: product.name,
+              onTap: () => onProductTap(product.id),
+              dismissibleKey: ValueKey(product.id),
+              selected: selectedProducts?.contains(product.id),
+              onSelected: () => onSelected?.call(product.id),
+              onDelete: onDelete == null
+                  ? null
+                  : () {
+                      onDelete!(product.id);
+                      return Future.value(false);
+                    },
+              onEdit: onEdit == null
+                  ? null
+                  : () {
+                      onEdit!(product.id);
+                      return Future.value(false);
+                    },
+              leading: product.count == null
+                  ? null
+                  : OskText.caption(
+                      text: '${product.count!} шт.', // TODO:
+                      fontWeight: OskfontWeight.medium,
+                    ),
+            ),
+          );
+        },
+        separatorBuilder: (_, __) => const SizedBox(height: 8),
       );
 }

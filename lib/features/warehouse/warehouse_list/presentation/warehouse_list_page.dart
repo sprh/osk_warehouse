@@ -53,9 +53,12 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                     if (state.items.isEmpty) {
                       return SliverFillRemaining(
                         child: Center(
-                          child: OskText.body(
-                            text:
-                                'Складов пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: OskText.body(
+                              text:
+                                  'Складов пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                            ),
                           ),
                         ),
                       );

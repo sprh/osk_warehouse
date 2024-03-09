@@ -12,15 +12,7 @@ import '../../../products/models/product.dart';
 import '../../models/request.dart';
 
 class RequestInfoPage extends StatelessWidget {
-  static final products = [
-    for (int i = 0; i < 10; ++i)
-      Product(
-        name: i.toString(),
-        id: i.toString(),
-        count: 10,
-        codes: [],
-      ),
-  ];
+  static final products = <Product>[];
 
   const RequestInfoPage({super.key});
 

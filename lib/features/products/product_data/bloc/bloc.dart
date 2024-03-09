@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
@@ -61,6 +63,10 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
         _setData(event.product, emit);
       case ProductDataPageEventAddOrUpdateProduct():
         _addOrUpdateProduct(event);
+      case ProductDataPageEventScanBarcode():
+        await _scanBarcode(emit);
+      case ProductDataPageEventDeleteBarcode():
+        _deleteBarcode(emit, event.id);
     }
   }
 
@@ -88,12 +94,87 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           ProductDataStateUpdate(
             product: state.product,
             loading: loading,
+            barcodes: state.barcodes,
           ),
         );
       case ProductDataStateCreate():
         emit(
           ProductDataStateCreate(
             loading: loading,
+          ),
+        );
+    }
+  }
+
+  Future<void> _scanBarcode(Emitter<ProductDataState> emit) async {
+    const permission = Permission.camera;
+    if (await permission.isDenied) {
+      await permission.request();
+      if (await permission.isGranted) {
+        _navigationManager.showSomethingWentWrontDialog(
+          'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
+        );
+        return;
+      }
+    }
+
+    final result = await FlutterBarcodeScanner.scanBarcode(
+      '#000000',
+      'Отмена',
+      true,
+      ScanMode.BARCODE,
+    );
+
+    if (result != '-1') {
+      final state = this.state;
+
+      switch (state) {
+        case ProductDataStateInitial():
+          break;
+        case ProductDataStateUpdate():
+          final barcodes = {...state.barcodes, result};
+
+          emit(
+            ProductDataStateUpdate(
+              barcodes: barcodes,
+              product: state.product,
+            ),
+          );
+        case ProductDataStateCreate():
+          final barcodes = {...state.barcodes, result};
+
+          emit(
+            ProductDataStateCreate(
+              barcodes: barcodes,
+            ),
+          );
+      }
+    }
+  }
+
+  void _deleteBarcode(Emitter<ProductDataState> emit, String id) {
+    final state = this.state;
+
+    switch (state) {
+      case ProductDataStateInitial():
+        break;
+      case ProductDataStateUpdate():
+        final barcodes =
+            state.barcodes.where((barcode) => barcode != id).toSet();
+
+        emit(
+          ProductDataStateUpdate(
+            barcodes: barcodes,
+            product: state.product,
+          ),
+        );
+      case ProductDataStateCreate():
+        final barcodes =
+            state.barcodes.where((barcode) => barcode != id).toSet();
+
+        emit(
+          ProductDataStateCreate(
+            barcodes: barcodes,
           ),
         );
     }
@@ -106,7 +187,10 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   ) {
     if (product != null) {
       emit(
-        ProductDataStateUpdate(product: product),
+        ProductDataStateUpdate(
+          product: product,
+          barcodes: product.codes.toSet(),
+        ),
       );
     } else {
       emit(const ProductDataStateCreate());
@@ -121,13 +205,21 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
       if (productId != null) {
         _repository.updateProduct(
           id: productId,
-          name: event.name,
-          codes: event.codes,
+          itemName: event.name,
+          codes: event.codes.toList(),
+          itemType: event.itemType?.name ?? ProductType.other.name,
+          manufacturer: event.manufacturer,
+          model: event.model,
+          description: event.description,
         );
       } else {
         _repository.createProduct(
-          name: event.name,
-          codes: event.codes,
+          itemName: event.name,
+          codes: event.codes.toList(),
+          itemType: event.itemType?.name ?? ProductType.other.name,
+          manufacturer: event.manufacturer,
+          model: event.model,
+          description: event.description,
         );
       }
       _navigationManager.pop();

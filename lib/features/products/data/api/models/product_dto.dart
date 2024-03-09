@@ -6,14 +6,22 @@ part 'product_dto.g.dart';
 class ProductDto {
   final String id;
   final String itemName;
+  final String itemType;
+  final String manufacturer;
+  final String model;
+  final String? description;
   final List<String> codes;
-  final Map<String, dynamic>? warehouseCount;
+  final Map<String, int>? warehouseCount;
   final int? count;
 
   const ProductDto({
     required this.id,
     required this.itemName,
     required this.codes,
+    required this.itemType,
+    required this.manufacturer,
+    required this.model,
+    this.description,
     this.warehouseCount,
     this.count,
   });

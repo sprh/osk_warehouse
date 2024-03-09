@@ -4,6 +4,14 @@ sealed class ProductDataPageEvent {}
 
 class ProductDataPageEventInitialize implements ProductDataPageEvent {}
 
+class ProductDataPageEventScanBarcode implements ProductDataPageEvent {}
+
+class ProductDataPageEventDeleteBarcode implements ProductDataPageEvent {
+  final String id;
+
+  const ProductDataPageEventDeleteBarcode({required this.id});
+}
+
 class _ProductDataPageEventSetLoading implements ProductDataPageEvent {
   final bool loading;
 
@@ -22,10 +30,18 @@ class _ProductDataPageEventSetData implements ProductDataPageEvent {
 
 class ProductDataPageEventAddOrUpdateProduct implements ProductDataPageEvent {
   final String name;
-  final List<String> codes;
+  final ProductType? itemType;
+  final String manufacturer;
+  final String model;
+  final String? description;
+  final Set<String> codes;
 
   const ProductDataPageEventAddOrUpdateProduct({
     required this.name,
     required this.codes,
+    required this.itemType,
+    required this.manufacturer,
+    required this.model,
+    required this.description,
   });
 }

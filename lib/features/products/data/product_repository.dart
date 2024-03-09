@@ -27,13 +27,21 @@ abstract class ProductRepository
   Future<void> refreshData(String? productId);
 
   Future<void> createProduct({
-    required String name,
+    required String itemName,
+    required String itemType,
+    required String manufacturer,
+    required String model,
+    required String? description,
     required List<String> codes,
   });
 
   Future<void> updateProduct({
     required String id,
-    required String name,
+    required String itemName,
+    required String itemType,
+    required String manufacturer,
+    required String model,
+    required String? description,
     required List<String> codes,
   });
 }
@@ -52,13 +60,21 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
 
   @override
   Future<void> createProduct({
-    required String name,
+    required String itemName,
+    required String itemType,
+    required String manufacturer,
+    required String model,
+    required String? description,
     required List<String> codes,
   }) async {
     try {
       await _api.createProduct(
         CreateProductDto(
-          itemName: name,
+          itemName: itemName,
+          itemType: itemType,
+          manufacturer: manufacturer,
+          model: model,
+          description: description,
           codes: codes,
         ),
         const Uuid().v4(),
@@ -103,15 +119,23 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
   @override
   Future<void> updateProduct({
     required String id,
-    required String name,
+    required String itemName,
+    required String itemType,
+    required String manufacturer,
+    required String model,
+    required String? description,
     required List<String> codes,
   }) async {
     try {
       await _api.updateProduct(
         UpdateProductDto(
           id: id,
-          itemName: name,
+          itemName: itemName,
+          itemType: itemType,
           codes: codes,
+          manufacturer: manufacturer,
+          model: model,
+          description: description,
         ),
       );
       _productListRefresher.refreshData();

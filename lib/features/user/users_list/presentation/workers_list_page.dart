@@ -52,10 +52,13 @@ class _UserListPageState extends State<UserListPage> {
                   case UserListDataState():
                     if (state.users.isEmpty) {
                       return SliverFillRemaining(
-                        child: Center(
-                          child: OskText.body(
-                            text:
-                                'Пользователей пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Center(
+                            child: OskText.body(
+                              text:
+                                  'Пользователей пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                            ),
                           ),
                         ),
                       );

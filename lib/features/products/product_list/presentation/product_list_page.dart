@@ -53,9 +53,12 @@ class _ProductListPageState extends State<ProductListPage> {
                     if (state.products.isEmpty) {
                       return SliverFillRemaining(
                         child: Center(
-                          child: OskText.body(
-                            text:
-                                'Товаров пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: OskText.body(
+                              text:
+                                  'Товаров пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                            ),
                           ),
                         ),
                       );
@@ -71,12 +74,6 @@ class _ProductListPageState extends State<ProductListPage> {
                           ProductListEventDeleteProduct(id),
                         ),
                       ),
-                      // child: ProductsList(
-                      //   products: state.products,
-                      //   onProductTap: (id) {}, // TODO:
-                      //   onDelete: (id) {},
-                      //   onEdit: (id) {},
-                      // ),
                     );
                 }
               },

@@ -23,7 +23,10 @@ class AppScopeNavigationManagerImpl extends RouterDelegate<AppScopeRoute>
   AppScopeNavigationManagerImpl(this._navigatorKey);
 
   @override
-  void openLogin() => route = AppScopeRoute.login;
+  void openLogin() {
+    route = AppScopeRoute.login;
+    notifyListeners();
+  }
 
   @override
   Widget build(BuildContext context) => Navigator(

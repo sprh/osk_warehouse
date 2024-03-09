@@ -91,7 +91,9 @@ class _OskScaffoldState extends State<OskScaffold> {
                 top: 16,
                 left: 16,
                 right: 16,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom +
+                    MediaQuery.of(context).padding.bottom +
+                    8,
               ),
               child: OskActionsFlex(
                 maxWidth: MediaQuery.of(context).size.width,

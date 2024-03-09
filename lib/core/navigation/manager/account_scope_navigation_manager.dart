@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../features/main_page/bloc/main_page_bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
 import '../../../features/products/product_data/bloc/bloc.dart';
-import '../../../features/products/product_data/presentation/warehouse_data.dart';
+import '../../../features/products/product_data/presentation/product_data.dart';
 import '../../../features/products/product_list/bloc/bloc.dart';
 import '../../../features/products/product_list/presentation/product_list_page.dart';
 import '../../../features/requests/request_info/presentation/request_info_page.dart';

@@ -32,6 +32,15 @@ class OskApp extends StatefulWidget {
 class _OskAppState extends State<OskApp> with WidgetsBindingObserver {
   late final appScopeNavigatorKey = GlobalKey<NavigatorState>();
   late final accountScopeNavigatorKey = GlobalKey<NavigatorState>();
+
+  late final appScopeNavigationManager = AppScopeNavigationManagerImpl(
+    appScopeNavigatorKey,
+  );
+
+  late final accountScopeNavigationManager = AccountScopeNavigationManagerImpl(
+    accountScopeNavigatorKey,
+  );
+
   VoidCallback? onPop;
 
   @override
@@ -55,15 +64,11 @@ class _OskAppState extends State<OskApp> with WidgetsBindingObserver {
           switch (state) {
             case AuthorizedState():
               final navigationManager =
-                  routerDelegate = AccountScopeNavigationManagerImpl(
-                accountScopeNavigatorKey,
-              );
+                  routerDelegate = accountScopeNavigationManager;
               onPop = navigationManager.pop;
             case NotAuthorizedState():
               final navigationManager =
-                  routerDelegate = AppScopeNavigationManagerImpl(
-                appScopeNavigatorKey,
-              );
+                  routerDelegate = appScopeNavigationManager;
               onPop = navigationManager.pop;
           }
 

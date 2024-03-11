@@ -110,6 +110,19 @@ class __UserDataPageState extends State<_UserDataPage> {
     }
   }
 
+  bool get canEditData {
+    final state = widget.state;
+
+    switch (state) {
+      case UserDataStateInitial():
+        return true;
+      case UserDataStateUpdate():
+        return state.canEditData;
+      case UserDataStateCreate():
+        return state.canEditData;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -178,7 +191,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 label: 'Имя пользователя',
                 hintText: 'vasya123',
                 initialText: username,
-                readOnly: !canEditUsername,
+                readOnly: !canEditUsername || !canEditData,
                 onChanged: (text) {
                   username = text;
                   _onTextChanged();
@@ -189,6 +202,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 label: 'Имя',
                 hintText: 'Вася',
                 initialText: firstName,
+                readOnly: !canEditData,
                 onChanged: (text) {
                   firstName = text;
                   _onTextChanged();
@@ -199,6 +213,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 label: 'Фамилия',
                 hintText: 'Пупкин',
                 initialText: lastName,
+                readOnly: !canEditData,
                 onChanged: (text) {
                   lastName = text;
                   _onTextChanged();
@@ -210,6 +225,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 hintText: '+70000000000',
                 initialText: phoneNumber,
                 textInputType: TextInputType.number,
+                readOnly: !canEditData,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[+0-9]')),
                   FilteringTextInputFormatter.digitsOnly,
@@ -220,46 +236,53 @@ class __UserDataPageState extends State<_UserDataPage> {
                 },
               ),
               const SizedBox(height: 16),
-              OskMultiSelectDropDown<Warehouse>(
-                label: 'Доступные склады',
-                items: availableWarehouses
-                    .map(
-                      (warehouse) => OskDropdownMenuItem(
-                        label: warehouse.name,
-                        details: warehouse.address,
-                        value: warehouse,
-                      ),
-                    )
-                    .toList(),
-                onSelectedItemsChanged: (items) {
-                  warehouses = items;
-                  _onTextChanged();
-                },
-                initialSelectedValues: warehouses.toSet(),
+              IgnorePointer(
+                ignoring: !canEditData,
+                child: OskMultiSelectDropDown<Warehouse>(
+                  label: 'Доступные склады',
+                  items: availableWarehouses
+                      .map(
+                        (warehouse) => OskDropdownMenuItem(
+                          label: warehouse.name,
+                          details: warehouse.address,
+                          value: warehouse,
+                        ),
+                      )
+                      .toList(),
+                  onSelectedItemsChanged: (items) {
+                    warehouses = items;
+                    _onTextChanged();
+                  },
+                  initialSelectedValues: warehouses.toSet(),
+                ),
               ),
               const SizedBox(height: 16),
-              OskMultiSelectDropDown<UserAccessTypes>(
-                label: 'Доcтупы',
-                items: [
-                  OskDropdownMenuItem(
-                    label: 'Админ',
-                    value: UserAccessTypes.admin,
-                  ),
-                  OskDropdownMenuItem(
-                    label: 'Ревьюер',
-                    value: UserAccessTypes.reviewer,
-                  ),
-                  OskDropdownMenuItem(
-                    label: 'Суперюзер',
-                    value: UserAccessTypes.superuser,
-                  ),
-                ],
-                initialSelectedValues: accessTypes,
+              IgnorePointer(
+                ignoring: !canEditData,
+                child: OskMultiSelectDropDown<UserAccessTypes>(
+                  label: 'Доcтупы',
+                  items: [
+                    OskDropdownMenuItem(
+                      label: 'Админ',
+                      value: UserAccessTypes.admin,
+                    ),
+                    OskDropdownMenuItem(
+                      label: 'Ревьюер',
+                      value: UserAccessTypes.reviewer,
+                    ),
+                    OskDropdownMenuItem(
+                      label: 'Суперюзер',
+                      value: UserAccessTypes.superuser,
+                    ),
+                  ],
+                  initialSelectedValues: accessTypes,
+                ),
               ),
               const SizedBox(height: 16),
               OskTextField(
                 label: 'Пароль',
                 hintText: '1234567890',
+                readOnly: !canEditData,
                 onChanged: (text) {
                   password = text;
                   _onTextChanged();
@@ -268,25 +291,26 @@ class __UserDataPageState extends State<_UserDataPage> {
             ],
           ),
           actions: [
-            OskButton.main(
-              title: buttonTitle,
-              state: loading
-                  ? OskButtonState.loading
-                  : buttonEnabled
-                      ? OskButtonState.enabled
-                      : OskButtonState.disabled,
-              onTap: () => UserDataBloc.of(context).add(
-                UserDataPageEventAddOrUpdateUser(
-                  username: username,
-                  firstName: firstName,
-                  lastName: lastName,
-                  phoneNumber: phoneNumber,
-                  warehouses: warehouses,
-                  accessTypes: accessTypes,
-                  password: password,
+            if (canEditData)
+              OskButton.main(
+                title: buttonTitle,
+                state: loading
+                    ? OskButtonState.loading
+                    : buttonEnabled
+                        ? OskButtonState.enabled
+                        : OskButtonState.disabled,
+                onTap: () => UserDataBloc.of(context).add(
+                  UserDataPageEventAddOrUpdateUser(
+                    username: username,
+                    firstName: firstName,
+                    lastName: lastName,
+                    phoneNumber: phoneNumber,
+                    warehouses: warehouses,
+                    accessTypes: accessTypes,
+                    password: password,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       );

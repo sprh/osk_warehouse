@@ -82,12 +82,16 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                                 ),
                               ),
                               dismissibleKey: ValueKey(item.id),
-                              onDelete: () {
-                                WarehouseListBloc.of(context).add(
-                                  WarehouseListEventDeleteWarehouse(item.id),
-                                );
-                                return Future.value(false);
-                              },
+                              onDelete: state.canEditData
+                                  ? () {
+                                      WarehouseListBloc.of(context).add(
+                                        WarehouseListEventDeleteWarehouse(
+                                          item.id,
+                                        ),
+                                      );
+                                      return Future.value(false);
+                                    }
+                                  : null,
                               onEdit: () {
                                 WarehouseListBloc.of(context).add(
                                   WarehouseListEventEditWarehouse(item.id),
@@ -104,12 +108,13 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
             ),
           ],
           actions: [
-            OskButton.main(
-              title: 'Добавить',
-              onTap: () => WarehouseListBloc.of(context).add(
-                WarehouseListEventOnCreateWarehouseTap(),
+            if (state is WarehouseListDataState && state.canEditData)
+              OskButton.main(
+                title: 'Добавить',
+                onTap: () => WarehouseListBloc.of(context).add(
+                  WarehouseListEventOnCreateWarehouseTap(),
+                ),
               ),
-            ),
           ],
         ),
       );

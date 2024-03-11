@@ -7,6 +7,7 @@ import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
+import '../../current_user_holder/current_user_holder.dart';
 import '../../data/user_list_repository.dart';
 import '../../models/user.dart';
 import 'state.dart';
@@ -19,10 +20,12 @@ abstract class UserListBloc extends Bloc<UserListEvent, UserListState> {
   factory UserListBloc(
     AccountScopeNavigationManager navigationManager,
     UserListRepository repository,
+    CurrentUserHolder currentUserHolder,
   ) =>
       _UserListBloc(
         navigationManager,
         repository,
+        currentUserHolder,
       );
 }
 
@@ -31,9 +34,13 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
     implements UserListBloc {
   final AccountScopeNavigationManager _navigationManager;
   final UserListRepository _repository;
+  final CurrentUserHolder _currentUserHolder;
 
-  _UserListBloc(this._navigationManager, this._repository)
-      : super(UserListInitialState()) {
+  _UserListBloc(
+    this._navigationManager,
+    this._repository,
+    this._currentUserHolder,
+  ) : super(UserListInitialState()) {
     on<UserListEvent>(_onEvent);
   }
 
@@ -72,7 +79,7 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
           ),
         );
       case _UserListUpdateStateEvent():
-        _onUserListUpdate(event.users, event.loading, emit);
+        await _onUserListUpdate(event.users, event.loading, emit);
       case UserListUserTapEvent():
         _navigationManager.openUserData(event.username);
     }
@@ -90,17 +97,24 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
   void onRepositoryError(RepositoryLocalizedError error) =>
       _navigationManager.showSomethingWentWrontDialog(error.message);
 
-  void _onUserListUpdate(
+  Future<void> _onUserListUpdate(
     List<User>? users,
     bool? loading,
     Emitter<UserListState> emit,
-  ) {
+  ) async {
     final state = this.state;
+    final currentUser = await _currentUserHolder.currentUser;
 
     if (state is UserListDataState) {
       emit(state.copyWith(loading: state.loading, users: users));
     } else if (users != null) {
-      emit(UserListDataState(users, loading: loading ?? false));
+      emit(
+        UserListDataState(
+          users,
+          currentUser.canManagerUser,
+          loading: loading ?? false,
+        ),
+      );
     }
   }
 

@@ -7,8 +7,14 @@ class WarehouseListIdleState implements WarehouseListState {}
 class WarehouseListDataState implements WarehouseListState {
   final List<Warehouse> items;
   final bool loading;
+  // Может ли добавлять, удалять или редактировать склады
+  final bool canEditData;
 
-  const WarehouseListDataState({required this.items, this.loading = false});
+  const WarehouseListDataState({
+    required this.items,
+    required this.canEditData,
+    this.loading = false,
+  });
 
   WarehouseListDataState copyWith({
     List<Warehouse>? items,
@@ -17,5 +23,6 @@ class WarehouseListDataState implements WarehouseListState {
       WarehouseListDataState(
         items: items ?? this.items,
         loading: loading ?? this.loading,
+        canEditData: canEditData,
       );
 }

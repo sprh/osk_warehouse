@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../../utils/kotlin_utils.dart';
+import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../data/repository.dart';
 import 'state.dart';
 
@@ -16,11 +17,13 @@ abstract class WarehouseDataBloc
   factory WarehouseDataBloc(
     WarehouseRepository repository,
     AccountScopeNavigationManager navigationManager,
+    CurrentUserHolder currentUserHolder,
     String? warehouseId,
   ) =>
       _WarehouseDataBloc(
         repository,
         navigationManager,
+        currentUserHolder,
         warehouseId: warehouseId,
       );
 }
@@ -30,11 +33,13 @@ class _WarehouseDataBloc
     implements WarehouseDataBloc {
   final WarehouseRepository _repository;
   final AccountScopeNavigationManager _navigationManager;
+  final CurrentUserHolder _currentUserHolder;
   final String? warehouseId;
 
   _WarehouseDataBloc(
     this._repository,
-    this._navigationManager, {
+    this._navigationManager,
+    this._currentUserHolder, {
     required this.warehouseId,
   }) : super(WarehouseDataStateInitial()) {
     on<WarehouseDataBlocEvent>(
@@ -59,6 +64,7 @@ class _WarehouseDataBloc
     if (warehouseId == null) {
       emit(const WarehouseDataStateNewWarehouse());
     } else {
+      final currentUser = await _currentUserHolder.currentUser;
       await _repository.getWarehouse(warehouseId).callTrowable(
         onError: (error) {
           emit(_getLoadingState(loading: false));
@@ -72,6 +78,7 @@ class _WarehouseDataBloc
             WarehouseDataStateUpdateWarehouse(
               name: data.name,
               address: data.address,
+              canEditData: currentUser.canManagerWarehouse,
             ),
           );
         },
@@ -117,6 +124,7 @@ class _WarehouseDataBloc
           name: state.name,
           address: state.address,
           loading: loading,
+          canEditData: state.canEditData,
         );
     }
   }

@@ -45,8 +45,15 @@ class _WarehouseDataPageState extends State<WarehouseDataPage> {
                 ],
               );
             case WarehouseDataStateNewWarehouse():
+              return _WarehouseDataPage(
+                state: state,
+                canEditData: false,
+              );
             case WarehouseDataStateUpdateWarehouse():
-              return _WarehouseDataPage(state: state);
+              return _WarehouseDataPage(
+                state: state,
+                canEditData: state.canEditData,
+              );
           }
         },
       );
@@ -66,8 +73,12 @@ class _WarehouseDataHeader extends OskScaffoldHeader {
 
 class _WarehouseDataPage extends StatefulWidget {
   final WarehouseDataState state;
+  final bool canEditData;
 
-  const _WarehouseDataPage({required this.state});
+  const _WarehouseDataPage({
+    required this.state,
+    required this.canEditData,
+  });
 
   @override
   State<_WarehouseDataPage> createState() => __WarehouseDataPageState();
@@ -145,6 +156,7 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
                 label: 'Название',
                 hintText: 'Склад 1',
                 initialText: name,
+                readOnly: !widget.canEditData,
                 onChanged: (text) {
                   name = text;
                   _onTextChanged();
@@ -155,6 +167,7 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
                 label: 'Адрес',
                 hintText: 'Адрес склада',
                 initialText: address,
+                readOnly: !widget.canEditData,
                 onChanged: (text) {
                   address = text;
                   _onTextChanged();
@@ -163,20 +176,21 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
             ],
           ),
           actions: [
-            OskButton.main(
-              title: buttonTitle,
-              state: loading
-                  ? OskButtonState.loading
-                  : buttonEnabled
-                      ? OskButtonState.enabled
-                      : OskButtonState.disabled,
-              onTap: () => WarehouseDataBloc.of(context).add(
-                WarehouseDataBlocCreateOrUpdateEvent(
-                  name: name,
-                  address: address,
+            if (widget.canEditData)
+              OskButton.main(
+                title: buttonTitle,
+                state: loading
+                    ? OskButtonState.loading
+                    : buttonEnabled
+                        ? OskButtonState.enabled
+                        : OskButtonState.disabled,
+                onTap: () => WarehouseDataBloc.of(context).add(
+                  WarehouseDataBlocCreateOrUpdateEvent(
+                    name: name,
+                    address: address,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       );

@@ -6,6 +6,7 @@ import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../warehouse/models/warehouse.dart';
+import '../../current_user_holder/current_user_holder.dart';
 import '../../data/user_repository.dart';
 import '../../models/user.dart';
 import '../../models/user_access_types.dart';
@@ -20,10 +21,12 @@ abstract class UserDataBloc extends Bloc<UserDataPageEvent, UserDataState> {
     AccountScopeNavigationManager navigationManager,
     UserRepository repository,
     String? username,
+    CurrentUserHolder currentUserHolder,
   ) =>
       _UserDataBloc(
         navigationManager,
         repository,
+        currentUserHolder,
         username: username,
       );
 }
@@ -34,10 +37,12 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
   final AccountScopeNavigationManager _navigationManager;
   final UserRepository _repository;
   final String? username;
+  final CurrentUserHolder _currentUserHolder;
 
   _UserDataBloc(
     this._navigationManager,
-    this._repository, {
+    this._repository,
+    this._currentUserHolder, {
     required this.username,
   }) : super(UserDataStateInitial()) {
     on<UserDataPageEvent>(_onEvent);
@@ -58,7 +63,7 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
       case _UserDataPageEventSetLoading():
         _maybeSetLoading(event.loading, emit);
       case _UserDataPageEventSetData():
-        _setData(event.user, event.warehouses, emit);
+        await _setData(event.user, event.warehouses, emit);
       case UserDataPageEventAddOrUpdateUser():
         _addOrUpdateUser(event);
     }
@@ -87,6 +92,7 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
             user: state.user,
             availableWarehouses: state.availableWarehouses,
             loading: loading,
+            canEditData: state.canEditData,
           ),
         );
       case UserDataStateCreate():
@@ -94,20 +100,34 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
           UserDataStateCreate(
             availableWarehouses: state.availableWarehouses,
             loading: loading,
+            canEditData: state.canEditData,
           ),
         );
     }
   }
 
-  void _setData(
+  Future<void> _setData(
     User? user,
     List<Warehouse> warehouses,
     Emitter<UserDataState> emit,
-  ) {
+  ) async {
+    final currentUser = await _currentUserHolder.currentUser;
+
     if (user != null) {
-      emit(UserDataStateUpdate(user: user, availableWarehouses: warehouses));
+      emit(
+        UserDataStateUpdate(
+          user: user,
+          availableWarehouses: warehouses,
+          canEditData: currentUser.canManagerUser,
+        ),
+      );
     } else {
-      emit(UserDataStateCreate(availableWarehouses: warehouses));
+      emit(
+        UserDataStateCreate(
+          availableWarehouses: warehouses,
+          canEditData: currentUser.canManagerUser,
+        ),
+      );
     }
   }
 

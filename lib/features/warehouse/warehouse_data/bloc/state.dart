@@ -12,10 +12,13 @@ class WarehouseDataStateUpdateWarehouse implements WarehouseDataState {
   final bool loading;
   final String name;
   final String address;
+  // Может ли добавлять, удалять или редактировать склады
+  final bool canEditData;
 
   const WarehouseDataStateUpdateWarehouse({
     required this.name,
     required this.address,
+    required this.canEditData,
     this.loading = false,
   });
 }

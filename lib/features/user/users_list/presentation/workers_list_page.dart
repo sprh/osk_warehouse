@@ -85,7 +85,7 @@ class _UserListPageState extends State<UserListPage> {
                                 UserListUserTapEvent(user.username),
                               ),
                               dismissibleKey: ValueKey(user.username),
-                              onDelete: user.isCurrentUser
+                              onDelete: user.isCurrentUser || !state.canEditData
                                   ? null
                                   : () {
                                       UserListBloc.of(context).add(
@@ -104,12 +104,13 @@ class _UserListPageState extends State<UserListPage> {
             ),
           ],
           actions: [
-            OskButton.main(
-              title: 'Добавить',
-              onTap: () => UserListBloc.of(context).add(
-                UserListEventAddNewUser(),
+            if (state is UserListDataState && state.canEditData)
+              OskButton.main(
+                title: 'Добавить',
+                onTap: () => UserListBloc.of(context).add(
+                  UserListEventAddNewUser(),
+                ),
               ),
-            ),
           ],
         ),
       );

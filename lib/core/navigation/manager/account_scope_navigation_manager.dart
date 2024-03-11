@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/main_page/bloc/main_page_bloc.dart';
+import '../../../features/main_page/bloc/bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
 import '../../../features/products/product_data/bloc/bloc.dart';
 import '../../../features/products/product_data/presentation/product_data.dart';
@@ -70,6 +70,7 @@ class AccountScopeNavigationManagerImpl
                       return BlocProvider(
                         create: (context) => MainPageBloc(
                           this,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const MainPage(),
                       );
@@ -79,6 +80,7 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).userRepository,
                           route.username,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const UserDataPage(),
                       );
@@ -87,6 +89,7 @@ class AccountScopeNavigationManagerImpl
                         create: (context) => UserListBloc(
                           this,
                           AccountScope.of(context).userListRepository,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const UserListPage(),
                       );
@@ -95,6 +98,7 @@ class AccountScopeNavigationManagerImpl
                         create: (context) => WarehouseDataBloc(
                           AccountScope.of(context).warehouseRepository,
                           this,
+                          AccountScope.of(context).currentUserHolder,
                           route.warehouseId,
                         ),
                         child: const WarehouseDataPage(),
@@ -104,6 +108,7 @@ class AccountScopeNavigationManagerImpl
                         create: (context) => WarehouseListBloc(
                           this,
                           AccountScope.of(context).warehouseRepository,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const WarehouseListPage(),
                       );

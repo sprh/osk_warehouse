@@ -8,6 +8,7 @@ import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../../utils/kotlin_utils.dart';
+import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../data/repository.dart';
 import '../../models/warehouse.dart';
 import 'warehouse_list_state.dart';
@@ -20,8 +21,9 @@ class WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState> {
   factory WarehouseListBloc(
     AccountScopeNavigationManager navigationManager,
     WarehouseRepository repository,
+    CurrentUserHolder currentUserHolder,
   ) =>
-      _WarehouseListBloc(navigationManager, repository);
+      _WarehouseListBloc(navigationManager, repository, currentUserHolder);
 }
 
 class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
@@ -29,16 +31,23 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
     implements WarehouseListBloc {
   final AccountScopeNavigationManager _navigationManager;
   final WarehouseRepository _repository;
+  final CurrentUserHolder _currentUserHolder;
 
   @override
   Repository<List<Warehouse>> get repository => _repository;
 
-  _WarehouseListBloc(this._navigationManager, this._repository)
-      : super(WarehouseListIdleState()) {
+  _WarehouseListBloc(
+    this._navigationManager,
+    this._repository,
+    this._currentUserHolder,
+  ) : super(WarehouseListIdleState()) {
     on<WarehouseListEvent>(_onEvent);
   }
 
-  void _onEvent(WarehouseListEvent event, Emitter<WarehouseListState> emit) {
+  Future<void> _onEvent(
+    WarehouseListEvent event,
+    Emitter<WarehouseListState> emit,
+  ) async {
     switch (event) {
       case WarehouseListEventOnCreateWarehouseTap():
         _navigationManager.openWarehouseData();
@@ -47,9 +56,15 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
       case WarehouseListEventInitialize():
         _repository.start();
         start();
-        _repository.refreshWarehouseList();
+        await _repository.refreshWarehouseList();
       case _WarehouseListUpdateStateEvent():
-        emit(WarehouseListDataState(items: event.warehouses));
+        final currentUser = await _currentUserHolder.currentUser;
+        emit(
+          WarehouseListDataState(
+            items: event.warehouses,
+            canEditData: currentUser.canManagerWarehouse,
+          ),
+        );
       case _WarehouseListUpdateLoadingStateEvent():
         if (state is WarehouseListDataState) {
           emit(

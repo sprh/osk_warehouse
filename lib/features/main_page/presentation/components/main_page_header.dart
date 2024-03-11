@@ -4,7 +4,9 @@ import '../../../../common/components/text/osk_text.dart';
 import '../../../../l10n/utils/l10n_from_context.dart';
 
 class MainPageHeader extends StatelessWidget {
-  const MainPageHeader({super.key});
+  final String name;
+
+  const MainPageHeader({required this.name, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class MainPageHeader extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             OskText.body(
-              text: 'Марина Марьина',
+              text: name,
               fontWeight: OskfontWeight.bold,
             ),
           ],

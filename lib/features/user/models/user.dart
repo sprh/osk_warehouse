@@ -7,9 +7,17 @@ class User {
   final String lastName;
   final String phoneNumber;
   final List<String> warehouses; // Список id warehouses
+
+  /// Все что ревьюер, дополнительно может менять склады и просматривать отчеты
+  /// Не может создвать пользователей
   final bool isAdmin;
+
+  /// Доступ к созданию заявки, просмотру заявок, оку заявок, может просматривать склады
   final bool isReviewer;
+
+  /// Может все
   final bool isSuperuser;
+
   final bool isCurrentUser;
 
   const User({
@@ -43,4 +51,8 @@ class User {
         if (isReviewer) UserAccessTypes.reviewer,
         if (isSuperuser) UserAccessTypes.superuser,
       };
+
+  bool get canManagerUser => isSuperuser;
+
+  bool get canManagerWarehouse => isSuperuser || isAdmin;
 }

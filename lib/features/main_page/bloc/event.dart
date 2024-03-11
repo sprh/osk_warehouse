@@ -1,5 +1,7 @@
 sealed class MainPageEvent {}
 
+class MainPageEventInitialize extends MainPageEvent {}
+
 class MainPageEventOpenWorkersList extends MainPageEvent {}
 
 class MainPageEventOpenWarehouseList extends MainPageEvent {}

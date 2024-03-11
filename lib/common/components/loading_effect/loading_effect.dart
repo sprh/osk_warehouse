@@ -7,12 +7,12 @@ class LoadingEffect extends StatefulWidget {
   const LoadingEffect({required this.child, this.isLoading = true, super.key});
 
   @override
-  State<StatefulWidget> createState() => _LoadingEffectState();
+  State<StatefulWidget> createState() => LoadingEffectState();
 }
 
-class _LoadingEffectState extends State<LoadingEffect>
+class LoadingEffectState extends State<LoadingEffect>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController controller = AnimationController(
     vsync: this,
     duration: duration,
   );
@@ -80,10 +80,16 @@ class _LoadingEffectState extends State<LoadingEffect>
 
   void _updateAnimation() {
     if (widget.isLoading) {
-      _controller.repeat();
+      controller.repeat();
     } else {
-      _controller.reset();
+      controller.reset();
     }
-    _shimmerAnimation = _shimmerTween.animate(_controller);
+    _shimmerAnimation = _shimmerTween.animate(controller);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

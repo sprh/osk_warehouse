@@ -50,4 +50,10 @@ mixin OskDropdownAnimationBuilder<T extends StatefulWidget> on State<T> {
           }
         },
       );
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 }

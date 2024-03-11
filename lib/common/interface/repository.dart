@@ -34,9 +34,11 @@ abstract class Repository<T> {
 
   /// previous emitted value
   @protected
+  @visibleForTesting
   T? lastValue;
 
   @protected
+  @visibleForTesting
   bool loading = false;
 
   StreamController<T>? _dataStreamController;
@@ -69,9 +71,9 @@ abstract class Repository<T> {
 
   @nonVirtual
   @protected
-  void setLoading() {
-    loading = true;
-    _loadingStreamController?.add(true);
+  void setLoading([bool loading = true]) {
+    this.loading = loading;
+    _loadingStreamController?.add(loading);
   }
 
   @mustCallSuper

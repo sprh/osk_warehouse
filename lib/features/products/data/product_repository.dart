@@ -67,6 +67,7 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
     required String? description,
     required List<String> codes,
   }) async {
+    setLoading();
     try {
       await _api.createProduct(
         CreateProductDto(
@@ -87,11 +88,14 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
         ),
       );
       rethrow;
+    } finally {
+      setLoading(false);
     }
   }
 
   @override
   Future<void> refreshData(String? productId) async {
+    setLoading();
     try {
       if (productId == null) {
         final warehouses = await _warehouseListGetter.warehouseList;
@@ -113,6 +117,8 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
           message: 'Не удалось получить данные пользователя',
         ),
       );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -127,6 +133,7 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
     required List<String> codes,
   }) async {
     try {
+      setLoading();
       await _api.updateProduct(
         UpdateProductDto(
           id: id,
@@ -146,6 +153,8 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
         ),
       );
       rethrow;
+    } finally {
+      setLoading(false);
     }
   }
 }

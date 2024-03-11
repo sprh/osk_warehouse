@@ -25,20 +25,20 @@ class _AuthorizationDB implements AuthorizationDB {
 
   @override
   Future<void> clearUserData() async {
-    await _secureStorage.delete(key: _SecureStorageKeys.password);
-    await _secureStorage.delete(key: _SecureStorageKeys.token);
-    await _secureStorage.delete(key: _SecureStorageKeys.username);
+    await _secureStorage.delete(key: SecureStorageKeys.password);
+    await _secureStorage.delete(key: SecureStorageKeys.token);
+    await _secureStorage.delete(key: SecureStorageKeys.username);
   }
 
   @override
   Future<(String?, String?)> getAuthData() async => (
-        await _secureStorage.read(key: _SecureStorageKeys.username),
-        await _secureStorage.read(key: _SecureStorageKeys.password)
+        await _secureStorage.read(key: SecureStorageKeys.username),
+        await _secureStorage.read(key: SecureStorageKeys.password)
       );
 
   @override
   Future<String?> getCachedToken() =>
-      _secureStorage.read(key: _SecureStorageKeys.token);
+      _secureStorage.read(key: SecureStorageKeys.token);
 
   @override
   Future<void> setAuthData({
@@ -46,23 +46,23 @@ class _AuthorizationDB implements AuthorizationDB {
     required String password,
   }) async {
     await _secureStorage.write(
-      key: _SecureStorageKeys.username,
+      key: SecureStorageKeys.username,
       value: username,
     );
     await _secureStorage.write(
-      key: _SecureStorageKeys.password,
+      key: SecureStorageKeys.password,
       value: password,
     );
   }
 
   @override
   Future<void> setToken({required String token}) => _secureStorage.write(
-        key: _SecureStorageKeys.token,
+        key: SecureStorageKeys.token,
         value: token,
       );
 }
 
-class _SecureStorageKeys {
+class SecureStorageKeys {
   static const username = 'username';
   static const password = 'password';
   static const token = 'token';

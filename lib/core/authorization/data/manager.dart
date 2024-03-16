@@ -93,6 +93,14 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
           return token != null;
         },
         retry: _dio.retry,
+        needRetry: (url, statusCode) {
+          final needRetry = _repository.needRetryUrl(url, statusCode);
+          if (!needRetry) {
+            _removeInterceptors();
+            _authorizationDataBloc.setNotAuthorized();
+          }
+          return needRetry;
+        },
       ),
     );
 

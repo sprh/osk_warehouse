@@ -20,6 +20,8 @@ abstract class AuthorizationRepository {
   Future<String?> getTokenByCachedUserCreds();
 
   Future<String?> get username;
+
+  bool needRetryUrl(String url, int? statusCode);
 }
 
 class _AuthorizationRepository implements AuthorizationRepository {
@@ -33,6 +35,10 @@ class _AuthorizationRepository implements AuthorizationRepository {
     final data = await _db.getAuthData();
     return data.$1;
   }
+
+  @override
+  bool needRetryUrl(String url, int? statusCode) =>
+      !(url == _AuthorizationApiConstants.tokenPath && statusCode == 401);
 
   @override
   Future<String?> getCachedToken() => _db.getCachedToken();

@@ -449,6 +449,22 @@ class MockAuthorizationRepository extends _i1.Mock
         ),
         returnValue: _i4.Future<String?>.value(),
       ) as _i4.Future<String?>);
+
+  @override
+  bool needRetryUrl(
+    String? url,
+    int? statusCode,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #needRetryUrl,
+          [
+            url,
+            statusCode,
+          ],
+        ),
+        returnValue: false,
+      ) as bool);
 }
 
 /// A class which mocks [AuthorizationDataBloc].

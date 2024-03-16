@@ -16,7 +16,7 @@ class OskDropDownController<T> {
 
 class OskDropDown<T> extends StatefulWidget {
   final List<OskDropdownMenuItem<T>> items;
-  final void Function(T)? onSelectedItemChanged;
+  final void Function(T?)? onSelectedItemChanged;
   final String label;
   final T? selectedValuel;
 
@@ -62,9 +62,14 @@ class _OskDropDownState<T> extends State<OskDropDown<T>>
                     (e) => OskDropdownItemWidget<T>(
                       item: e,
                       onSelect: (item) {
-                        selectedValue = item;
-                        widget.controller?.selectedValue = item.value;
-                        widget.onSelectedItemChanged?.call(item.value);
+                        if (selectedValue == item) {
+                          selectedValue = null;
+                        } else {
+                          selectedValue = item;
+                        }
+                        widget.controller?.selectedValue = selectedValue?.value;
+                        widget.onSelectedItemChanged
+                            ?.call(selectedValue?.value);
                         onChangeExpansion();
 
                         setState(() {});

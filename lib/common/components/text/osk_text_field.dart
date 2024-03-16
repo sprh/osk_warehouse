@@ -20,6 +20,9 @@ class OskTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool readOnly;
 
+  final EdgeInsets? padding;
+  final BoxConstraints? constraints;
+
   const OskTextField({
     required this.hintText,
     required this.label,
@@ -33,6 +36,8 @@ class OskTextField extends StatefulWidget {
     this.onChanged,
     this.inputFormatters,
     this.readOnly = false,
+    this.padding,
+    this.constraints,
     super.key,
   });
 
@@ -48,9 +53,9 @@ class _OskTextFieldState extends State<OskTextField> {
     final theme = context.textFiledTheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 54),
+        constraints: widget.constraints ?? const BoxConstraints(maxHeight: 54),
         child: TextFormField(
           readOnly: widget.readOnly,
           focusNode: widget.focusNode,
@@ -62,6 +67,7 @@ class _OskTextFieldState extends State<OskTextField> {
           autocorrect: widget.autocorrect,
           onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
+          maxLines: null,
           decoration: InputDecoration(
             suffixIcon: widget.showobscureTextIcon
                 ? OskIconButton(

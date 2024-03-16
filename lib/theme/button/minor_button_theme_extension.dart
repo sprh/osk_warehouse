@@ -7,7 +7,6 @@ final class MinorButtonThemeExtension
     implements ButtonThemeExtension {
   static const light = MinorButtonThemeExtension(
     backgroundColor: Color(0xFFFFFFFF),
-    disabledBackgroundColor: Color(0xFFCAC8C8),
     disabledTextColor: Color(0xFF787D80),
     borderColor: Color(0xFF515B60),
   );
@@ -17,15 +16,12 @@ final class MinorButtonThemeExtension
   @override
   final Color backgroundColor;
   @override
-  final Color disabledBackgroundColor;
-  @override
   final Color disabledTextColor;
   @override
   final Color borderColor;
 
   const MinorButtonThemeExtension({
     required this.backgroundColor,
-    required this.disabledBackgroundColor,
     required this.disabledTextColor,
     required this.borderColor,
   });
@@ -46,8 +42,6 @@ final class MinorButtonThemeExtension
   }) =>
       MinorButtonThemeExtension(
         backgroundColor: backgroundColor ?? this.backgroundColor,
-        disabledBackgroundColor:
-            disabledBackgroundColor ?? this.disabledBackgroundColor,
         disabledTextColor: disabledTextColor ?? this.disabledTextColor,
         borderColor: borderColor ?? this.borderColor,
       );

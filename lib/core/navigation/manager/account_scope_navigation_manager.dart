@@ -3,15 +3,18 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../features/applications/applications_list/bloc/bloc.dart';
+import '../../../features/applications/applications_list/presentation/applications_list_page.dart';
+import '../../../features/applications/create_application/bloc/bloc.dart';
+import '../../../features/applications/create_application/presentation/create_appication_page.dart';
 import '../../../features/main_page/bloc/bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
 import '../../../features/products/product_data/bloc/bloc.dart';
 import '../../../features/products/product_data/presentation/product_data.dart';
 import '../../../features/products/product_list/bloc/bloc.dart';
 import '../../../features/products/product_list/presentation/product_list_page.dart';
-import '../../../features/requests/request_info/presentation/request_info_page.dart';
-import '../../../features/requests/requests_list/bloc/requests_list_bloc.dart';
-import '../../../features/requests/requests_list/presentation/requests_list_page.dart';
+import '../../../features/products/select_products/bloc/bloc.dart';
+import '../../../features/products/select_products/presentation/select_products_page.dart';
 import '../../../features/user/user_data/bloc/bloc.dart';
 import '../../../features/user/user_data/presentation/user_data_page.dart';
 import '../../../features/user/users_list/bloc/bloc.dart';
@@ -41,9 +44,15 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   void openProductData([String? productId]);
 
   // Requests
-  void openRequestsList();
+  void openApplicationsList();
 
-  void openRequestInfoPage(String requestId);
+  void openCreateApplicationPage();
+
+  void onSelectProducts(
+    OnSelectProducts onSelectProductsCallback,
+    String? warehouseId, [
+    Set<String>? selectedProducts,
+  ]);
 }
 
 class AccountScopeNavigationManagerImpl
@@ -121,23 +130,43 @@ class AccountScopeNavigationManagerImpl
                         ),
                         child: const ProductListPage(),
                       );
-                    case AccountScopeRouteRequestsList():
+                    case AccountScopeRouteApplicationsList():
                       return BlocProvider(
-                        create: (context) => RequestsListBloc(
+                        create: (context) => ApplicationsListBloc(
+                          AccountScope.of(context).applicationsListRepository,
                           this,
                         ),
-                        child: const RequestsListPage(),
+                        child: const ApplicationsListPage(),
                       );
-                    case AccountScopeRouteRequestInfoPage():
-                      return const RequestInfoPage();
+                    case AccountScopeRouteCreateApplicationPage():
+                      return BlocProvider(
+                        create: (context) => CreateApplicationBloc(
+                          AccountScope.of(context).warehouseRepository,
+                          this,
+                          AccountScope.of(context).createApplicationRepository,
+                        ),
+                        child: const CreateApplicationPage(),
+                      );
                     case AccountScopeRouteProductData():
                       return BlocProvider(
                         create: (context) => ProductDataBloc(
                           this,
                           AccountScope.of(context).productRepository,
+                          AccountScope.of(context).productListRepository,
                           route.productId,
                         ),
                         child: const ProductDataPage(),
+                      );
+                    case AccountScopeRouteSelectProducts():
+                      return BlocProvider(
+                        create: (context) => SelectProductsBloc(
+                          AccountScope.of(context).productListRepository,
+                          route.onSelect,
+                          route.warehouseId,
+                          this,
+                          route.selectedProducts ?? {},
+                        ),
+                        child: const SelectProductsPage(),
                       );
                   }
                 },
@@ -153,6 +182,7 @@ class AccountScopeNavigationManagerImpl
 
           return true;
         },
+        key: navigatorKey,
       );
 
   @override
@@ -216,17 +246,17 @@ class AccountScopeNavigationManagerImpl
   }
 
   @override
-  void openRequestsList() {
+  void openApplicationsList() {
     state.routes.add(
-      AccountScopeRouteRequestsList(),
+      AccountScopeRouteApplicationsList(),
     );
     notifyListeners();
   }
 
   @override
-  void openRequestInfoPage(String requestId) {
+  void openCreateApplicationPage() {
     state.routes.add(
-      AccountScopeRouteRequestInfoPage(requestId: requestId),
+      const AccountScopeRouteCreateApplicationPage(),
     );
     notifyListeners();
   }
@@ -235,6 +265,22 @@ class AccountScopeNavigationManagerImpl
   void openProductData([String? productId]) {
     state.routes.add(
       AccountScopeRouteProductData(productId),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void onSelectProducts(
+    OnSelectProducts onSelectProductsCallback,
+    String? warehouseId, [
+    Set<String>? selectedProducts,
+  ]) {
+    state.routes.add(
+      AccountScopeRouteSelectProducts(
+        onSelectProductsCallback,
+        warehouseId,
+        selectedProducts,
+      ),
     );
     notifyListeners();
   }

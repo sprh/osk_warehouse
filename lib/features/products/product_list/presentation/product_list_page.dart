@@ -32,7 +32,7 @@ class _ProductListPageState extends State<ProductListPage> {
         bloc: ProductListBloc.of(context),
         builder: (context, state) => OskScaffold.slivers(
           header: OskScaffoldHeader(
-            leading: const OskServiceIcon.worker(),
+            leading: const OskServiceIcon.products(),
             title: 'Товары',
             actions: const [
               OskCloseIconButton(),
@@ -56,6 +56,7 @@ class _ProductListPageState extends State<ProductListPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: OskText.body(
+                              textAlign: TextAlign.center,
                               text:
                                   'Товаров пока нет. Нажмите на кнопку Добавить, чтобы создать',
                             ),

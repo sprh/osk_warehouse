@@ -61,7 +61,7 @@ class ProductsList extends StatelessWidget {
                       onEdit!(product.id);
                       return Future.value(false);
                     },
-              leading: product.count == null
+              trailing: product.count == null
                   ? null
                   : OskText.caption(
                       text: '${product.count!} шт.', // TODO:

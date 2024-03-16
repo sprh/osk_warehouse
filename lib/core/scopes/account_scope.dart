@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../features/applications/data/api/api.dart';
+import '../../features/applications/data/repository/applications_list_repository.dart';
+import '../../features/applications/data/repository/create_application_repository.dart';
 import '../../features/products/data/api/api.dart';
 import '../../features/products/data/product_list_repository.dart';
 import '../../features/products/data/product_repository.dart';
@@ -59,5 +62,18 @@ final class AccountScope extends Scope {
   late final currentUserHolder = CurrentUserHolder(
     authManager.currentUsernameHolder,
     userApi,
+  );
+
+  // application
+  late final applicationsApi = ApplicationsApi(dio);
+
+  // Create application
+  late final createApplicationRepository = CreateApplicationRepository(
+    applicationsApi,
+  );
+
+  // Applications list
+  late final applicationsListRepository = ApplicationsListRepository(
+    applicationsApi,
   );
 }

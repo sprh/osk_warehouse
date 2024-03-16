@@ -59,7 +59,7 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
       case ProductListEventAddNewProduct():
         _navigationManager.openProductData();
       case ProductListEventDeleteProduct():
-        _navigationManager.showModalDialog(
+        await _navigationManager.showModalDialog(
           title: 'Вы уверены, что хотите удалить пользователя?',
           actions: OskActionsFlex(
             direction: Axis.vertical,

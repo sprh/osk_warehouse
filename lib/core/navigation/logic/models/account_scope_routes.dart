@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import '../../../../features/products/select_products/bloc/bloc.dart';
+
 class AccountScopeRouteState {
   final Queue<AccountScopeRoute> routes;
 
@@ -36,16 +38,26 @@ class AccountScopeRouteProductsList extends AccountScopeRoute {
   const AccountScopeRouteProductsList([this.warehouseId]);
 }
 
-class AccountScopeRouteRequestsList extends AccountScopeRoute {}
+class AccountScopeRouteApplicationsList extends AccountScopeRoute {}
 
-class AccountScopeRouteRequestInfoPage extends AccountScopeRoute {
-  final String requestId;
-
-  const AccountScopeRouteRequestInfoPage({required this.requestId});
+class AccountScopeRouteCreateApplicationPage extends AccountScopeRoute {
+  const AccountScopeRouteCreateApplicationPage();
 }
 
 class AccountScopeRouteProductData extends AccountScopeRoute {
   final String? productId;
 
   const AccountScopeRouteProductData([this.productId]);
+}
+
+class AccountScopeRouteSelectProducts extends AccountScopeRoute {
+  final OnSelectProducts onSelect;
+  final String? warehouseId;
+  final Set<String>? selectedProducts;
+
+  const AccountScopeRouteSelectProducts(
+    this.onSelect,
+    this.warehouseId, [
+    this.selectedProducts,
+  ]);
 }

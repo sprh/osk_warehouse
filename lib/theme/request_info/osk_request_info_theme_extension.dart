@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../features/requests/models/request.dart';
-
 class OskRequestInfoThemeExtension
     extends ThemeExtension<OskRequestInfoThemeExtension> {
   final Color background;
@@ -51,16 +49,16 @@ class RequestStatusIconColor {
     required this.rejected,
   });
 
-  Color fromRequestStatus(RequestStatus status) {
-    switch (status) {
-      case RequestStatus.waiting:
-        return waiting;
-      case RequestStatus.cancelled:
-        return cancelled;
-      case RequestStatus.rejected:
-        return rejected;
-      case RequestStatus.accepted:
-        return accepted;
-    }
-  }
+  // Color fromRequestStatus(RequestStatus status) {
+  //   switch (status) {
+  //     case RequestStatus.waiting:
+  //       return waiting;
+  //     case RequestStatus.cancelled:
+  //       return cancelled;
+  //     case RequestStatus.rejected:
+  //       return rejected;
+  //     case RequestStatus.accepted:
+  //       return accepted;
+  //   }
+  // }
 }

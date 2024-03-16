@@ -74,7 +74,7 @@ class _UserListPageState extends State<UserListPage> {
                             child: OskInfoSlot.dismissible(
                               title: user.fullName,
                               subtitle: user.username,
-                              leading: user.isCurrentUser
+                              trailing: user.isCurrentUser
                                   ? OskText.caption(
                                       text: 'Вы',
                                       colorType:

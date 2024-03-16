@@ -40,9 +40,11 @@ class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
       case MainPageEventOpenProductsList():
         _navigationManager.openProductsList();
       case MainPageEventOpenRequestsList():
-        _navigationManager.openRequestsList();
+        _navigationManager.openApplicationsList();
       case MainPageEventInitialize():
         await _initialize(emit);
+      case MainPageEventOpenCreateApplication():
+        _navigationManager.openCreateApplicationPage();
     }
   }
 

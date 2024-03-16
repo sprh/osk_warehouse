@@ -72,7 +72,9 @@ class _MainPageState extends State<MainPage> {
                       OskActionBlock(
                         title: strings.createRequest,
                         icon: const OskServiceIcon.createRequest(),
-                        onTap: () {}, // TODO:
+                        onTap: () => MainPageBloc.of(context).add(
+                          MainPageEventOpenCreateApplication(),
+                        ),
                         notificationsCount: 9,
                       ),
                     if (state.availableBlocks.contains(MainPageBlocks.requests))

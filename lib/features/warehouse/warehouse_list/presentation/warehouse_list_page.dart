@@ -58,6 +58,7 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                             child: OskText.body(
                               text:
                                   'Складов пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),

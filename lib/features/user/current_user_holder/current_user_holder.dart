@@ -28,6 +28,6 @@ class CurrentUserHolder {
       currentUsername,
     );
 
-    return User.fromDto(dto, true);
+    return _savedUser = User.fromDto(dto, true);
   }
 }

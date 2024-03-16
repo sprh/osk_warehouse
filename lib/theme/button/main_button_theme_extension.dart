@@ -8,7 +8,6 @@ final class MainButtonThemeExtension
     implements ButtonThemeExtension {
   static final light = MainButtonThemeExtension(
     backgroundColor: const Color(0xFFFFCFA3),
-    disabledBackgroundColor: const Color(0xFFFFF0E3),
     disabledTextColor: TextThemeExtension.light.minorText,
     borderColor: Colors.transparent,
   );
@@ -17,8 +16,7 @@ final class MainButtonThemeExtension
 
   @override
   final Color backgroundColor;
-  @override
-  final Color disabledBackgroundColor;
+
   @override
   final Color disabledTextColor;
   @override
@@ -26,7 +24,6 @@ final class MainButtonThemeExtension
 
   const MainButtonThemeExtension({
     required this.backgroundColor,
-    required this.disabledBackgroundColor,
     required this.disabledTextColor,
     required this.borderColor,
   });
@@ -47,8 +44,6 @@ final class MainButtonThemeExtension
   }) =>
       MainButtonThemeExtension(
         backgroundColor: backgroundColor ?? this.backgroundColor,
-        disabledBackgroundColor:
-            disabledBackgroundColor ?? this.disabledBackgroundColor,
         disabledTextColor: disabledTextColor ?? this.disabledTextColor,
         borderColor: borderColor ?? this.borderColor,
       );

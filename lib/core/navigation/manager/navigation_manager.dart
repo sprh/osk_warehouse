@@ -12,15 +12,15 @@ mixin NavigationManager {
 
   void pop();
 
-  void showModalDialog({
+  Future<void> showModalDialog({
     required String title,
     String? subtitle,
     OskActionsFlex? actions,
     bool dismissible = false,
-  }) {
+  }) async {
     final context = navigatorKey.currentState?.context;
     if (context != null) {
-      showDialog<void>(
+      return showDialog<void>(
         context: context,
         barrierDismissible: dismissible,
         barrierColor: context.modalDialogTheme.barrierColor,
@@ -36,7 +36,7 @@ mixin NavigationManager {
     }
   }
 
-  void showSomethingWentWrontDialog(
+  Future<void> showSomethingWentWrontDialog(
     String message, {
     VoidCallback? onCloseTap,
   }) =>

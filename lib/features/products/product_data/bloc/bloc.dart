@@ -8,6 +8,7 @@ import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../warehouse/models/warehouse.dart';
+import '../../data/product_list_repository.dart';
 import '../../data/product_repository.dart';
 import '../../models/product.dart';
 import 'state.dart';
@@ -21,11 +22,13 @@ abstract class ProductDataBloc
   factory ProductDataBloc(
     AccountScopeNavigationManager navigationManager,
     ProductRepository repository,
+    ProductListRefresher refresher,
     String? productId,
   ) =>
       _ProductDataBloc(
         navigationManager,
         repository,
+        refresher,
         productId: productId,
       );
 }
@@ -36,10 +39,12 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   final AccountScopeNavigationManager _navigationManager;
   final ProductRepository _repository;
   final String? productId;
+  final ProductListRefresher _refresher;
 
   _ProductDataBloc(
     this._navigationManager,
-    this._repository, {
+    this._repository,
+    this._refresher, {
     required this.productId,
   }) : super(ProductDataStateInitial()) {
     on<ProductDataPageEvent>(_onEvent);
@@ -62,7 +67,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
       case _ProductDataPageEventSetData():
         _setData(event.product, emit);
       case ProductDataPageEventAddOrUpdateProduct():
-        _addOrUpdateProduct(event);
+        await _addOrUpdateProduct(event);
       case ProductDataPageEventScanBarcode():
         await _scanBarcode(emit);
       case ProductDataPageEventDeleteBarcode():
@@ -111,7 +116,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
     if (await permission.isDenied) {
       await permission.request();
       if (await permission.isGranted) {
-        _navigationManager.showSomethingWentWrontDialog(
+        await _navigationManager.showSomethingWentWrontDialog(
           'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
         );
         return;
@@ -197,13 +202,13 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
     }
   }
 
-  void _addOrUpdateProduct(
+  Future<void> _addOrUpdateProduct(
     ProductDataPageEventAddOrUpdateProduct event,
-  ) {
+  ) async {
     final productId = this.productId;
     try {
       if (productId != null) {
-        _repository.updateProduct(
+        await _repository.updateProduct(
           id: productId,
           itemName: event.name,
           codes: event.codes.toList(),
@@ -213,7 +218,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           description: event.description,
         );
       } else {
-        _repository.createProduct(
+        await _repository.createProduct(
           itemName: event.name,
           codes: event.codes.toList(),
           itemType: event.itemType?.name ?? ProductType.other.name,
@@ -222,6 +227,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           description: event.description,
         );
       }
+      _refresher.refreshData();
       _navigationManager.pop();
     } catch (_) {}
   }

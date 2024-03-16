@@ -106,6 +106,7 @@ class _WarehouseDataBloc
         );
       },
       onSuccess: (_) {
+        _repository.refreshWarehouseList();
         _navigationManager.pop();
         emit(_getLoadingState(loading: false));
       },

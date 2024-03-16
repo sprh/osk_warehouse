@@ -11,6 +11,7 @@ class ProductDto {
   final String model;
   final String? description;
   final List<String> codes;
+  @JsonKey(includeToJson: false)
   final Map<String, int>? warehouseCount;
   final int? count;
 

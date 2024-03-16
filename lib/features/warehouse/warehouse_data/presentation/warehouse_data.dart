@@ -47,7 +47,7 @@ class _WarehouseDataPageState extends State<WarehouseDataPage> {
             case WarehouseDataStateNewWarehouse():
               return _WarehouseDataPage(
                 state: state,
-                canEditData: false,
+                canEditData: true,
               );
             case WarehouseDataStateUpdateWarehouse():
               return _WarehouseDataPage(

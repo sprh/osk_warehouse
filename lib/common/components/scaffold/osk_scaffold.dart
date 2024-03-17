@@ -10,6 +10,7 @@ class OskScaffold extends StatefulWidget {
   final List<Widget> slivers;
   final Axis actionsDirection;
   final bool actionsShadow;
+  final ScrollController? scrollController;
 
   OskScaffold({
     required Widget body,
@@ -18,6 +19,7 @@ class OskScaffold extends StatefulWidget {
     SliverAppBar? appBar,
     this.actionsDirection = Axis.vertical,
     this.actionsShadow = false,
+    this.scrollController,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -37,6 +39,7 @@ class OskScaffold extends StatefulWidget {
     SliverAppBar? appBar,
     this.actionsDirection = Axis.vertical,
     this.actionsShadow = false,
+    this.scrollController,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -66,6 +69,7 @@ class _OskScaffoldState extends State<OskScaffold> {
       child: Scaffold(
         backgroundColor: theme.backgroundColor,
         body: CustomScrollView(
+          controller: widget.scrollController,
           shrinkWrap: true,
           clipBehavior: Clip.none,
           physics: const AlwaysScrollableScrollPhysics(),

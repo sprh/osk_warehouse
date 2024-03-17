@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../features/applications/models/application/application_status.dart';
+
 class OskRequestInfoThemeExtension
     extends ThemeExtension<OskRequestInfoThemeExtension> {
   final Color background;
@@ -10,9 +12,9 @@ class OskRequestInfoThemeExtension
     background: Color(0xFFFFFFFF),
     shadow: Color(0xFFE3E3E3),
     iconColor: RequestStatusIconColor(
-      accepted: Color(0xFFAEFF47),
-      cancelled: Color(0xFFE3E3E3),
-      waiting: Color(0xFFFFCE38),
+      deleted: Color(0xFFF0B9B8),
+      pending: Color(0xFFC8A031),
+      success: Color(0xFF186D19),
       rejected: Color(0xFFFF4757),
     ),
   );
@@ -37,28 +39,28 @@ class OskRequestInfoThemeExtension
 }
 
 class RequestStatusIconColor {
-  final Color cancelled;
-  final Color accepted;
-  final Color waiting;
+  final Color pending;
+  final Color deleted;
+  final Color success;
   final Color rejected;
 
   const RequestStatusIconColor({
-    required this.cancelled,
-    required this.accepted,
-    required this.waiting,
+    required this.pending,
+    required this.deleted,
+    required this.success,
     required this.rejected,
   });
 
-  // Color fromRequestStatus(RequestStatus status) {
-  //   switch (status) {
-  //     case RequestStatus.waiting:
-  //       return waiting;
-  //     case RequestStatus.cancelled:
-  //       return cancelled;
-  //     case RequestStatus.rejected:
-  //       return rejected;
-  //     case RequestStatus.accepted:
-  //       return accepted;
-  //   }
-  // }
+  Color fromStatus(ApplicationStatus status) {
+    switch (status) {
+      case ApplicationStatus.pending:
+        return success;
+      case ApplicationStatus.deleted:
+        return pending;
+      case ApplicationStatus.rejected:
+        return rejected;
+      case ApplicationStatus.success:
+        return deleted;
+    }
+  }
 }

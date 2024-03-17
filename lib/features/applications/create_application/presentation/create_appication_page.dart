@@ -11,7 +11,7 @@ import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
 import '../../../../utils/kotlin_utils.dart';
 import '../../../warehouse/models/warehouse.dart';
-import '../../models/osk_appication_type.dart';
+import '../../models/application/appication_type.dart';
 import '../../models/osk_create_application_product.dart';
 import '../bloc/bloc.dart';
 import 'components/application_type.dart';
@@ -29,7 +29,7 @@ class CreateApplicationPage extends StatefulWidget {
 }
 
 class _CreateApplicationPageState extends State<CreateApplicationPage> {
-  OskApplicationType? applicationType;
+  ApplicationType? applicationType;
   String? description;
 
   Warehouse? firstSelectedWarehouse;
@@ -37,12 +37,12 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
 
   bool get needSelectSecondWarehouse {
     switch (applicationType) {
-      case OskApplicationType.send:
-      case OskApplicationType.recieve:
+      case ApplicationType.send:
+      case ApplicationType.recieve:
         return true;
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
       case null:
         return false;
     }
@@ -50,12 +50,12 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
 
   bool get selectSecondWarehouseIsNecessary {
     switch (applicationType) {
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return true;
-      case OskApplicationType.recieve:
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.recieve:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
       case null:
         return false;
     }
@@ -65,15 +65,15 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
     switch (applicationType) {
       case null:
         return '';
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return 'Выберите склад, на который отправится товар';
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         return 'Выберите склад приемки';
-      case OskApplicationType.defect:
+      case ApplicationType.defect:
         return 'Выберите склад';
-      case OskApplicationType.use:
+      case ApplicationType.use:
         return 'Выберите склад';
-      case OskApplicationType.revert:
+      case ApplicationType.revert:
         return '';
     }
   }
@@ -82,13 +82,13 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
     switch (applicationType) {
       case null:
         return '';
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return 'Выберите склад, с которого отправится товар';
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         return 'Выберите склад, с которого отправится товар (необязательно)';
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
         return '';
     }
   }

@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/network/dio_client.dart';
 import '../models/application/application_dto.dart';
+import '../models/applications_list/applications_list_response.dart';
 import '../models/create_application/create_application_dto.dart';
 
 abstract class ApplicationsApi {
   factory ApplicationsApi(DioClient dio) = _ApplicationApi;
 
-  Future<List<ApplicationDto>> getApplications();
+  Future<ApplicationsListResponse> getApplications([String? cursor]);
 
   Future<ApplicationDto> getApplication(String id);
 
@@ -23,16 +24,16 @@ class _ApplicationApi implements ApplicationsApi {
   const _ApplicationApi(this._dio);
 
   @override
-  Future<List<ApplicationDto>> getApplications() async {
+  Future<ApplicationsListResponse> getApplications([String? cursor]) async {
     final response = await _dio.core.get<Map<String, dynamic>>(
       _ApiConstants.applicationsList,
       queryParameters: {
         _ApiConstants.limit: 10,
+        if (cursor != null) _ApiConstants.cursor: cursor,
       },
     );
-    print(response.data);
 
-    return [];
+    return ApplicationsListResponse.fromJson(response.data!);
   }
 
   @override

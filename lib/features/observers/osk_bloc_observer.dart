@@ -17,7 +17,7 @@ class OskBlocObserver extends BlocObserver {
 
   @override
   void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
-    _logger.i('${bloc.runtimeType} receive event ${event.runtimeType}');
+    _logger.i('${bloc.runtimeType} recieve event ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
 

@@ -75,5 +75,6 @@ final class AccountScope extends Scope {
   // Applications list
   late final applicationsListRepository = ApplicationsListRepository(
     applicationsApi,
+    authManager.currentUsernameHolder,
   );
 }

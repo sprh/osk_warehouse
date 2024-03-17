@@ -2,7 +2,7 @@ part of '../create_appication_page.dart';
 
 class _CreateApplication extends StatefulWidget {
   final void Function(String description) onCreateTap;
-  final OskApplicationType type;
+  final ApplicationType type;
   final Warehouse firstWarehouse;
   final Warehouse? secondWarehouse;
   final List<OskCreateApplicationProduct> selectedProducts;
@@ -24,50 +24,50 @@ class _CreateApplicationState extends State<_CreateApplication> {
 
   String get _applicationTypeTitle {
     switch (widget.type) {
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return 'Отправка со склада на склад';
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         if (widget.secondWarehouse != null) {
           return 'Приемка со склада на склад';
         } else {
           return 'Приемка на склад';
         }
-      case OskApplicationType.defect:
+      case ApplicationType.defect:
         return 'Браковка товаров';
-      case OskApplicationType.use:
+      case ApplicationType.use:
         return 'Использование';
-      case OskApplicationType.revert:
+      case ApplicationType.revert:
         return 'Отмена заявки';
     }
   }
 
   String get _firstWarehouseTitle {
     switch (widget.type) {
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return 'Со склада';
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         if (widget.secondWarehouse != null) {
           return 'Со склада';
         } else {
           return 'На склад';
         }
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
+      case ApplicationType.defect:
+      case ApplicationType.use:
         return 'На складе';
-      case OskApplicationType.revert:
+      case ApplicationType.revert:
         return '';
     }
   }
 
   String get _secondWarehouseTitle {
     switch (widget.type) {
-      case OskApplicationType.send:
+      case ApplicationType.send:
         return 'На склад';
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         return 'На склад';
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
         return '';
     }
   }

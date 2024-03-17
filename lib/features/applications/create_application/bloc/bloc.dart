@@ -7,7 +7,7 @@ import '../../../products/models/product.dart';
 import '../../../warehouse/data/repository.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/repository/create_application_repository.dart';
-import '../../models/osk_appication_type.dart';
+import '../../models/application/appication_type.dart';
 import '../../models/osk_create_application_product.dart';
 
 part 'event.dart';
@@ -45,7 +45,7 @@ class _CreateApplicationBloc
     on<CreateApplicationEvent>(_onEvent);
   }
 
-  OskApplicationType? get _applicationType {
+  ApplicationType? get _applicationType {
     final state = this.state;
     switch (state) {
       case CreateApplicationStateIdle():
@@ -139,7 +139,7 @@ class _CreateApplicationBloc
     }
 
     switch (_applicationType) {
-      case OskApplicationType.send:
+      case ApplicationType.send:
         emit(
           CreateApplicationStateSelectFromWarehouse(
             toWarehouse: warehouse,
@@ -148,7 +148,7 @@ class _CreateApplicationBloc
             type: applicationType,
           ),
         );
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         emit(
           CreateApplicationStateSelectFromWarehouse(
             toWarehouse: warehouse,
@@ -157,9 +157,9 @@ class _CreateApplicationBloc
             type: applicationType,
           ),
         );
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
       case null:
         emit(
           CreateApplicationStateSelectProducts(
@@ -201,7 +201,7 @@ class _CreateApplicationBloc
         (state as CreateApplicationStateSelectProducts).toWarehouse.id;
 
     switch (_applicationType) {
-      case OskApplicationType.recieve:
+      case ApplicationType.recieve:
         // Приемка со склада на склад
         if ((state as CreateApplicationStateSelectProducts).fromWarehouse !=
             null) {
@@ -210,10 +210,10 @@ class _CreateApplicationBloc
           warehouseId = null;
         }
       case null:
-      case OskApplicationType.send:
-      case OskApplicationType.defect:
-      case OskApplicationType.use:
-      case OskApplicationType.revert:
+      case ApplicationType.send:
+      case ApplicationType.defect:
+      case ApplicationType.use:
+      case ApplicationType.revert:
         warehouseId = firstWarehouseId;
     }
 

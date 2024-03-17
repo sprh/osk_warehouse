@@ -6,15 +6,15 @@ part 'create_application_data_dto.g.dart';
 class CreateApplicationDataDto {
   final String description;
   final String type;
-  final String sentFromWarehouseId;
-  final String? sentToWarehouseId;
+  final String? sentFromWarehouseId;
+  final String sentToWarehouseId;
   final String? linkedToApplicationId;
 
   const CreateApplicationDataDto({
     required this.description,
     required this.type,
-    required this.sentFromWarehouseId,
-    this.sentToWarehouseId,
+    required this.sentToWarehouseId,
+    this.sentFromWarehouseId,
     this.linkedToApplicationId,
   });
 

@@ -29,6 +29,5 @@ Map<String, dynamic> _$ProductDtoToJson(ProductDto instance) =>
       'model': instance.model,
       'description': instance.description,
       'codes': instance.codes,
-      'warehouse_count': instance.warehouseCount,
       'count': instance.count,
     };

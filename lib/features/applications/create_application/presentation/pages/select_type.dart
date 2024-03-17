@@ -1,7 +1,7 @@
 part of '../create_appication_page.dart';
 
 class _CreateApplicationScreenType extends StatefulWidget {
-  final void Function(OskApplicationType) onTypeSelected;
+  final void Function(ApplicationType) onTypeSelected;
 
   const _CreateApplicationScreenType({required this.onTypeSelected});
 
@@ -12,7 +12,7 @@ class _CreateApplicationScreenType extends StatefulWidget {
 
 class _CreateApplicationScreenTypeState
     extends State<_CreateApplicationScreenType> {
-  OskApplicationType? applicationType;
+  ApplicationType? applicationType;
 
   @override
   Widget build(BuildContext context) => OskScaffold.slivers(
@@ -43,36 +43,36 @@ class _CreateApplicationScreenTypeState
                 children: [
                   SelectApplicationTypeWidget(
                     name: 'Отправить',
-                    selected: applicationType == OskApplicationType.send,
+                    selected: applicationType == ApplicationType.send,
                     onSelect: () {
-                      applicationType = OskApplicationType.send;
+                      applicationType = ApplicationType.send;
                       setState(() {});
                     },
                   ),
                   const SizedBox(height: 8),
                   SelectApplicationTypeWidget(
                     name: 'Принять',
-                    selected: applicationType == OskApplicationType.recieve,
+                    selected: applicationType == ApplicationType.recieve,
                     onSelect: () {
-                      applicationType = OskApplicationType.recieve;
+                      applicationType = ApplicationType.recieve;
                       setState(() {});
                     },
                   ),
                   const SizedBox(height: 8),
                   SelectApplicationTypeWidget(
                     name: 'Браковать',
-                    selected: applicationType == OskApplicationType.defect,
+                    selected: applicationType == ApplicationType.defect,
                     onSelect: () {
-                      applicationType = OskApplicationType.defect;
+                      applicationType = ApplicationType.defect;
                       setState(() {});
                     },
                   ),
                   const SizedBox(height: 8),
                   SelectApplicationTypeWidget(
                     name: 'Использовать',
-                    selected: applicationType == OskApplicationType.use,
+                    selected: applicationType == ApplicationType.use,
                     onSelect: () {
-                      applicationType = OskApplicationType.use;
+                      applicationType = ApplicationType.use;
                       setState(() {});
                     },
                   ),

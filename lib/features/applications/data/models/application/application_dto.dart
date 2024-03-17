@@ -12,6 +12,7 @@ class ApplicationDto {
   final ApplicationPayloadDto applicationPayload;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final List<ApplicationActionDto>? actions;
 
   const ApplicationDto({
     required this.id,
@@ -19,8 +20,16 @@ class ApplicationDto {
     required this.applicationPayload,
     required this.createdAt,
     required this.updatedAt,
+    this.actions,
   });
 
   factory ApplicationDto.fromJson(Map<String, dynamic> json) =>
       _$ApplicationDtoFromJson(json);
+}
+
+enum ApplicationActionDto {
+  reject,
+  approve,
+  edit,
+  delete;
 }

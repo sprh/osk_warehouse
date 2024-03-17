@@ -11,3 +11,9 @@ class _ApplicationListEventOnLoaded implements ApplicationsListEvent {
 }
 
 class ApplicationListEventOnLoadMore implements ApplicationsListEvent {}
+
+class ApplicationListEventOnApplicationTap implements ApplicationsListEvent {
+  final String applicationId;
+
+  const ApplicationListEventOnApplicationTap(this.applicationId);
+}

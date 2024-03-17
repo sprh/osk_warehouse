@@ -61,3 +61,9 @@ class AccountScopeRouteSelectProducts extends AccountScopeRoute {
     this.selectedProducts,
   ]);
 }
+
+class AccountScopeRouteApplicationData extends AccountScopeRoute {
+  final String applicationId;
+
+  AccountScopeRouteApplicationData(this.applicationId);
+}

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/components/icon/osk_icon_button.dart';
-import '../../../common/components/icon/osk_icons.dart';
 import '../../../common/components/icon/osk_service_icons.dart';
 import '../../../common/components/osk_action_block.dart';
 import '../../../common/components/scaffold/osk_scaffold.dart';
@@ -36,20 +34,20 @@ class _MainPageState extends State<MainPage> {
       bloc: MainPageBloc.of(context),
       builder: (context, state) {
         return OskScaffold.slivers(
-          appBar: SliverAppBar(
+          appBar: const SliverAppBar(
             pinned: true,
-            actions: [
-              OskIconButton(
-                icon: const OskIcon.notification(),
-                onTap: () {}, // TODO:
-              ),
-              const SizedBox(width: 16),
-              OskIconButton(
-                icon: const OskIcon.setting(),
-                onTap: () {}, // TODO:
-              ),
-              const SizedBox(width: 16),
-            ],
+            // actions: [
+            //   OskIconButton(
+            //     icon: const OskIcon.notification(),
+            //     onTap: () {}, // TODO:
+            //   ),
+            //   const SizedBox(width: 16),
+            //   OskIconButton(
+            //     icon: const OskIcon.setting(),
+            //     onTap: () {}, // TODO:
+            //   ),
+            //   const SizedBox(width: 16),
+            // ],
           ),
           slivers: [
             if (state is MainPageStateIdle)
@@ -102,12 +100,12 @@ class _MainPageState extends State<MainPage> {
                           MainPageEventOpenWorkersList(),
                         ),
                       ),
-                    if (state.availableBlocks.contains(MainPageBlocks.reports))
-                      OskActionBlock(
-                        title: strings.reports,
-                        icon: const OskServiceIcon.report(),
-                        onTap: () {}, // TODO:,
-                      ),
+                    // if (state.availableBlocks.contains(MainPageBlocks.reports))
+                    //   OskActionBlock(
+                    //     title: strings.reports,
+                    //     icon: const OskServiceIcon.report(),
+                    //     onTap: () {}, // TODO:,
+                    //   ),
                     if (state.availableBlocks.contains(MainPageBlocks.products))
                       OskActionBlock(
                         title: strings.productCards,

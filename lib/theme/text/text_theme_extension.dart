@@ -7,7 +7,7 @@ class TextThemeExtension extends ThemeExtension<TextThemeExtension> {
 
   static const light = TextThemeExtension(
     mainText: Color(0xFF4F4F4F),
-    minorText: Color(0xFFC6C6C6),
+    minorText: Color.fromARGB(255, 143, 139, 139),
     highlightedYellow: Color(0xFFFFC000),
   );
 

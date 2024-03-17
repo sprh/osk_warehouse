@@ -87,7 +87,9 @@ class _ApplicationsListPageState extends State<ApplicationsListPage> {
                           final item = state.applications[index];
                           return ApplicationInfo(
                             request: item,
-                            onTap: () {},
+                            onTap: () => ApplicationsListBloc.of(context).add(
+                              ApplicationListEventOnApplicationTap(item.id),
+                            ),
                           );
                         },
                         itemCount:

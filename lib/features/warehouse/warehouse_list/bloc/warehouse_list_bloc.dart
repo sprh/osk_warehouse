@@ -74,7 +74,7 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
       case WarehouseListEventEditWarehouse():
         _navigationManager.openWarehouseData(event.id);
       case WarehouseListEventDeleteWarehouse():
-        _navigationManager.showModalDialog(
+        await _navigationManager.showModalDialog(
           title: 'Вы уверены, что хотите удалить склад?',
           actions: OskActionsFlex(
             direction: Axis.vertical,
@@ -83,12 +83,12 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
                 title: 'Удалить',
                 onTap: () {
                   _onDeleteWarehouse(event.id, emit);
-                  _navigationManager.pop();
+                  _navigationManager.popDialog();
                 },
               ),
               OskButton.minor(
                 title: 'Отмена',
-                onTap: _navigationManager.pop,
+                onTap: _navigationManager.popDialog,
               ),
             ],
           ),

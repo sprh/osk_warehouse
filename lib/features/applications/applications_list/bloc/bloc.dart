@@ -29,9 +29,9 @@ class _ApplicationsListBloc
     with RepositorySubscriber<ApplicationListRepositoryState>
     implements ApplicationsListBloc {
   final ApplicationsListRepository _repository;
-  final AccountScopeNavigationManager navigationManager;
+  final AccountScopeNavigationManager _navigationManager;
 
-  _ApplicationsListBloc(this._repository, this.navigationManager)
+  _ApplicationsListBloc(this._repository, this._navigationManager)
       : super(const ApplicationsListStateIdle()) {
     on<ApplicationsListEvent>(_onEvent);
   }
@@ -49,7 +49,7 @@ class _ApplicationsListBloc
 
   @override
   void onRepositoryError(RepositoryLocalizedError error) =>
-      navigationManager.showSomethingWentWrontDialog(error.message);
+      _navigationManager.showSomethingWentWrontDialog(error.message);
 
   Future<void> _onEvent(
     ApplicationsListEvent event,
@@ -69,6 +69,8 @@ class _ApplicationsListBloc
         );
       case ApplicationListEventOnLoadMore():
         await _repository.loadMore();
+      case ApplicationListEventOnApplicationTap():
+        _navigationManager.openApplicationData(event.applicationId);
     }
   }
 

@@ -67,13 +67,13 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
               OskButton.main(
                 title: 'Удалить',
                 onTap: () {
-                  _navigationManager.pop();
+                  _navigationManager.popDialog();
                   _repository.deleteProduct(event.id, warehouseId: warehouseId);
                 },
               ),
               OskButton.minor(
                 title: 'Отмена',
-                onTap: _navigationManager.pop,
+                onTap: _navigationManager.popDialog,
               ),
             ],
           ),

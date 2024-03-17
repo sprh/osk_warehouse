@@ -59,7 +59,7 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
       case UserListEventAddNewUser():
         _navigationManager.openUserData();
       case UserListEventDeleteUser():
-        _navigationManager.showModalDialog(
+        await _navigationManager.showModalDialog(
           title: 'Вы уверены, что хотите удалить пользователя?',
           actions: OskActionsFlex(
             direction: Axis.vertical,
@@ -67,13 +67,13 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
               OskButton.main(
                 title: 'Удалить',
                 onTap: () {
-                  _navigationManager.pop();
+                  _navigationManager.popDialog();
                   _repository.deleteUser(event.username);
                 },
               ),
               OskButton.minor(
                 title: 'Отмена',
-                onTap: _navigationManager.pop,
+                onTap: _navigationManager.popDialog,
               ),
             ],
           ),

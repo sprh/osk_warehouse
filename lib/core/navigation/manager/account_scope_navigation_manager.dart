@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../features/applications/application_data/bloc/bloc.dart';
+import '../../../features/applications/application_data/presentation/application_data_page.dart';
 import '../../../features/applications/applications_list/bloc/bloc.dart';
 import '../../../features/applications/applications_list/presentation/applications_list_page.dart';
 import '../../../features/applications/create_application/bloc/bloc.dart';
@@ -53,6 +55,8 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
     String? warehouseId, [
     Set<String>? selectedProducts,
   ]);
+
+  void openApplicationData(String id);
 }
 
 class AccountScopeNavigationManagerImpl
@@ -168,6 +172,15 @@ class AccountScopeNavigationManagerImpl
                         ),
                         child: const SelectProductsPage(),
                       );
+                    case AccountScopeRouteApplicationData():
+                      return BlocProvider(
+                        create: (context) => ApplicationDataBloc(
+                          this,
+                          AccountScope.of(context).applicationDataRepository,
+                          route.applicationId,
+                        ),
+                        child: const ApplicationDataPage(),
+                      );
                   }
                 },
               ),
@@ -281,6 +294,14 @@ class AccountScopeNavigationManagerImpl
         warehouseId,
         selectedProducts,
       ),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openApplicationData(String id) {
+    state.routes.add(
+      AccountScopeRouteApplicationData(id),
     );
     notifyListeners();
   }

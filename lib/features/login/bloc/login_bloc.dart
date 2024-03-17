@@ -54,7 +54,7 @@ class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
               widgets: [
                 OskButton.main(
                   title: 'Хорошо',
-                  onTap: _navigationManager.pop,
+                  onTap: _navigationManager.popDialog,
                 ),
               ],
             ),

@@ -12,6 +12,8 @@ mixin NavigationManager {
 
   void pop();
 
+  void popDialog() => navigatorKey.currentState?.pop();
+
   Future<void> showModalDialog({
     required String title,
     String? subtitle,
@@ -48,7 +50,7 @@ mixin NavigationManager {
             OskButton.main(
               title: 'Закрыть',
               onTap: () {
-                pop();
+                popDialog();
                 onCloseTap?.call();
               },
             ),

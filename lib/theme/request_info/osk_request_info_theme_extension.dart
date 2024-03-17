@@ -54,13 +54,13 @@ class RequestStatusIconColor {
   Color fromStatus(ApplicationStatus status) {
     switch (status) {
       case ApplicationStatus.pending:
-        return success;
-      case ApplicationStatus.deleted:
         return pending;
+      case ApplicationStatus.deleted:
+        return deleted;
       case ApplicationStatus.rejected:
         return rejected;
       case ApplicationStatus.success:
-        return deleted;
+        return success;
     }
   }
 }

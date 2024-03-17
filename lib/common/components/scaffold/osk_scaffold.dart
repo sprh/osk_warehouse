@@ -11,10 +11,12 @@ class OskScaffold extends StatefulWidget {
   final Axis actionsDirection;
   final bool actionsShadow;
   final ScrollController? scrollController;
+  final Widget? customActions;
 
   OskScaffold({
     required Widget body,
     this.actions,
+    this.customActions,
     OskScaffoldHeader? header,
     SliverAppBar? appBar,
     this.actionsDirection = Axis.vertical,
@@ -40,6 +42,7 @@ class OskScaffold extends StatefulWidget {
     this.actionsDirection = Axis.vertical,
     this.actionsShadow = false,
     this.scrollController,
+    this.customActions,
     super.key,
   }) : slivers = [
           if (appBar != null) appBar,
@@ -56,6 +59,14 @@ class _OskScaffoldState extends State<OskScaffold> {
   Widget build(BuildContext context) {
     final theme = context.scaffoldTheme;
     final globalTheme = Theme.of(context);
+    final actionsWidget = widget.actions?.let(
+          (actions) => OskActionsFlex(
+            maxWidth: MediaQuery.of(context).size.width,
+            widgets: actions,
+            direction: widget.actionsDirection,
+          ),
+        ) ??
+        widget.customActions;
 
     return Theme(
       data: globalTheme.copyWith(
@@ -75,7 +86,7 @@ class _OskScaffoldState extends State<OskScaffold> {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: widget.slivers,
         ),
-        bottomNavigationBar: widget.actions?.let(
+        bottomNavigationBar: actionsWidget?.let(
           (actions) => DecoratedBox(
             decoration: BoxDecoration(
               color: theme.floatingActionsBackgroundColor,
@@ -99,11 +110,7 @@ class _OskScaffoldState extends State<OskScaffold> {
                     MediaQuery.of(context).padding.bottom +
                     8,
               ),
-              child: OskActionsFlex(
-                maxWidth: MediaQuery.of(context).size.width,
-                widgets: actions,
-                direction: widget.actionsDirection,
-              ),
+              child: actions,
             ),
           ),
         ),

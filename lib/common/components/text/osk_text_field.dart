@@ -55,7 +55,7 @@ class _OskTextFieldState extends State<OskTextField> {
     return Padding(
       padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
       child: ConstrainedBox(
-        constraints: widget.constraints ?? const BoxConstraints(maxHeight: 54),
+        constraints: widget.constraints ?? const BoxConstraints(),
         child: TextFormField(
           readOnly: widget.readOnly,
           focusNode: widget.focusNode,

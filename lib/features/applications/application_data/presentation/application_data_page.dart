@@ -108,6 +108,7 @@ class _ApplicationDataPageState extends State<ApplicationDataPage> {
                     ListView.separated(
                       shrinkWrap: true,
                       itemCount: items.length,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (_, index) {
                         final product = items[index];
 

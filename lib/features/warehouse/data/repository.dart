@@ -13,13 +13,15 @@ mixin WarehouseListGetter {
   Future<List<Warehouse>> get warehouseList;
 }
 
+mixin WarehouseListRefresher {
+  Future<void> refreshWarehouseList();
+}
+
 abstract class WarehouseRepository extends Repository<List<Warehouse>>
-    with WarehouseListGetter {
+    with WarehouseListGetter, WarehouseListRefresher {
   factory WarehouseRepository(WarehouseApi api) => _WarehouseRepository(api);
 
   Stream<Warehouse?> warehouseDataStreamById(String id);
-
-  Future<void> refreshWarehouseList();
 
   Future<Warehouse> getWarehouse(String id);
 

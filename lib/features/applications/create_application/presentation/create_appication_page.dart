@@ -11,7 +11,7 @@ import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
 import '../../../../utils/kotlin_utils.dart';
 import '../../../warehouse/models/warehouse.dart';
-import '../../models/application/appication_type.dart';
+import '../../models/create_application/create_application_application_type.dart';
 import '../../models/osk_create_application_product.dart';
 import '../bloc/bloc.dart';
 import 'components/application_type.dart';
@@ -29,67 +29,31 @@ class CreateApplicationPage extends StatefulWidget {
 }
 
 class _CreateApplicationPageState extends State<CreateApplicationPage> {
-  ApplicationType? applicationType;
   String? description;
 
   Warehouse? firstSelectedWarehouse;
   Warehouse? secondSelectedWarehouse;
 
-  bool get needSelectSecondWarehouse {
-    switch (applicationType) {
-      case ApplicationType.send:
-      case ApplicationType.recieve:
-        return true;
-      case ApplicationType.defect:
-      case ApplicationType.use:
-      case ApplicationType.revert:
-      case null:
-        return false;
-    }
-  }
-
-  bool get selectSecondWarehouseIsNecessary {
-    switch (applicationType) {
-      case ApplicationType.send:
-        return true;
-      case ApplicationType.recieve:
-      case ApplicationType.defect:
-      case ApplicationType.use:
-      case ApplicationType.revert:
-      case null:
-        return false;
-    }
-  }
-
-  String get selectToWarehouseTitle {
-    switch (applicationType) {
-      case null:
-        return '';
-      case ApplicationType.send:
-        return 'Выберите склад, на который отправится товар';
-      case ApplicationType.recieve:
-        return 'Выберите склад приемки';
-      case ApplicationType.defect:
+  String _selectToWarehouseTitle(CreateApplicationApplicationType type) {
+    switch (type) {
+      case CreateApplicationApplicationType.send:
+      case CreateApplicationApplicationType.recieve:
+        return 'Выберите склад получения';
+      case CreateApplicationApplicationType.defect:
+      case CreateApplicationApplicationType.use:
         return 'Выберите склад';
-      case ApplicationType.use:
-        return 'Выберите склад';
-      case ApplicationType.revert:
-        return '';
     }
   }
 
-  String get selectFromWarehouseTitle {
-    switch (applicationType) {
-      case null:
-        return '';
-      case ApplicationType.send:
-        return 'Выберите склад, с которого отправится товар';
-      case ApplicationType.recieve:
-        return 'Выберите склад, с которого отправится товар (необязательно)';
-      case ApplicationType.defect:
-      case ApplicationType.use:
-      case ApplicationType.revert:
-        return '';
+  String _selectFromWarehouseTitle(CreateApplicationApplicationType type) {
+    switch (type) {
+      case CreateApplicationApplicationType.send:
+        return 'Выберите склад отправки';
+      case CreateApplicationApplicationType.recieve:
+        return 'Выберите склад отправки (необязательно)';
+      case CreateApplicationApplicationType.defect:
+      case CreateApplicationApplicationType.use:
+        return 'Выберите склад';
     }
   }
 
@@ -136,7 +100,7 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
             case CreateApplicationStateSelectToWarehouse():
               return _CreateApplicationScreenWarehouse(
                 availableWarehouses: state.availableWarehouses,
-                title: selectToWarehouseTitle,
+                title: _selectToWarehouseTitle(state.type),
                 onWarehouseSelected: (warehose) {
                   if (warehose != null) {
                     CreateApplicationBloc.of(context).add(
@@ -148,10 +112,11 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
               );
             case CreateApplicationStateSelectFromWarehouse():
               return _CreateApplicationScreenWarehouse(
+                // from и to не могут быть одинаковыми
                 availableWarehouses: state.availableWarehouses
-                    .where((w) => w.id != state.toWarehouse.id)
+                    .where((w) => w.id != state.toWarehouse?.id)
                     .toList(),
-                title: selectFromWarehouseTitle,
+                title: _selectFromWarehouseTitle(state.type),
                 onWarehouseSelected: (warehose) =>
                     CreateApplicationBloc.of(context).add(
                   CreateApplicationEventOnFromWarehouseSelected(warehose),
@@ -182,8 +147,8 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
                     CreateApplicationBloc.of(context).add(
                   CreateApplicationCreateButtonTap(description),
                 ),
-                firstWarehouse: state.toWarehouse,
-                secondWarehouse: state.fromWarehouse,
+                toWarehouse: state.toWarehouse,
+                fromWarehouse: state.fromWarehouse,
                 selectedProducts: state.selectedProducts,
               );
           }

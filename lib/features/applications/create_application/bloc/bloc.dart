@@ -7,7 +7,7 @@ import '../../../products/models/product.dart';
 import '../../../warehouse/data/repository.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/repository/create_application_repository.dart';
-import '../../models/application/appication_type.dart';
+import '../../models/create_application/create_application_application_type.dart';
 import '../../models/osk_create_application_product.dart';
 
 part 'event.dart';
@@ -45,7 +45,7 @@ class _CreateApplicationBloc
     on<CreateApplicationEvent>(_onEvent);
   }
 
-  ApplicationType? get _applicationType {
+  CreateApplicationApplicationType? get _applicationType {
     final state = this.state;
     switch (state) {
       case CreateApplicationStateIdle():
@@ -94,12 +94,7 @@ class _CreateApplicationBloc
       case _CreateApplicationEventProductsSelected():
         _onProductsSelected(event.products, emit);
       case CreateApplicationEventOnTypeSelected():
-        emit(
-          CreateApplicationStateSelectToWarehouse(
-            (state as CreateApplicationStateSelectType).availableWarehouses,
-            event.type,
-          ),
-        );
+        _onTypeSelected(event.type, emit);
       case CreateApplicationEventOnToWarehouseSelected():
         _onToWarehouseSelected(emit, event.warehouse);
       case CreateApplicationEventOnFromWarehouseSelected():
@@ -128,6 +123,39 @@ class _CreateApplicationBloc
     }
   }
 
+  void _onTypeSelected(
+    CreateApplicationApplicationType type,
+    Emitter<CreateApplicationState> emit,
+  ) {
+    final state = this.state as CreateApplicationStateSelectType;
+    switch (type) {
+      case CreateApplicationApplicationType.send:
+        emit(
+          CreateApplicationStateSelectToWarehouse(
+            state.availableWarehouses,
+            type,
+          ),
+        );
+      case CreateApplicationApplicationType.recieve:
+        emit(
+          CreateApplicationStateSelectToWarehouse(
+            state.availableWarehouses,
+            type,
+          ),
+        );
+      case CreateApplicationApplicationType.defect:
+      case CreateApplicationApplicationType.use:
+        emit(
+          CreateApplicationStateSelectFromWarehouse(
+            toWarehouse: null,
+            canBeSkipped: false,
+            availableWarehouses: state.availableWarehouses,
+            type: type,
+          ),
+        );
+    }
+  }
+
   void _onToWarehouseSelected(
     Emitter<CreateApplicationState> emit,
     Warehouse warehouse,
@@ -138,8 +166,8 @@ class _CreateApplicationBloc
       return;
     }
 
-    switch (_applicationType) {
-      case ApplicationType.send:
+    switch (applicationType) {
+      case CreateApplicationApplicationType.send:
         emit(
           CreateApplicationStateSelectFromWarehouse(
             toWarehouse: warehouse,
@@ -148,7 +176,7 @@ class _CreateApplicationBloc
             type: applicationType,
           ),
         );
-      case ApplicationType.recieve:
+      case CreateApplicationApplicationType.recieve:
         emit(
           CreateApplicationStateSelectFromWarehouse(
             toWarehouse: warehouse,
@@ -157,18 +185,10 @@ class _CreateApplicationBloc
             type: applicationType,
           ),
         );
-      case ApplicationType.defect:
-      case ApplicationType.use:
-      case ApplicationType.revert:
-      case null:
-        emit(
-          CreateApplicationStateSelectProducts(
-            toWarehouse: warehouse,
-            fromWarehouse: null,
-            selectedProducts: [],
-            availableWarehouses: availableWarehouses,
-            type: applicationType,
-          ),
+      case CreateApplicationApplicationType.defect:
+      case CreateApplicationApplicationType.use:
+        throw StateError(
+          'To warehouse should not be selected for $_applicationType',
         );
     }
   }
@@ -196,26 +216,8 @@ class _CreateApplicationBloc
   }
 
   void _onSelectProducts() {
-    late final String? warehouseId;
-    final firstWarehouseId =
-        (state as CreateApplicationStateSelectProducts).toWarehouse.id;
-
-    switch (_applicationType) {
-      case ApplicationType.recieve:
-        // Приемка со склада на склад
-        if ((state as CreateApplicationStateSelectProducts).fromWarehouse !=
-            null) {
-          warehouseId = firstWarehouseId;
-        } else {
-          warehouseId = null;
-        }
-      case null:
-      case ApplicationType.send:
-      case ApplicationType.defect:
-      case ApplicationType.use:
-      case ApplicationType.revert:
-        warehouseId = firstWarehouseId;
-    }
+    late final warehouseId =
+        (state as CreateApplicationStateSelectProducts).fromWarehouse?.id;
 
     _navigationManager.onSelectProducts(
       (products) => add(
@@ -328,7 +330,7 @@ class _CreateApplicationBloc
         description: description,
         type: state.type,
         sentFromWarehouseId: state.fromWarehouse?.id,
-        sentToWarehouseId: state.toWarehouse.id,
+        sentToWarehouseId: state.toWarehouse?.id,
         linkedToApplicationId: null,
         items: state.selectedProducts,
       );

@@ -1,7 +1,7 @@
 part of '../create_appication_page.dart';
 
 class _CreateApplicationScreenType extends StatefulWidget {
-  final void Function(ApplicationType) onTypeSelected;
+  final void Function(CreateApplicationApplicationType) onTypeSelected;
 
   const _CreateApplicationScreenType({required this.onTypeSelected});
 
@@ -12,7 +12,20 @@ class _CreateApplicationScreenType extends StatefulWidget {
 
 class _CreateApplicationScreenTypeState
     extends State<_CreateApplicationScreenType> {
-  ApplicationType? applicationType;
+  CreateApplicationApplicationType? applicationType;
+
+  String _getNameByType(CreateApplicationApplicationType type) {
+    switch (type) {
+      case CreateApplicationApplicationType.send:
+        return 'Отправить';
+      case CreateApplicationApplicationType.recieve:
+        return 'Принять';
+      case CreateApplicationApplicationType.defect:
+        return 'Браковать';
+      case CreateApplicationApplicationType.use:
+        return 'Использовать';
+    }
+  }
 
   @override
   Widget build(BuildContext context) => OskScaffold.slivers(
@@ -30,8 +43,9 @@ class _CreateApplicationScreenTypeState
             state: applicationType != null
                 ? OskButtonState.enabled
                 : OskButtonState.disabled,
-            onTap: applicationType
-                    ?.let((type) => () => widget.onTypeSelected(type)) ??
+            onTap: applicationType?.let(
+                  (type) => () => widget.onTypeSelected(type),
+                ) ??
                 () {},
           ),
         ],
@@ -41,41 +55,18 @@ class _CreateApplicationScreenTypeState
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SelectApplicationTypeWidget(
-                    name: 'Отправить',
-                    selected: applicationType == ApplicationType.send,
-                    onSelect: () {
-                      applicationType = ApplicationType.send;
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  SelectApplicationTypeWidget(
-                    name: 'Принять',
-                    selected: applicationType == ApplicationType.recieve,
-                    onSelect: () {
-                      applicationType = ApplicationType.recieve;
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  SelectApplicationTypeWidget(
-                    name: 'Браковать',
-                    selected: applicationType == ApplicationType.defect,
-                    onSelect: () {
-                      applicationType = ApplicationType.defect;
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  SelectApplicationTypeWidget(
-                    name: 'Использовать',
-                    selected: applicationType == ApplicationType.use,
-                    onSelect: () {
-                      applicationType = ApplicationType.use;
-                      setState(() {});
-                    },
-                  ),
+                  for (final type
+                      in CreateApplicationApplicationType.values) ...[
+                    if (type != CreateApplicationApplicationType.values.first)
+                      const SizedBox(height: 8),
+                    SelectApplicationTypeWidget(
+                      name: _getNameByType(type),
+                      selected: applicationType == type,
+                      onSelect: () => setState(
+                        () => applicationType = type,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

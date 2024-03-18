@@ -137,12 +137,17 @@ class OskInfoSlot extends StatelessWidget {
                           ),
                       ],
                     ),
-                    if (selected != null && onSelected != null)
-                      OskCheckbox(
-                        onSelect: onSelected!,
-                        selected: selected!,
-                      ),
-                    if (trailing != null) trailing!,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (trailing != null) trailing!,
+                        if (selected != null && onSelected != null)
+                          OskCheckbox(
+                            onSelect: onSelected!,
+                            selected: selected!,
+                          ),
+                      ],
+                    ),
                   ],
                 ),
               ),

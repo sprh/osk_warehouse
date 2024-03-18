@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../products/data/api/models/product_dto.dart';
-import '../../models/application/appication_type.dart';
+import '../../models/create_application/create_application_application_type.dart';
 import '../../models/osk_create_application_product.dart';
 import '../api/api.dart';
 import '../models/create_application/create_application_data_dto.dart';
@@ -16,9 +16,9 @@ abstract class CreateApplicationRepository extends Repository<void> {
 
   Future<void> createApplication({
     required String description,
-    required ApplicationType type,
+    required CreateApplicationApplicationType type,
     required String? sentFromWarehouseId,
-    required String sentToWarehouseId,
+    required String? sentToWarehouseId,
     required String? linkedToApplicationId,
     required List<OskCreateApplicationProduct> items,
   });
@@ -33,9 +33,9 @@ class _CreateApplicationRepository extends Repository<void>
   @override
   Future<void> createApplication({
     required String description,
-    required ApplicationType type,
+    required CreateApplicationApplicationType type,
     required String? sentFromWarehouseId,
-    required String sentToWarehouseId,
+    required String? sentToWarehouseId,
     required String? linkedToApplicationId,
     required List<OskCreateApplicationProduct> items,
   }) async {

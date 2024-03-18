@@ -12,7 +12,7 @@ class CreateApplicationStateSelectType implements CreateApplicationState {
 
 class CreateApplicationStateSelectToWarehouse
     implements CreateApplicationState {
-  final ApplicationType type;
+  final CreateApplicationApplicationType type;
   final List<Warehouse> availableWarehouses;
 
   const CreateApplicationStateSelectToWarehouse(
@@ -24,9 +24,9 @@ class CreateApplicationStateSelectToWarehouse
 class CreateApplicationStateSelectFromWarehouse
     implements CreateApplicationState {
   final List<Warehouse> availableWarehouses;
-  final ApplicationType type;
+  final CreateApplicationApplicationType type;
 
-  final Warehouse toWarehouse;
+  final Warehouse? toWarehouse;
   final bool canBeSkipped;
 
   const CreateApplicationStateSelectFromWarehouse({
@@ -39,8 +39,8 @@ class CreateApplicationStateSelectFromWarehouse
 
 class CreateApplicationStateSelectProducts implements CreateApplicationState {
   final List<Warehouse> availableWarehouses;
-  final ApplicationType type;
-  final Warehouse toWarehouse;
+  final CreateApplicationApplicationType type;
+  final Warehouse? toWarehouse;
   final Warehouse? fromWarehouse;
   final List<OskCreateApplicationProduct> selectedProducts;
 
@@ -55,8 +55,8 @@ class CreateApplicationStateSelectProducts implements CreateApplicationState {
 
 class CreateApplicationStateFinal implements CreateApplicationState {
   final List<Warehouse> availableWarehouses;
-  final ApplicationType type;
-  final Warehouse toWarehouse;
+  final CreateApplicationApplicationType type;
+  final Warehouse? toWarehouse;
   final Warehouse? fromWarehouse;
   final List<OskCreateApplicationProduct> selectedProducts;
   final bool loading;

@@ -59,7 +59,7 @@ class _CreateApplicationScreenWarehouseState
         ],
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 32),
             sliver: SliverList.separated(
               itemBuilder: (_, index) {
                 final current = widget.availableWarehouses[index];

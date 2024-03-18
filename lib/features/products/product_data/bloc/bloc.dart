@@ -115,7 +115,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
     const permission = Permission.camera;
     if (await permission.isDenied) {
       await permission.request();
-      if (await permission.isGranted) {
+      if (await permission.isDenied) {
         await _navigationManager.showSomethingWentWrontDialog(
           'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
         );

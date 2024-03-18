@@ -8,7 +8,7 @@ class CreateApplicationEventSelectProductsButtonTap
     implements CreateApplicationEvent {}
 
 class CreateApplicationEventOnTypeSelected implements CreateApplicationEvent {
-  final ApplicationType type;
+  final CreateApplicationApplicationType type;
 
   const CreateApplicationEventOnTypeSelected(this.type);
 }

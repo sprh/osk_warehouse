@@ -7,7 +7,7 @@ class CreateApplicationDataDto {
   final String description;
   final String type;
   final String? sentFromWarehouseId;
-  final String sentToWarehouseId;
+  final String? sentToWarehouseId;
   final String? linkedToApplicationId;
 
   const CreateApplicationDataDto({

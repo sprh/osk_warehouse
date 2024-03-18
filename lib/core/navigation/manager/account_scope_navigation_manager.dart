@@ -84,6 +84,7 @@ class AccountScopeNavigationManagerImpl
                         create: (context) => MainPageBloc(
                           this,
                           AccountScope.of(context).currentUserHolder,
+                          AccountScope.of(context).authManager,
                         ),
                         child: const MainPage(),
                       );

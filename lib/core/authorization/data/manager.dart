@@ -24,6 +24,8 @@ abstract class AuthorizationDataManager {
     required String username,
     required String password,
   });
+
+  Future<void> logout();
 }
 
 class _AuthorizationDataManager implements AuthorizationDataManager {
@@ -70,9 +72,18 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
       _addInterceptors(token);
       _authorizationDataBloc.setAuthorized(username: username);
     } else {
+      // Чистим данные пользователя
+      await _repository.logout();
       _authorizationDataBloc.setNotAuthorized();
       _removeInterceptors();
     }
+  }
+
+  @override
+  Future<void> logout() async {
+    await _repository.logout();
+    _removeInterceptors();
+    _authorizationDataBloc.setNotAuthorized();
   }
 
   void _addInterceptors(String token) => _dio

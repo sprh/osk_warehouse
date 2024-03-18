@@ -14,6 +14,7 @@ class AssetsProvider {
   static const show = '$_svgIconPath/show.svg';
   static const delete = '$_svgIconPath/delete.svg';
   static const edit = '$_svgIconPath/edit.svg';
+  static const logout = '$_svgIconPath/logout.svg';
 
   // images
   static const splash = '$_svgImagePath/splash_screen.svg';

@@ -22,6 +22,8 @@ abstract class AuthorizationRepository {
   Future<String?> get username;
 
   bool needRetryUrl(String url, int? statusCode);
+
+  Future<void> logout();
 }
 
 class _AuthorizationRepository implements AuthorizationRepository {
@@ -79,6 +81,9 @@ class _AuthorizationRepository implements AuthorizationRepository {
 
     return null;
   }
+
+  @override
+  Future<void> logout() async => _db.clearUserData();
 }
 
 class _AuthorizationApiConstants {

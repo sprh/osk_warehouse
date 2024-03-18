@@ -82,6 +82,15 @@ class OskIcon extends StatelessWidget {
           color: color,
         );
 
+  const OskIcon.logout({
+    OskIconSize size = OskIconSize.medium,
+    Color? color,
+  }) : this._(
+          path: AssetsProvider.logout,
+          size: size,
+          color: color,
+        );
+
   @override
   Widget build(BuildContext context) => SvgPicture.asset(
         path,

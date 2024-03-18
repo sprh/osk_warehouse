@@ -11,3 +11,5 @@ class MainPageEventOpenProductsList extends MainPageEvent {}
 class MainPageEventOpenRequestsList extends MainPageEvent {}
 
 class MainPageEventOpenCreateApplication extends MainPageEvent {}
+
+class MainPageEventLogout extends MainPageEvent {}

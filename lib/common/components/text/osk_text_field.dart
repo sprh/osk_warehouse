@@ -67,7 +67,7 @@ class _OskTextFieldState extends State<OskTextField> {
           autocorrect: widget.autocorrect,
           onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
-          maxLines: null,
+          maxLines: obscureText ? 1 : null,
           decoration: InputDecoration(
             suffixIcon: widget.showobscureTextIcon
                 ? OskIconButton(

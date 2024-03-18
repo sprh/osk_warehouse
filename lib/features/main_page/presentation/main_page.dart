@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/components/icon/osk_icon_button.dart';
+import '../../../common/components/icon/osk_icons.dart';
 import '../../../common/components/icon/osk_service_icons.dart';
 import '../../../common/components/osk_action_block.dart';
 import '../../../common/components/scaffold/osk_scaffold.dart';
@@ -34,8 +36,17 @@ class _MainPageState extends State<MainPage> {
       bloc: MainPageBloc.of(context),
       builder: (context, state) {
         return OskScaffold.slivers(
-          appBar: const SliverAppBar(
+          appBar: SliverAppBar(
             pinned: true,
+            actions: [
+              OskIconButton(
+                icon: const OskIcon.logout(),
+                onTap: () => MainPageBloc.of(context).add(
+                  MainPageEventLogout(),
+                ),
+              ),
+              const SizedBox(width: 24),
+            ],
             // actions: [
             //   OskIconButton(
             //     icon: const OskIcon.notification(),

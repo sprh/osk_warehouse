@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/components/actions/actions_flex.dart';
+import '../../../common/components/button/osk_button.dart';
+import '../../../core/authorization/data/manager.dart';
 import '../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../user/current_user_holder/current_user_holder.dart';
 import 'event.dart';
@@ -12,18 +15,20 @@ abstract class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   factory MainPageBloc(
     AccountScopeNavigationManager navigationManager,
     CurrentUserHolder currentUserHolder,
-  ) =>
-      _MainPageBloc(navigationManager, currentUserHolder);
+    AuthorizationDataManager authorizationDataManager,
+  ) = _MainPageBloc;
 }
 
 class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
     implements MainPageBloc {
   final AccountScopeNavigationManager _navigationManager;
   final CurrentUserHolder _currentUserHolder;
+  final AuthorizationDataManager _authorizationDataManager;
 
   _MainPageBloc(
     this._navigationManager,
     this._currentUserHolder,
+    this._authorizationDataManager,
   ) : super(MainPageStateIdle()) {
     on<MainPageEvent>(_onEvent);
   }
@@ -45,6 +50,8 @@ class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
         await _initialize(emit);
       case MainPageEventOpenCreateApplication():
         _navigationManager.openCreateApplicationPage();
+      case MainPageEventLogout():
+        _onLogout();
     }
   }
 
@@ -79,4 +86,24 @@ class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
       ),
     );
   }
+
+  void _onLogout() => _navigationManager.showModalDialog(
+        title: 'Вы уверены, что хотите выйти?',
+        actions: OskActionsFlex(
+          direction: Axis.vertical,
+          widgets: [
+            OskButton.main(
+              title: 'Выйти',
+              onTap: () {
+                _navigationManager.popDialog();
+                _authorizationDataManager.logout();
+              },
+            ),
+            OskButton.minor(
+              title: 'Отмена',
+              onTap: _navigationManager.popDialog,
+            ),
+          ],
+        ),
+      );
 }

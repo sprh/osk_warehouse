@@ -131,7 +131,7 @@ class _ApplicationDataPageState extends State<ApplicationDataPage> {
                       },
                       separatorBuilder: (_, __) => const SizedBox(height: 8),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                   ],
                 ),
                 actionsDirection: Axis.horizontal,

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../core/authorization/bloc/authorization_data_bloc.dart';
@@ -49,8 +51,11 @@ class _ApplicationDataRepository extends Repository<Application>
     try {
       setLoading();
       await _api.approve(id);
-    } on Exception catch (_) {
+    } on Exception catch (e) {
       setLoading(false);
+      if (e is DioException && e.type == DioExceptionType.unknown) {
+        return;
+      }
       throw RepositoryLocalizedError(message: 'Не удалось подтвердить заявку');
     }
   }
@@ -60,8 +65,11 @@ class _ApplicationDataRepository extends Repository<Application>
     try {
       setLoading();
       await _api.delete(id);
-    } on Exception catch (_) {
+    } on Exception catch (e) {
       setLoading(false);
+      if (e is DioException && e.type == DioExceptionType.unknown) {
+        return;
+      }
       throw RepositoryLocalizedError(
         message: 'Не удалось удалить заявку',
       );
@@ -73,8 +81,11 @@ class _ApplicationDataRepository extends Repository<Application>
     try {
       setLoading();
       await _api.reject(id);
-    } on Exception catch (_) {
+    } on Exception catch (e) {
       setLoading(false);
+      if (e is DioException && e.type == DioExceptionType.unknown) {
+        return;
+      }
       throw RepositoryLocalizedError(
         message: 'Не удалось отклонить заявку',
       );

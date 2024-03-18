@@ -8,6 +8,7 @@ import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../data/repository/application_data_repository.dart';
+import '../../data/repository/applications_list_repository.dart';
 import '../../models/application/application.dart';
 import '../../models/application/application_actions.dart';
 
@@ -23,6 +24,7 @@ abstract class ApplicationDataBloc
     AccountScopeNavigationManager navigationManager,
     ApplicationDataRepository repository,
     String applicationId,
+    ApplicationsListRefresher applicationsListRefresher,
   ) = _ApplicatioDataBloc;
 }
 
@@ -33,11 +35,13 @@ class _ApplicatioDataBloc
   final AccountScopeNavigationManager _navigationManager;
   final ApplicationDataRepository _repository;
   final String _applicationId;
+  final ApplicationsListRefresher _applicationsListRefresher;
 
   _ApplicatioDataBloc(
     this._navigationManager,
     this._repository,
     this._applicationId,
+    this._applicationsListRefresher,
   ) : super(ApplicationDataStateIdle()) {
     on<ApplicationDataEvent>(_onEvent);
   }
@@ -117,9 +121,11 @@ class _ApplicatioDataBloc
       switch (action) {
         case ApplicationAction.reject:
           await _repository.reject(_applicationId);
+          _applicationsListRefresher.refresh();
           _navigationManager.pop();
         case ApplicationAction.approve:
           await _repository.approve(_applicationId);
+          _applicationsListRefresher.refresh();
           _navigationManager.pop();
         case ApplicationAction.edit:
           await _navigationManager.showSomethingWentWrontDialog(
@@ -127,6 +133,7 @@ class _ApplicatioDataBloc
           );
         case ApplicationAction.delete:
           await _repository.delete(_applicationId);
+          _applicationsListRefresher.refresh();
           _navigationManager.pop();
       }
       // ignore: avoid_catching_errors

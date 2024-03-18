@@ -73,7 +73,6 @@ class _MainPageState extends State<MainPage> {
                         onTap: () => MainPageBloc.of(context).add(
                           MainPageEventOpenCreateApplication(),
                         ),
-                        notificationsCount: 9,
                       ),
                     if (state.availableBlocks.contains(MainPageBlocks.requests))
                       OskActionBlock(

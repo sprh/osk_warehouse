@@ -5,8 +5,14 @@ import '../../models/application/application.dart';
 import '../../models/applications_list_state/applications_list_state.dart';
 import '../api/api.dart';
 
+// ignore: one_member_abstracts
+abstract interface class ApplicationsListRefresher {
+  void refresh();
+}
+
 abstract class ApplicationsListRepository
-    extends Repository<ApplicationListRepositoryState> {
+    extends Repository<ApplicationListRepositoryState>
+    implements ApplicationsListRefresher {
   factory ApplicationsListRepository(
     ApplicationsApi api,
     CurrentUsernameHolder currentUsernameHolder,
@@ -30,6 +36,10 @@ class _ApplicationsListRepository
     this._api,
     this._currentUsernameHolder,
   );
+
+  /// Для рефреша логика обновления с нуля
+  @override
+  void refresh() => loadApplications();
 
   @override
   Future<void> loadApplications() async {

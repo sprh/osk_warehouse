@@ -14,7 +14,7 @@ abstract class CreateApplicationRepository extends Repository<void> {
   factory CreateApplicationRepository(ApplicationsApi api) =>
       _CreateApplicationRepository(api);
 
-  Future<void> createApplication({
+  Future<String> createApplication({
     required String description,
     required CreateApplicationApplicationType type,
     required String? sentFromWarehouseId,
@@ -31,7 +31,7 @@ class _CreateApplicationRepository extends Repository<void>
   _CreateApplicationRepository(this._api);
 
   @override
-  Future<void> createApplication({
+  Future<String> createApplication({
     required String description,
     required CreateApplicationApplicationType type,
     required String? sentFromWarehouseId,
@@ -65,10 +65,11 @@ class _CreateApplicationRepository extends Repository<void>
         ),
       );
 
-      await _api.createApplication(
+      final application = await _api.createApplication(
         data,
         const Uuid().v4(),
       );
+      return application.id;
     } on Exception catch (_) {
       throw RepositoryLocalizedError(
         message: 'Не удалось создать заявку. Пожалуйста, попробуйте позже',

@@ -326,7 +326,7 @@ class _CreateApplicationBloc
     emit(state.copyWith(loading: true));
 
     try {
-      await _repository.createApplication(
+      final id = await _repository.createApplication(
         description: description,
         type: state.type,
         sentFromWarehouseId: state.fromWarehouse?.id,
@@ -334,7 +334,7 @@ class _CreateApplicationBloc
         linkedToApplicationId: null,
         items: state.selectedProducts,
       );
-      _navigationManager.pop();
+      _navigationManager..pop()..openApplicationData(id);
       // ignore: avoid_catching_errors
     } on RepositoryLocalizedError catch (e) {
       emit(state.copyWith(loading: false));

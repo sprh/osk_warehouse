@@ -178,6 +178,7 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).applicationDataRepository,
                           route.applicationId,
+                          AccountScope.of(context).applicationsListRepository,
                         ),
                         child: const ApplicationDataPage(),
                       );

@@ -143,6 +143,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
         buttonTitle = 'Обновить';
         manufacturer = state.product.manufacturer;
         model = state.product.model;
+        description = state.product.description;
         itemType = ProductType.other;
     }
 
@@ -193,7 +194,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Производитель',
                 hintText: 'Автора',
-                initialText: name,
+                initialText: manufacturer,
                 onChanged: (manufacturer) {
                   this.manufacturer = manufacturer;
                   _onDataChanged();
@@ -203,7 +204,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Модель',
                 hintText: 'Картридж',
-                initialText: name,
+                initialText: model,
                 onChanged: (model) {
                   this.model = model;
                   _onDataChanged();
@@ -213,7 +214,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Описание',
                 hintText: 'Заполнять необязательно',
-                initialText: name,
+                initialText: description,
                 onChanged: (description) {
                   this.description = description;
                   _onDataChanged();

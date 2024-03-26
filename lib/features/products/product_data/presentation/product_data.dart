@@ -88,6 +88,8 @@ class __ProductDataPageState extends State<_ProductDataPage> {
   late String model;
   String? description;
 
+  Map<String, int>? warehouseCount;
+
   late TextEditingController nameTextEditingController = TextEditingController(
     text: name,
   );
@@ -144,6 +146,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
         manufacturer = state.product.manufacturer;
         model = state.product.model;
         description = state.product.description;
+        warehouseCount = state.product.warehouseCount;
         itemType = ProductType.other;
     }
 
@@ -233,6 +236,58 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                   ),
                 ),
               ),
+              if (warehouseCount != null) ...[
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: OskText.title2(
+                    text: 'Количество продукта на складах',
+                    fontWeight: OskfontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Table(
+                    border: TableBorder.symmetric(
+                      inside: const BorderSide(),
+                    ),
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: [
+                      for (final data in warehouseCount!.entries)
+                        TableRow(
+                          children: [
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.top,
+                              child: SizedBox(
+                                height: 32,
+                                width: 32,
+                                child: Align(
+                                  child: OskText.body(
+                                    text: data.key,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.top,
+                              child: SizedBox(
+                                height: 32,
+                                width: 32,
+                                child: Align(
+                                  child: OskText.body(
+                                    text: data.value.toString(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 16),
             ],
           ),
           actions: [

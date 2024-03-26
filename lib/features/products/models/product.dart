@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 
-import '../../warehouse/models/warehouse.dart';
 import '../data/api/models/product_dto.dart';
 
 final class Product {
@@ -12,7 +11,7 @@ final class Product {
   final String? description;
   final Set<String> codes;
   final int? count;
-  final Map<Warehouse, int>? warehouseCount;
+  final Map<String, int>? warehouseCount;
 
   const Product({
     required this.id,
@@ -35,6 +34,7 @@ final class Product {
         manufacturer: dto.manufacturer,
         model: dto.model,
         description: dto.description,
+        warehouseCount: dto.warehouseCount,
       );
 }
 

@@ -23,11 +23,13 @@ class ProductDataPage extends StatefulWidget {
 }
 
 class _ProductDataPageState extends State<ProductDataPage> {
+  late final bloc = ProductDataBloc.of(context);
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => ProductDataBloc.of(context).add(
+      (_) => bloc.add(
         ProductDataPageEventInitialize(),
       ),
     );
@@ -56,6 +58,12 @@ class _ProductDataPageState extends State<ProductDataPage> {
           }
         },
       );
+
+  @override
+  void dispose() {
+    bloc.stop();
+    super.dispose();
+  }
 }
 
 class _ProductDataHeader extends OskScaffoldHeader {
@@ -80,8 +88,8 @@ class _ProductDataPage extends StatefulWidget {
 }
 
 class __ProductDataPageState extends State<_ProductDataPage> {
-  late final String title;
-  late final String buttonTitle;
+  late String title;
+  late String buttonTitle;
 
   ProductType? itemType;
   late String manufacturer;
@@ -368,9 +376,12 @@ class _BarcodesListWidget extends StatelessWidget {
                   color: context.textFiledTheme.outlineColor,
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.add),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Icon(
+                  Icons.add,
+                  color: context.textFiledTheme.outlineColor,
+                ),
               ),
             ),
           ),

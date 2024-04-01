@@ -68,6 +68,7 @@ class _OskTextFieldState extends State<OskTextField> {
           onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
           maxLines: obscureText ? 1 : null,
+          style: TextStyle(color: theme.textColor, fontSize: 16),
           decoration: InputDecoration(
             suffixIcon: widget.showobscureTextIcon
                 ? OskIconButton(

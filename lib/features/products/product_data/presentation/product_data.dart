@@ -23,11 +23,13 @@ class ProductDataPage extends StatefulWidget {
 }
 
 class _ProductDataPageState extends State<ProductDataPage> {
+  late final bloc = ProductDataBloc.of(context);
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => ProductDataBloc.of(context).add(
+      (_) => bloc.add(
         ProductDataPageEventInitialize(),
       ),
     );
@@ -56,6 +58,12 @@ class _ProductDataPageState extends State<ProductDataPage> {
           }
         },
       );
+
+  @override
+  void dispose() {
+    bloc.stop();
+    super.dispose();
+  }
 }
 
 class _ProductDataHeader extends OskScaffoldHeader {
@@ -80,13 +88,15 @@ class _ProductDataPage extends StatefulWidget {
 }
 
 class __ProductDataPageState extends State<_ProductDataPage> {
-  late final String title;
-  late final String buttonTitle;
+  late String title;
+  late String buttonTitle;
 
   ProductType? itemType;
   late String manufacturer;
   late String model;
   String? description;
+
+  Map<String, int>? warehouseCount;
 
   late TextEditingController nameTextEditingController = TextEditingController(
     text: name,
@@ -143,6 +153,8 @@ class __ProductDataPageState extends State<_ProductDataPage> {
         buttonTitle = 'Обновить';
         manufacturer = state.product.manufacturer;
         model = state.product.model;
+        description = state.product.description;
+        warehouseCount = state.product.warehouseCount;
         itemType = ProductType.other;
     }
 
@@ -193,7 +205,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Производитель',
                 hintText: 'Автора',
-                initialText: name,
+                initialText: manufacturer,
                 onChanged: (manufacturer) {
                   this.manufacturer = manufacturer;
                   _onDataChanged();
@@ -203,7 +215,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Модель',
                 hintText: 'Картридж',
-                initialText: name,
+                initialText: model,
                 onChanged: (model) {
                   this.model = model;
                   _onDataChanged();
@@ -213,7 +225,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Описание',
                 hintText: 'Заполнять необязательно',
-                initialText: name,
+                initialText: description,
                 onChanged: (description) {
                   this.description = description;
                   _onDataChanged();
@@ -232,6 +244,58 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                   ),
                 ),
               ),
+              if (warehouseCount != null) ...[
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: OskText.title2(
+                    text: 'Количество продукта на складах',
+                    fontWeight: OskfontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Table(
+                    border: TableBorder.symmetric(
+                      inside: const BorderSide(),
+                    ),
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: [
+                      for (final data in warehouseCount!.entries)
+                        TableRow(
+                          children: [
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.top,
+                              child: SizedBox(
+                                height: 32,
+                                width: 32,
+                                child: Align(
+                                  child: OskText.body(
+                                    text: data.key,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              verticalAlignment: TableCellVerticalAlignment.top,
+                              child: SizedBox(
+                                height: 32,
+                                width: 32,
+                                child: Align(
+                                  child: OskText.body(
+                                    text: data.value.toString(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 16),
             ],
           ),
           actions: [
@@ -312,9 +376,12 @@ class _BarcodesListWidget extends StatelessWidget {
                   color: context.textFiledTheme.outlineColor,
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.add),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Icon(
+                  Icons.add,
+                  color: context.textFiledTheme.outlineColor,
+                ),
               ),
             ),
           ),

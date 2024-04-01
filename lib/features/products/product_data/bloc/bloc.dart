@@ -31,6 +31,8 @@ abstract class ProductDataBloc
         refresher,
         productId: productId,
       );
+
+  void stop();
 }
 
 class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
@@ -59,6 +61,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   ) async {
     switch (event) {
       case ProductDataPageEventInitialize():
+        emit(ProductDataStateInitial());
         _repository.start();
         start();
         await _repository.refreshData(productId);

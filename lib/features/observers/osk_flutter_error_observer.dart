@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -10,18 +11,12 @@ class FlutterErrorObserver {
   );
 
   static void setupErrorHandlers() {
-    FlutterError.onError = _recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     WidgetsBinding.instance.platformDispatcher.onError =
         _recordPlatformDispatcherError;
 
     _logger.i('Initialized');
   }
-
-  static void _recordFlutterError(FlutterErrorDetails error) => _logger.e(
-        'Error from FlutterError',
-        error: error.exception,
-        stackTrace: error.stack,
-      );
 
   static bool _recordPlatformDispatcherError(
     Object error,
@@ -32,6 +27,7 @@ class FlutterErrorObserver {
       error: error,
       stackTrace: stackTrace,
     );
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
     return true;
   }
 }

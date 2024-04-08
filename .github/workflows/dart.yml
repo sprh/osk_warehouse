@@ -32,10 +32,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Set environment variables
-        run: |
-          echo "DEBUG_BASE_URL=${{ secrets.DEBUG_BASE_URL }}" >> $GITHUB_ENV
-
       - name: Get Packages
         run: flutter pub get
 

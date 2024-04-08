@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "923403411454",
+    "project_id": "oskwarehouse-deb4b",
+    "storage_bucket": "oskwarehouse-deb4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923403411454:android:cb8f7f107f5e232b9caaaf",
+        "android_client_info": {
+          "package_name": "ru.osk.warehouse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3v_nttzkZWM8nrx_v_xd7pqU6WyUT_ps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

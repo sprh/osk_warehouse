@@ -1,4 +1,4 @@
-package com.example.osk_warehouse
+package ru.osk.warehouse
 
 import io.flutter.embedding.android.FlutterActivity
 

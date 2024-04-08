@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -15,16 +17,17 @@ import 'features/observers/osk_bloc_observer.dart';
 import 'features/observers/osk_flutter_error_observer.dart';
 import 'utils/kotlin_utils.dart';
 
-void main() {
-  runZonedGuarded(
+void main() async {
+  await runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-
       WidgetsBinding.instance.deferFirstFrame();
+      await Firebase.initializeApp();
       Bloc.observer = OskBlocObserver();
       FlutterErrorObserver.setupErrorHandlers();
 
       final dioClient = _initializeNetwork();
+      FirebaseCrashlytics.instance.crash();
       const secureStorage = FlutterSecureStorage();
       final authDataBloc = AuthorizationDataBloc();
       final authManager = _initializeAuthorizationDataScope(
@@ -48,7 +51,10 @@ void main() {
 
       WidgetsBinding.instance.allowFirstFrame();
     },
-    (_, __) {}, // TODO
+    (error, stackTrace) => FirebaseCrashlytics.instance.recordError(
+      error,
+      stackTrace,
+    ),
   );
 }
 

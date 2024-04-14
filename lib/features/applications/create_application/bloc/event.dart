@@ -57,3 +57,6 @@ class _CreateApplicationEventProductsSelected
     required this.products,
   });
 }
+
+class CreateApplicationEventShowPreviousStep
+    implements CreateApplicationEvent {}

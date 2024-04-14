@@ -45,42 +45,8 @@ class _CreateApplicationBloc
     on<CreateApplicationEvent>(_onEvent);
   }
 
-  CreateApplicationApplicationType? get _applicationType {
-    final state = this.state;
-    switch (state) {
-      case CreateApplicationStateIdle():
-        return null;
-      case CreateApplicationStateSelectType():
-        return null;
-      case CreateApplicationStateSelectToWarehouse():
-        return state.type;
-      case CreateApplicationStateSelectFromWarehouse():
-        return state.type;
-      case CreateApplicationStateSelectProducts():
-        return state.type;
-      case CreateApplicationStateFinal():
-        return state.type;
-    }
-  }
-
-  List<Warehouse>? get _availableWarehouses {
-    final state = this.state;
-
-    switch (state) {
-      case CreateApplicationStateIdle():
-        return null;
-      case CreateApplicationStateSelectType():
-        return state.availableWarehouses;
-      case CreateApplicationStateSelectToWarehouse():
-        return state.availableWarehouses;
-      case CreateApplicationStateSelectFromWarehouse():
-        return state.availableWarehouses;
-      case CreateApplicationStateSelectProducts():
-        return state.availableWarehouses;
-      case CreateApplicationStateFinal():
-        return state.availableWarehouses;
-    }
-  }
+  CreateApplicationApplicationType get _applicationType =>
+      (state as CreateApplicationStateData).type!;
 
   Future<void> _onEvent(
     CreateApplicationEvent event,
@@ -107,6 +73,8 @@ class _CreateApplicationBloc
         _onShowFinalScreen(emit);
       case CreateApplicationCreateButtonTap():
         await _onCreateApplication(event.description, emit);
+      case CreateApplicationEventShowPreviousStep():
+        _onShowPreviousStepEvent(emit);
     }
   }
 
@@ -114,7 +82,12 @@ class _CreateApplicationBloc
     final warehouses = await _warehouseListGetter.warehouseList;
 
     if (warehouses.isNotEmpty) {
-      emit(CreateApplicationStateSelectType(warehouses));
+      emit(
+        CreateApplicationStateData(
+          availableWarehouses: warehouses,
+          step: CreateApplicationStepSelectType(),
+        ),
+      );
     } else {
       await _navigationManager.showSomethingWentWrontDialog(
         'Нет доступных складов. Попробуйте позже или обратитесь к администратору.',
@@ -127,106 +100,87 @@ class _CreateApplicationBloc
     CreateApplicationApplicationType type,
     Emitter<CreateApplicationState> emit,
   ) {
-    final state = this.state as CreateApplicationStateSelectType;
+    final state = this.state as CreateApplicationStateData;
+    final CreateApplicationStep step;
     switch (type) {
       case CreateApplicationApplicationType.send:
-        emit(
-          CreateApplicationStateSelectToWarehouse(
-            state.availableWarehouses,
-            type,
-          ),
-        );
       case CreateApplicationApplicationType.recieve:
-        emit(
-          CreateApplicationStateSelectToWarehouse(
-            state.availableWarehouses,
-            type,
-          ),
-        );
+        step = CreateApplicationStepSelectToWarehouse();
       case CreateApplicationApplicationType.defect:
       case CreateApplicationApplicationType.use:
-        emit(
-          CreateApplicationStateSelectFromWarehouse(
-            toWarehouse: null,
-            canBeSkipped: false,
-            availableWarehouses: state.availableWarehouses,
-            type: type,
-          ),
-        );
+        step = const CreateApplicationStepSelectFromWarehouse(false);
     }
+
+    emit(state.copyWith(step: step, type: type));
   }
 
   void _onToWarehouseSelected(
     Emitter<CreateApplicationState> emit,
     Warehouse warehouse,
   ) {
-    final availableWarehouses = _availableWarehouses;
+    final state = this.state as CreateApplicationStateData;
     final applicationType = _applicationType;
-    if (availableWarehouses == null || applicationType == null) {
-      return;
-    }
+    final CreateApplicationStep step;
 
     switch (applicationType) {
       case CreateApplicationApplicationType.send:
-        emit(
-          CreateApplicationStateSelectFromWarehouse(
-            toWarehouse: warehouse,
-            canBeSkipped: false,
-            availableWarehouses: availableWarehouses,
-            type: applicationType,
-          ),
-        );
+        step = const CreateApplicationStepSelectFromWarehouse(false);
       case CreateApplicationApplicationType.recieve:
-        emit(
-          CreateApplicationStateSelectFromWarehouse(
-            toWarehouse: warehouse,
-            canBeSkipped: true,
-            availableWarehouses: availableWarehouses,
-            type: applicationType,
-          ),
-        );
+        step = const CreateApplicationStepSelectFromWarehouse(true);
       case CreateApplicationApplicationType.defect:
       case CreateApplicationApplicationType.use:
         throw StateError(
           'To warehouse should not be selected for $_applicationType',
         );
     }
+
+    emit(
+      state.copyWith(
+        step: step,
+        toWarehouse: warehouse,
+        fromWarehouse: warehouse.id == state.fromWarehouse?.id
+            ? null
+            : state.fromWarehouse,
+      ),
+    );
   }
 
   void _onFromWarehouseSelected(
     Emitter<CreateApplicationState> emit,
     Warehouse? warehouse,
   ) {
-    final availableWarehouses = _availableWarehouses;
-    final applicationType = _applicationType;
-    if (availableWarehouses == null || applicationType == null) {
-      return;
-    }
+    final state = this.state as CreateApplicationStateData;
 
-    emit(
-      CreateApplicationStateSelectProducts(
-        toWarehouse:
-            (state as CreateApplicationStateSelectFromWarehouse).toWarehouse,
-        fromWarehouse: warehouse,
-        selectedProducts: [],
-        availableWarehouses: availableWarehouses,
-        type: applicationType,
-      ),
-    );
+    if (state.fromWarehouse != null &&
+        warehouse?.id != state.fromWarehouse?.id) {
+      emit(
+        state.copyWith(
+          step: CreateApplicationStepSelectProducts(),
+          fromWarehouse: warehouse,
+          selectedProducts: [],
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          step: CreateApplicationStepSelectProducts(),
+          fromWarehouse: warehouse,
+        ),
+      );
+    }
   }
 
   void _onSelectProducts() {
-    late final warehouseId =
-        (state as CreateApplicationStateSelectProducts).fromWarehouse?.id;
+    final id = (state as CreateApplicationStateData).fromWarehouse?.id;
 
     _navigationManager.onSelectProducts(
       (products) => add(
         _CreateApplicationEventProductsSelected(products: products),
       ),
-      warehouseId,
-      (state as CreateApplicationStateSelectProducts)
+      id,
+      (state as CreateApplicationStateData)
           .selectedProducts
-          .map((product) => product.product.id)
+          ?.map((product) => product.product.id)
           .toSet(),
     );
   }
@@ -235,7 +189,7 @@ class _CreateApplicationBloc
     List<Product> products,
     Emitter<CreateApplicationState> emit,
   ) {
-    final state = this.state as CreateApplicationStateSelectProducts;
+    final state = this.state as CreateApplicationStateData;
     final selectedProducts = products.map(
       (product) => OskCreateApplicationProduct(
         product: product,
@@ -246,12 +200,8 @@ class _CreateApplicationBloc
     );
 
     emit(
-      CreateApplicationStateSelectProducts(
-        availableWarehouses: state.availableWarehouses,
-        toWarehouse: state.toWarehouse,
-        fromWarehouse: state.fromWarehouse,
+      state.copyWith(
         selectedProducts: selectedProducts.toList(),
-        type: state.type,
       ),
     );
   }
@@ -260,18 +210,14 @@ class _CreateApplicationBloc
     String id,
     Emitter<CreateApplicationState> emit,
   ) {
-    final state = this.state as CreateApplicationStateSelectProducts;
+    final state = this.state as CreateApplicationStateData;
     final selectedProducts = state.selectedProducts
-        .where((product) => product.product.id != id)
+        ?.where((product) => product.product.id != id)
         .toList();
 
     emit(
-      CreateApplicationStateSelectProducts(
-        availableWarehouses: state.availableWarehouses,
-        toWarehouse: state.toWarehouse,
-        fromWarehouse: state.fromWarehouse,
-        selectedProducts: selectedProducts.toList(),
-        type: state.type,
+      state.copyWith(
+        selectedProducts: selectedProducts?.toList(),
       ),
     );
   }
@@ -281,8 +227,8 @@ class _CreateApplicationBloc
     int count,
     Emitter<CreateApplicationState> emit,
   ) {
-    final state = this.state as CreateApplicationStateSelectProducts;
-    final selectedProducts = state.selectedProducts.map(
+    final state = this.state as CreateApplicationStateData;
+    final selectedProducts = state.selectedProducts?.map(
       (product) {
         if (product.product.id == id) {
           return OskCreateApplicationProduct(
@@ -295,25 +241,17 @@ class _CreateApplicationBloc
       },
     );
     emit(
-      CreateApplicationStateSelectProducts(
-        availableWarehouses: state.availableWarehouses,
-        toWarehouse: state.toWarehouse,
-        fromWarehouse: state.fromWarehouse,
-        selectedProducts: selectedProducts.toList(),
-        type: state.type,
+      state.copyWith(
+        selectedProducts: selectedProducts?.toList(),
       ),
     );
   }
 
   void _onShowFinalScreen(Emitter<CreateApplicationState> emit) {
-    final state = this.state as CreateApplicationStateSelectProducts;
+    final state = this.state as CreateApplicationStateData;
     emit(
-      CreateApplicationStateFinal(
-        availableWarehouses: state.availableWarehouses,
-        toWarehouse: state.toWarehouse,
-        fromWarehouse: state.fromWarehouse,
-        selectedProducts: state.selectedProducts,
-        type: state.type,
+      state.copyWith(
+        step: CreateApplicationStepSave(),
       ),
     );
   }
@@ -322,17 +260,17 @@ class _CreateApplicationBloc
     String description,
     Emitter<CreateApplicationState> emit,
   ) async {
-    final state = this.state as CreateApplicationStateFinal;
+    final state = this.state as CreateApplicationStateData;
     emit(state.copyWith(loading: true));
 
     try {
       final id = await _repository.createApplication(
         description: description,
-        type: state.type,
+        type: state.type!,
         sentFromWarehouseId: state.fromWarehouse?.id,
         sentToWarehouseId: state.toWarehouse?.id,
         linkedToApplicationId: null,
-        items: state.selectedProducts,
+        items: state.selectedProducts ?? [],
       );
       _navigationManager
         ..pop()
@@ -342,5 +280,13 @@ class _CreateApplicationBloc
       emit(state.copyWith(loading: false));
       await _navigationManager.showSomethingWentWrontDialog(e.message);
     }
+  }
+
+  void _onShowPreviousStepEvent(
+    Emitter<CreateApplicationState> emit,
+  ) {
+    final state = this.state as CreateApplicationStateData;
+
+    emit(state.onShowPreviousStep());
   }
 }

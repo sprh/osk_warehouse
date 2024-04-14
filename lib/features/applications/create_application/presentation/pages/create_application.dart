@@ -6,6 +6,7 @@ class _CreateApplication extends StatefulWidget {
   final Warehouse? toWarehouse;
   final Warehouse? fromWarehouse;
   final List<OskCreateApplicationProduct> selectedProducts;
+  final VoidCallback onBackTap;
 
   const _CreateApplication({
     required this.onCreateTap,
@@ -13,6 +14,7 @@ class _CreateApplication extends StatefulWidget {
     required this.toWarehouse,
     required this.fromWarehouse,
     required this.selectedProducts,
+    required this.onBackTap,
   });
 
   @override
@@ -78,7 +80,12 @@ class _CreateApplicationState extends State<_CreateApplication> {
             SizedBox(width: 8),
           ],
         ),
+        actionsDirection: Axis.horizontal,
         actions: [
+          OskButton.minor(
+            title: 'Назад',
+            onTap: () => widget.onBackTap(),
+          ),
           OskButton.main(
             title: 'Создать',
             subtitle: description.trim().isEmpty ? 'Заполните описание' : null,

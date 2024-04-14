@@ -5,12 +5,16 @@ class _CreateApplicationScreenWarehouse extends StatefulWidget {
   final List<Warehouse> availableWarehouses;
   final bool canSkipStep;
   final String title;
+  final VoidCallback? onBackButtonTap;
+  final String? selectedWarehouseId;
 
   const _CreateApplicationScreenWarehouse({
     required this.onWarehouseSelected,
     required this.availableWarehouses,
     required this.canSkipStep,
     required this.title,
+    required this.onBackButtonTap,
+    required this.selectedWarehouseId,
   });
 
   @override
@@ -20,13 +24,18 @@ class _CreateApplicationScreenWarehouse extends StatefulWidget {
 
 class _CreateApplicationScreenWarehouseState
     extends State<_CreateApplicationScreenWarehouse> {
-  Warehouse? selected;
+  late Warehouse? selected = widget.availableWarehouses.firstWhereOrNull(
+    (warehouse) => warehouse.id == widget.selectedWarehouseId,
+  );
 
   @override
   void didUpdateWidget(covariant _CreateApplicationScreenWarehouse oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.availableWarehouses != oldWidget.availableWarehouses) {
-      selected = null;
+    if (widget.availableWarehouses != oldWidget.availableWarehouses ||
+        widget.selectedWarehouseId != oldWidget.selectedWarehouseId) {
+      selected = widget.availableWarehouses.firstWhereOrNull(
+        (warehouse) => warehouse.id == widget.selectedWarehouseId,
+      );
       setState(() {});
     }
   }
@@ -41,12 +50,16 @@ class _CreateApplicationScreenWarehouseState
             SizedBox(width: 8),
           ],
         ),
+        actionsDirection: Axis.horizontal,
         actions: [
+          if (widget.onBackButtonTap != null)
+            OskButton.minor(
+              title: 'Назад',
+              onTap: widget.onBackButtonTap!,
+            ),
           OskButton.main(
             title: 'Далее',
-            subtitle: widget.canSkipStep
-                ? 'На этом шаге склад выбирать необязательно'
-                : null,
+            subtitle: widget.canSkipStep ? '(необязательно)' : null,
             state: selected == null && !widget.canSkipStep
                 ? OskButtonState.disabled
                 : OskButtonState.enabled,

@@ -4,82 +4,76 @@ sealed class CreateApplicationState {}
 
 class CreateApplicationStateIdle implements CreateApplicationState {}
 
-class CreateApplicationStateSelectType implements CreateApplicationState {
+class CreateApplicationStateData implements CreateApplicationState {
   final List<Warehouse> availableWarehouses;
 
-  const CreateApplicationStateSelectType(this.availableWarehouses);
-}
+  final CreateApplicationStep step;
+  final List<CreateApplicationStep> previousStep;
 
-class CreateApplicationStateSelectToWarehouse
-    implements CreateApplicationState {
-  final CreateApplicationApplicationType type;
-  final List<Warehouse> availableWarehouses;
-
-  const CreateApplicationStateSelectToWarehouse(
-    this.availableWarehouses,
-    this.type,
-  );
-}
-
-class CreateApplicationStateSelectFromWarehouse
-    implements CreateApplicationState {
-  final List<Warehouse> availableWarehouses;
-  final CreateApplicationApplicationType type;
-
-  final Warehouse? toWarehouse;
-  final bool canBeSkipped;
-
-  const CreateApplicationStateSelectFromWarehouse({
-    required this.toWarehouse,
-    required this.canBeSkipped,
-    required this.availableWarehouses,
-    required this.type,
-  });
-}
-
-class CreateApplicationStateSelectProducts implements CreateApplicationState {
-  final List<Warehouse> availableWarehouses;
-  final CreateApplicationApplicationType type;
+  final CreateApplicationApplicationType? type;
   final Warehouse? toWarehouse;
   final Warehouse? fromWarehouse;
-  final List<OskCreateApplicationProduct> selectedProducts;
-
-  CreateApplicationStateSelectProducts({
-    required this.toWarehouse,
-    required this.fromWarehouse,
-    required this.selectedProducts,
-    required this.availableWarehouses,
-    required this.type,
-  });
-}
-
-class CreateApplicationStateFinal implements CreateApplicationState {
-  final List<Warehouse> availableWarehouses;
-  final CreateApplicationApplicationType type;
-  final Warehouse? toWarehouse;
-  final Warehouse? fromWarehouse;
-  final List<OskCreateApplicationProduct> selectedProducts;
+  final List<OskCreateApplicationProduct>? selectedProducts;
   final bool loading;
 
-  CreateApplicationStateFinal({
-    required this.toWarehouse,
-    required this.fromWarehouse,
-    required this.selectedProducts,
+  const CreateApplicationStateData({
     required this.availableWarehouses,
-    required this.type,
+    required this.step,
+    this.previousStep = const <CreateApplicationStep>[],
+    this.type,
+    this.toWarehouse,
+    this.fromWarehouse,
+    this.selectedProducts,
     this.loading = false,
   });
 
-  CreateApplicationStateFinal copyWith({
+  CreateApplicationStateData copyWith({
+    CreateApplicationStep? step,
+    CreateApplicationApplicationType? type,
+    Warehouse? toWarehouse,
+    Warehouse? fromWarehouse,
+    List<OskCreateApplicationProduct>? selectedProducts,
     bool? loading,
-  }) {
-    return CreateApplicationStateFinal(
-      loading: loading ?? this.loading,
-      toWarehouse: toWarehouse,
-      fromWarehouse: fromWarehouse,
-      selectedProducts: selectedProducts,
-      availableWarehouses: availableWarehouses,
-      type: type,
-    );
-  }
+  }) =>
+      CreateApplicationStateData(
+        step: step ?? this.step,
+        previousStep: [...previousStep, this.step],
+        type: type ?? this.type,
+        toWarehouse: toWarehouse ?? this.toWarehouse,
+        fromWarehouse: fromWarehouse ?? this.fromWarehouse,
+        selectedProducts: selectedProducts ?? this.selectedProducts,
+        loading: loading ?? this.loading,
+        availableWarehouses: availableWarehouses,
+      );
+
+  CreateApplicationStateData onShowPreviousStep() => CreateApplicationStateData(
+        step: previousStep.last,
+        previousStep: previousStep.take(previousStep.length - 1).toList(),
+        type: type,
+        toWarehouse: toWarehouse,
+        fromWarehouse: fromWarehouse,
+        selectedProducts: selectedProducts,
+        loading: loading,
+        availableWarehouses: availableWarehouses,
+      );
+
+  bool get canGoBack => previousStep.isNotEmpty;
 }
+
+// ---Steps---
+sealed class CreateApplicationStep {}
+
+class CreateApplicationStepSelectType implements CreateApplicationStep {}
+
+class CreateApplicationStepSelectToWarehouse implements CreateApplicationStep {}
+
+class CreateApplicationStepSelectFromWarehouse
+    implements CreateApplicationStep {
+  final bool canSkip;
+
+  const CreateApplicationStepSelectFromWarehouse(this.canSkip);
+}
+
+class CreateApplicationStepSelectProducts implements CreateApplicationStep {}
+
+class CreateApplicationStepSave implements CreateApplicationStep {}

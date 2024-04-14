@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../common/components/actions/actions_flex.dart';
 import '../../../../common/components/button/osk_button.dart';
 import '../../../../common/components/button/osk_close_icon_button.dart';
 import '../../../../common/components/icon/osk_service_icons.dart';
@@ -91,66 +93,92 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
                   ),
                 ],
               );
-            case CreateApplicationStateSelectType():
-              return _CreateApplicationScreenType(
-                onTypeSelected: (type) => CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventOnTypeSelected(type),
-                ),
-              );
-            case CreateApplicationStateSelectToWarehouse():
-              return _CreateApplicationScreenWarehouse(
-                availableWarehouses: state.availableWarehouses,
-                title: _selectToWarehouseTitle(state.type),
-                onWarehouseSelected: (warehose) {
-                  if (warehose != null) {
-                    CreateApplicationBloc.of(context).add(
-                      CreateApplicationEventOnToWarehouseSelected(warehose),
-                    );
-                  }
-                },
-                canSkipStep: false,
-              );
-            case CreateApplicationStateSelectFromWarehouse():
-              return _CreateApplicationScreenWarehouse(
-                // from и to не могут быть одинаковыми
-                availableWarehouses: state.availableWarehouses
-                    .where((w) => w.id != state.toWarehouse?.id)
-                    .toList(),
-                title: _selectFromWarehouseTitle(state.type),
-                onWarehouseSelected: (warehose) =>
-                    CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventOnFromWarehouseSelected(warehose),
-                ),
-                canSkipStep: state.canBeSkipped,
-              );
-            case CreateApplicationStateSelectProducts():
-              return _SelectProducts(
-                products: state.selectedProducts,
-                onAddProductsTap: () => CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventSelectProductsButtonTap(),
-                ),
-                onNextTap: () => CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventOnShowFinalScreen(),
-                ),
-                onRemove: (id) => CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventRemoveProduct(id),
-                ),
-                onChangeCount: (id, count) =>
-                    CreateApplicationBloc.of(context).add(
-                  CreateApplicationEventChangeCount(id, count),
-                ),
-              );
-            case CreateApplicationStateFinal():
-              return _CreateApplication(
-                type: state.type,
-                onCreateTap: (description) =>
-                    CreateApplicationBloc.of(context).add(
-                  CreateApplicationCreateButtonTap(description),
-                ),
-                toWarehouse: state.toWarehouse,
-                fromWarehouse: state.fromWarehouse,
-                selectedProducts: state.selectedProducts,
-              );
+            case CreateApplicationStateData():
+              switch (state.step) {
+                case CreateApplicationStepSelectType():
+                  return _CreateApplicationScreenType(
+                    onTypeSelected: (type) =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventOnTypeSelected(type),
+                    ),
+                    savedType: state.type,
+                  );
+                case CreateApplicationStepSelectToWarehouse():
+                  return _CreateApplicationScreenWarehouse(
+                    availableWarehouses: state.availableWarehouses,
+                    title: _selectToWarehouseTitle(state.type!),
+                    onWarehouseSelected: (warehose) {
+                      if (warehose != null) {
+                        CreateApplicationBloc.of(context).add(
+                          CreateApplicationEventOnToWarehouseSelected(warehose),
+                        );
+                      }
+                    },
+                    selectedWarehouseId: state.toWarehouse?.id,
+                    onBackButtonTap: state.canGoBack
+                        ? () => CreateApplicationBloc.of(context).add(
+                              CreateApplicationEventShowPreviousStep(),
+                            )
+                        : null,
+                    canSkipStep: false,
+                  );
+                case CreateApplicationStepSelectFromWarehouse():
+                  return _CreateApplicationScreenWarehouse(
+                    // from и to не могут быть одинаковыми
+                    availableWarehouses: state.availableWarehouses
+                        .where((w) => w.id != state.toWarehouse?.id)
+                        .toList(),
+                    title: _selectFromWarehouseTitle(state.type!),
+                    onWarehouseSelected: (warehose) =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventOnFromWarehouseSelected(warehose),
+                    ),
+                    selectedWarehouseId: state.fromWarehouse?.id,
+                    canSkipStep:
+                        (state.step as CreateApplicationStepSelectFromWarehouse)
+                            .canSkip,
+                    onBackButtonTap: state.canGoBack
+                        ? () => CreateApplicationBloc.of(context).add(
+                              CreateApplicationEventShowPreviousStep(),
+                            )
+                        : null,
+                  );
+                case CreateApplicationStepSelectProducts():
+                  return _SelectProducts(
+                    products: state.selectedProducts ?? [],
+                    onAddProductsTap: () =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventSelectProductsButtonTap(),
+                    ),
+                    onNextTap: () => CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventOnShowFinalScreen(),
+                    ),
+                    onRemove: (id) => CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventRemoveProduct(id),
+                    ),
+                    onChangeCount: (id, count) =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventChangeCount(id, count),
+                    ),
+                    onBackTap: () => CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventShowPreviousStep(),
+                    ),
+                  );
+                case CreateApplicationStepSave():
+                  return _CreateApplication(
+                    type: state.type!,
+                    onCreateTap: (description) =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationCreateButtonTap(description),
+                    ),
+                    toWarehouse: state.toWarehouse,
+                    fromWarehouse: state.fromWarehouse,
+                    selectedProducts: state.selectedProducts ?? [],
+                    onBackTap: () => CreateApplicationBloc.of(context).add(
+                      CreateApplicationEventShowPreviousStep(),
+                    ),
+                  );
+              }
           }
         },
       );

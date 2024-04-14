@@ -27,7 +27,6 @@ void main() async {
       FlutterErrorObserver.setupErrorHandlers();
 
       final dioClient = _initializeNetwork();
-      FirebaseCrashlytics.instance.crash();
       const secureStorage = FlutterSecureStorage();
       final authDataBloc = AuthorizationDataBloc();
       final authManager = _initializeAuthorizationDataScope(

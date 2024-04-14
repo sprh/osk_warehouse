@@ -1,8 +1,12 @@
 import 'dart:collection';
 
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/components/actions/actions_flex.dart';
+import '../../../common/components/button/osk_button.dart';
 import '../../../features/applications/application_data/bloc/bloc.dart';
 import '../../../features/applications/application_data/presentation/application_data_page.dart';
 import '../../../features/applications/applications_list/bloc/bloc.dart';
@@ -17,6 +21,8 @@ import '../../../features/products/product_list/bloc/bloc.dart';
 import '../../../features/products/product_list/presentation/product_list_page.dart';
 import '../../../features/products/select_products/bloc/bloc.dart';
 import '../../../features/products/select_products/presentation/select_products_page.dart';
+import '../../../features/reports/bloc/bloc.dart';
+import '../../../features/reports/presentation/reports_list_page.dart';
 import '../../../features/user/user_data/bloc/bloc.dart';
 import '../../../features/user/user_data/presentation/user_data_page.dart';
 import '../../../features/user/users_list/bloc/bloc.dart';
@@ -57,6 +63,14 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   ]);
 
   void openApplicationData(String id);
+
+  void openReports();
+
+  Future<void> openCalenarPicker(
+    CalendarDatePicker2Config config,
+    void Function(List<DateTime>) onPeriodChanged,
+    List<DateTime> initialPeriod,
+  );
 }
 
 class AccountScopeNavigationManagerImpl
@@ -183,6 +197,14 @@ class AccountScopeNavigationManagerImpl
                         ),
                         child: const ApplicationDataPage(),
                       );
+                    case AccountScopeRouteReports():
+                      return BlocProvider(
+                        create: (context) => ReportsBloc(
+                          this,
+                          AccountScope.of(context).reportsRepository,
+                        ),
+                        child: const ReportsListPage(),
+                      );
                   }
                 },
               ),
@@ -306,5 +328,71 @@ class AccountScopeNavigationManagerImpl
       AccountScopeRouteApplicationData(id),
     );
     notifyListeners();
+  }
+
+  @override
+  void openReports() {
+    state.routes.add(
+      const AccountScopeRouteReports(),
+    );
+
+    notifyListeners();
+  }
+
+  @override
+  Future<void> openCalenarPicker(
+    CalendarDatePicker2Config config,
+    void Function(List<DateTime>) onPeriodChanged,
+    List<DateTime> initialPeriod,
+  ) async {
+    var dates = <DateTime>[];
+    showModal(
+      (context) {
+        var doneButtonEnabled = false;
+
+        return StatefulBuilder(
+          builder: (
+            context,
+            setState,
+          ) =>
+              SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 10),
+                CalendarDatePicker2(
+                  config: config,
+                  value: dates,
+                  onValueChanged: (value) {
+                    dates = value.whereNotNull().toList();
+                    doneButtonEnabled =
+                        dates.isNotEmpty && dates != initialPeriod;
+                    setState(() {});
+                  },
+                ),
+                OskActionsFlex(
+                  widgets: [
+                    OskButton.minor(
+                      title: 'Отмена',
+                      onTap: Navigator.of(context).pop,
+                    ),
+                    OskButton.main(
+                      title: 'Готово',
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        onPeriodChanged(dates);
+                      },
+                      state: doneButtonEnabled
+                          ? OskButtonState.enabled
+                          : OskButtonState.disabled,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

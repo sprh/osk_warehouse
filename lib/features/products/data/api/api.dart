@@ -10,6 +10,7 @@ abstract class ProductApi {
   factory ProductApi(DioClient dio) => _ProductApi(dio);
 
   Future<ProductListDto> getProductList();
+
   Future<ProductListDto> getProductListByWarehouse(String warehouseId);
 
   Future<void> deleteProduct(String id);

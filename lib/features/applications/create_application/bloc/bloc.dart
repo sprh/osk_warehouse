@@ -334,7 +334,9 @@ class _CreateApplicationBloc
         linkedToApplicationId: null,
         items: state.selectedProducts,
       );
-      _navigationManager..pop()..openApplicationData(id);
+      _navigationManager
+        ..pop()
+        ..openApplicationData(id);
       // ignore: avoid_catching_errors
     } on RepositoryLocalizedError catch (e) {
       emit(state.copyWith(loading: false));

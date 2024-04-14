@@ -52,6 +52,8 @@ class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
         _navigationManager.openCreateApplicationPage();
       case MainPageEventLogout():
         _onLogout();
+      case MainPageEventOpenReports():
+        _navigationManager.openReports();
     }
   }
 

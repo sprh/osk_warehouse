@@ -8,6 +8,8 @@ import '../../features/applications/data/repository/create_application_repositor
 import '../../features/products/data/api/api.dart';
 import '../../features/products/data/product_list_repository.dart';
 import '../../features/products/data/product_repository.dart';
+import '../../features/reports/data/api/api.dart';
+import '../../features/reports/data/repository.dart';
 import '../../features/user/current_user_holder/current_user_holder.dart';
 import '../../features/user/data/api/api.dart';
 import '../../features/user/data/user_list_repository.dart';
@@ -83,5 +85,12 @@ final class AccountScope extends Scope {
   late final applicationDataRepository = ApplicationDataRepository(
     applicationsApi,
     authManager.currentUsernameHolder,
+  );
+
+  // reports
+  late final reportsApi = ReportsApi(dio);
+
+  late final reportsRepository = ReportsRepository(
+    reportsApi,
   );
 }

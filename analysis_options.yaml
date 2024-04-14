@@ -24,8 +24,6 @@ linter:
 analyzer:
   exclude:
     - "**/*.g.dart"
-    - "**/*.freezed.dart"
-    - "**/metrica/models/*"
   errors:
     unrelated_type_equality_checks: error
     unused_local_variable: error

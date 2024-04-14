@@ -110,12 +110,14 @@ class _MainPageState extends State<MainPage> {
                           MainPageEventOpenWorkersList(),
                         ),
                       ),
-                    // if (state.availableBlocks.contains(MainPageBlocks.reports))
-                    //   OskActionBlock(
-                    //     title: strings.reports,
-                    //     icon: const OskServiceIcon.report(),
-                    //     onTap: () {}, // TODO:,
-                    //   ),
+                    if (state.availableBlocks.contains(MainPageBlocks.reports))
+                      OskActionBlock(
+                        title: strings.reports,
+                        icon: const OskServiceIcon.report(),
+                        onTap: () => MainPageBloc.of(context).add(
+                          MainPageEventOpenReports(),
+                        ),
+                      ),
                     if (state.availableBlocks.contains(MainPageBlocks.products))
                       OskActionBlock(
                         title: strings.productCards,

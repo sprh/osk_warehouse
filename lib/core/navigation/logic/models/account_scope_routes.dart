@@ -67,3 +67,7 @@ class AccountScopeRouteApplicationData extends AccountScopeRoute {
 
   AccountScopeRouteApplicationData(this.applicationId);
 }
+
+class AccountScopeRouteReports extends AccountScopeRoute {
+  const AccountScopeRouteReports();
+}

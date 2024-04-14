@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,8 @@ import '../../../products/models/product.dart';
 import '../../../warehouse/data/repository.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/repository/create_application_repository.dart';
+import '../../models/application/appication_type.dart';
+import '../../models/application/application.dart';
 import '../../models/create_application/create_application_application_type.dart';
 import '../../models/osk_create_application_product.dart';
 
@@ -21,13 +24,9 @@ abstract class CreateApplicationBloc
   factory CreateApplicationBloc(
     WarehouseListGetter warehouseListGetter,
     AccountScopeNavigationManager navigationManager,
-    CreateApplicationRepository repository,
-  ) =>
-      _CreateApplicationBloc(
-        warehouseListGetter,
-        navigationManager,
-        repository,
-      );
+    CreateApplicationRepository repository, [
+    Application? application,
+  ]) = _CreateApplicationBloc;
 }
 
 class _CreateApplicationBloc
@@ -40,13 +39,28 @@ class _CreateApplicationBloc
   _CreateApplicationBloc(
     this._warehouseListGetter,
     this._navigationManager,
-    this._repository,
-  ) : super(CreateApplicationStateIdle()) {
+    this._repository, [
+    Application? application,
+  ]) : super(
+          CreateApplicationStateIdle(
+            mode: CreateApplicationMode.fromApplication(application),
+          ),
+        ) {
     on<CreateApplicationEvent>(_onEvent);
   }
 
   CreateApplicationApplicationType get _applicationType =>
       (state as CreateApplicationStateData).type!;
+
+  Application? get _application {
+    final mode = state.mode;
+    switch (mode) {
+      case CreateApplicationModeCreate():
+        return null;
+      case CreateApplicationModeEdit():
+        return mode.application;
+    }
+  }
 
   Future<void> _onEvent(
     CreateApplicationEvent event,
@@ -71,10 +85,16 @@ class _CreateApplicationBloc
         _changeProductCount(event.id, event.count, emit);
       case CreateApplicationEventOnShowFinalScreen():
         _onShowFinalScreen(emit);
-      case CreateApplicationCreateButtonTap():
-        await _onCreateApplication(event.description, emit);
+      case CreateApplicationSaveButtonTap():
+        await _onCreateApplication(emit);
       case CreateApplicationEventShowPreviousStep():
         _onShowPreviousStepEvent(emit);
+      case CreateApplicationOnDescriptionChanged():
+        emit(
+          (state as CreateApplicationStateData).copyWith(
+            description: event.description,
+          ),
+        );
     }
   }
 
@@ -83,9 +103,10 @@ class _CreateApplicationBloc
 
     if (warehouses.isNotEmpty) {
       emit(
-        CreateApplicationStateData(
+        CreateApplicationStateData.fromApplication(
           availableWarehouses: warehouses,
-          step: CreateApplicationStepSelectType(),
+          mode: state.mode,
+          application: _application,
         ),
       );
     } else {
@@ -257,24 +278,49 @@ class _CreateApplicationBloc
   }
 
   Future<void> _onCreateApplication(
-    String description,
     Emitter<CreateApplicationState> emit,
   ) async {
     final state = this.state as CreateApplicationStateData;
     emit(state.copyWith(loading: true));
 
+    switch (state.mode) {
+      case CreateApplicationModeCreate():
+      // TODO: Handle this case.
+      case CreateApplicationModeEdit():
+      // TODO: Handle this case.
+    }
+
+    final mode = state.mode;
+
     try {
-      final id = await _repository.createApplication(
-        description: description,
-        type: state.type!,
-        sentFromWarehouseId: state.fromWarehouse?.id,
-        sentToWarehouseId: state.toWarehouse?.id,
-        linkedToApplicationId: null,
-        items: state.selectedProducts ?? [],
-      );
-      _navigationManager
-        ..pop()
-        ..openApplicationData(id);
+      switch (mode) {
+        case CreateApplicationModeCreate():
+          final id = await _repository.createApplication(
+            description: state.description ?? '',
+            type: state.type!,
+            sentFromWarehouseId: state.fromWarehouse?.id,
+            sentToWarehouseId: state.toWarehouse?.id,
+            linkedToApplicationId: null,
+            items: state.selectedProducts ?? [],
+          );
+          _navigationManager
+            ..pop()
+            ..openApplicationData(id);
+        case CreateApplicationModeEdit():
+          // TODO: update applications list
+          final id = await _repository.updateApplication(
+            id: mode.application.id,
+            description: state.description ?? '',
+            type: state.type!,
+            sentFromWarehouseId: state.fromWarehouse?.id,
+            sentToWarehouseId: state.toWarehouse?.id,
+            linkedToApplicationId: null,
+            items: state.selectedProducts ?? [],
+          );
+          _navigationManager
+            ..pop()
+            ..openApplicationData(id);
+      }
       // ignore: avoid_catching_errors
     } on RepositoryLocalizedError catch (e) {
       emit(state.copyWith(loading: false));

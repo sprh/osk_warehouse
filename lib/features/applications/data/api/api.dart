@@ -17,6 +17,11 @@ abstract class ApplicationsApi {
     String idempotencyToken,
   );
 
+  Future<ApplicationDto> updateApplication(
+    CreateApplicationDto dto,
+    String id,
+  );
+
   Future<void> reject(String id);
 
   Future<void> approve(String id);
@@ -106,6 +111,22 @@ class _ApplicationApi implements ApplicationsApi {
     );
 
     return response.data!;
+  }
+
+  @override
+  Future<ApplicationDto> updateApplication(
+    CreateApplicationDto dto,
+    String id,
+  ) async {
+    final response = await _dio.core.patch<Map<String, dynamic>>(
+      _ApiConstants.applications,
+      data: dto.toJson(),
+      queryParameters: {
+        _ApiConstants.applicationsId: id,
+      },
+    );
+
+    return ApplicationDto.fromJson(response.data!);
   }
 }
 

@@ -128,9 +128,11 @@ class _ApplicatioDataBloc
           _applicationsListRefresher.refresh();
           _navigationManager.pop();
         case ApplicationAction.edit:
-          await _navigationManager.showSomethingWentWrontDialog(
-            'Редактирование заявки пока что недоступно',
-          );
+          _navigationManager
+            ..pop()
+            ..openEditApplication(
+              (state as ApplicationDataStateData).application,
+            );
         case ApplicationAction.delete:
           await _repository.delete(_applicationId);
           _applicationsListRefresher.refresh();

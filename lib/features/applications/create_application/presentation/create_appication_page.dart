@@ -33,9 +33,6 @@ class CreateApplicationPage extends StatefulWidget {
 class _CreateApplicationPageState extends State<CreateApplicationPage> {
   String? description;
 
-  Warehouse? firstSelectedWarehouse;
-  Warehouse? secondSelectedWarehouse;
-
   String _selectToWarehouseTitle(CreateApplicationApplicationType type) {
     switch (type) {
       case CreateApplicationApplicationType.send:
@@ -166,16 +163,18 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
                   );
                 case CreateApplicationStepSave():
                   return _CreateApplication(
-                    type: state.type!,
-                    onCreateTap: (description) =>
-                        CreateApplicationBloc.of(context).add(
-                      CreateApplicationCreateButtonTap(description),
+                    state: state,
+                    onCreateTap: () => CreateApplicationBloc.of(context).add(
+                      const CreateApplicationSaveButtonTap(),
                     ),
-                    toWarehouse: state.toWarehouse,
-                    fromWarehouse: state.fromWarehouse,
-                    selectedProducts: state.selectedProducts ?? [],
                     onBackTap: () => CreateApplicationBloc.of(context).add(
                       CreateApplicationEventShowPreviousStep(),
+                    ),
+                    saveDescription: (description) =>
+                        CreateApplicationBloc.of(context).add(
+                      CreateApplicationOnDescriptionChanged(
+                        description: description,
+                      ),
                     ),
                   );
               }

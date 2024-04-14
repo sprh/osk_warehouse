@@ -1,20 +1,16 @@
 part of '../create_appication_page.dart';
 
 class _CreateApplication extends StatefulWidget {
-  final void Function(String description) onCreateTap;
-  final CreateApplicationApplicationType type;
-  final Warehouse? toWarehouse;
-  final Warehouse? fromWarehouse;
-  final List<OskCreateApplicationProduct> selectedProducts;
+  final VoidCallback onCreateTap;
+  final CreateApplicationStateData state;
   final VoidCallback onBackTap;
+  final void Function(String) saveDescription;
 
   const _CreateApplication({
     required this.onCreateTap,
-    required this.type,
-    required this.toWarehouse,
-    required this.fromWarehouse,
-    required this.selectedProducts,
+    required this.state,
     required this.onBackTap,
+    required this.saveDescription,
   });
 
   @override
@@ -22,14 +18,12 @@ class _CreateApplication extends StatefulWidget {
 }
 
 class _CreateApplicationState extends State<_CreateApplication> {
-  String description = '';
-
   String get _applicationTypeTitle {
-    switch (widget.type) {
+    switch (widget.state.type!) {
       case CreateApplicationApplicationType.send:
         return 'Отправка со склада на склад';
       case CreateApplicationApplicationType.recieve:
-        if (widget.fromWarehouse != null) {
+        if (widget.state.fromWarehouse != null) {
           return 'Приемка со склада на склад';
         } else {
           return 'Приемка на склад';
@@ -42,7 +36,7 @@ class _CreateApplicationState extends State<_CreateApplication> {
   }
 
   String get _fromWarehouseTitle {
-    switch (widget.type) {
+    switch (widget.state.type!) {
       case CreateApplicationApplicationType.send:
       case CreateApplicationApplicationType.recieve:
         return 'Со склада';
@@ -53,7 +47,7 @@ class _CreateApplicationState extends State<_CreateApplication> {
   }
 
   String get _toWarehouseTitle {
-    switch (widget.type) {
+    switch (widget.state.type!) {
       case CreateApplicationApplicationType.send:
       case CreateApplicationApplicationType.recieve:
         return 'На склад';
@@ -63,10 +57,32 @@ class _CreateApplicationState extends State<_CreateApplication> {
     }
   }
 
+  String get _title {
+    final mode = widget.state.mode;
+    switch (mode) {
+      case CreateApplicationModeCreate():
+        return 'Предпросмотр заявки';
+      case CreateApplicationModeEdit():
+        return 'Редактирование заявки #${mode.application.id}';
+    }
+  }
+
+  String get _buttonTitle {
+    final mode = widget.state.mode;
+
+    switch (mode) {
+      case CreateApplicationModeCreate():
+        return 'Создать';
+      case CreateApplicationModeEdit():
+        return 'Сохранить';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final toWarehouse = widget.toWarehouse;
-    final fromWarehouse = widget.fromWarehouse;
+    final toWarehouse = widget.state.toWarehouse;
+    final fromWarehouse = widget.state.fromWarehouse;
+    final description = widget.state.description?.trim() ?? '';
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -74,7 +90,7 @@ class _CreateApplicationState extends State<_CreateApplication> {
       child: OskScaffold.slivers(
         header: OskScaffoldHeader(
           leading: const OskServiceIcon.request(),
-          title: 'Предросмотр заявки',
+          title: _title,
           actions: const [
             OskCloseIconButton(),
             SizedBox(width: 8),
@@ -82,17 +98,18 @@ class _CreateApplicationState extends State<_CreateApplication> {
         ),
         actionsDirection: Axis.horizontal,
         actions: [
-          OskButton.minor(
-            title: 'Назад',
-            onTap: () => widget.onBackTap(),
-          ),
+          if (widget.state.mode is! CreateApplicationModeEdit)
+            OskButton.minor(
+              title: 'Назад',
+              onTap: () => widget.onBackTap(),
+            ),
           OskButton.main(
-            title: 'Создать',
-            subtitle: description.trim().isEmpty ? 'Заполните описание' : null,
-            state: description.trim().isEmpty
+            title: _buttonTitle,
+            subtitle: description.isEmpty ? 'Заполните описание' : null,
+            state: description.isEmpty
                 ? OskButtonState.disabled
                 : OskButtonState.enabled,
-            onTap: () => widget.onCreateTap(description),
+            onTap: widget.onCreateTap,
           ),
         ],
         slivers: [
@@ -115,7 +132,7 @@ class _CreateApplicationState extends State<_CreateApplication> {
                     textInputType: TextInputType.multiline,
                     label: 'Описание',
                     initialText: description,
-                    onChanged: (text) => setState(() => description = text),
+                    onChanged: widget.saveDescription,
                     constraints: const BoxConstraints(maxHeight: 200),
                     padding: EdgeInsets.zero,
                   ),
@@ -153,9 +170,9 @@ class _CreateApplicationState extends State<_CreateApplication> {
           SliverPadding(
             padding: const EdgeInsets.only(top: 8, bottom: 8),
             sliver: SliverList.separated(
-              itemCount: widget.selectedProducts.length,
+              itemCount: widget.state.selectedProducts!.length,
               itemBuilder: (_, index) {
-                final product = widget.selectedProducts[index];
+                final product = widget.state.selectedProducts![index];
 
                 return Center(
                   child: OskInfoSlot(

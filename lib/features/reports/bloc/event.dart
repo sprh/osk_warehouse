@@ -17,3 +17,5 @@ class _RepositoryEventOnSelectedPeriodChanged implements ReportsEvent {
 
   const _RepositoryEventOnSelectedPeriodChanged({required this.selectedPeriod});
 }
+
+class ReportsEventDownloadFile implements ReportsEvent {}

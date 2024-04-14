@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/components/button/osk_button.dart';
 import '../../../common/components/button/osk_close_icon_button.dart';
 import '../../../common/components/icon/osk_service_icons.dart';
 import '../../../common/components/loading_effect/loading_effect.dart';
@@ -58,11 +59,14 @@ class _ReportsListPageState extends State<ReportsListPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(height: 16),
-                      _PeriodButton(
-                        onTap: () => ReportsBloc.of(context).add(
-                          ReportsEventOpenCalendar(),
+                      LoadingEffect(
+                        isLoading: state.loading,
+                        child: _PeriodButton(
+                          onTap: () => ReportsBloc.of(context).add(
+                            ReportsEventOpenCalendar(),
+                          ),
+                          formattedPeriod: state.formattedPeriod,
                         ),
-                        formattedPeriod: state.formattedPeriod,
                       ),
                       if (report.items.isEmpty)
                         Padding(
@@ -121,6 +125,16 @@ class _ReportsListPageState extends State<ReportsListPage> {
               }
             },
           ),
+          actions: [
+            if (state is ReportsStateSelectedPeriod &&
+                state.response.items.isNotEmpty)
+              OskButton.main(
+                title: 'Скачать отчет',
+                onTap: () => ReportsBloc.of(context).add(
+                  ReportsEventDownloadFile(),
+                ),
+              ),
+          ],
         ),
       );
 }

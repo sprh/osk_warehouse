@@ -50,11 +50,13 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
       case _ReportsEventOnData():
         final period =
             (state as ReportsStateSelectedPeriodLoading).formattedPeriod;
-        emit(ReportsStateSelectedPeriod(period, event.value));
+        emit(ReportsStateSelectedPeriod(period, event.value, false));
       case ReportsEventOpenCalendar():
         await _openCalendar();
       case _RepositoryEventOnSelectedPeriodChanged():
         await _onSelectedPeriodChanged(event.selectedPeriod, emit);
+      case ReportsEventDownloadFile():
+        await _onDownloadFile(emit);
     }
   }
 
@@ -109,5 +111,17 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
     );
     emit(ReportsStateSelectedPeriodLoading(formattedPeriod));
     await _repository.getReports(selectedPeriod);
+  }
+
+  Future<void> _onDownloadFile(Emitter<ReportsState> emit) async {
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: true));
+    final file = await _repository.downloadFile(selectedPeriod);
+    if (file != null) {
+      await _repository.saveAndShareFile(
+        (state as ReportsStateSelectedPeriod).formattedPeriod,
+        file,
+      );
+    }
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: false));
   }
 }

@@ -2,8 +2,12 @@ part of '../create_appication_page.dart';
 
 class _CreateApplicationScreenType extends StatefulWidget {
   final void Function(CreateApplicationApplicationType) onTypeSelected;
+  final CreateApplicationApplicationType? savedType;
 
-  const _CreateApplicationScreenType({required this.onTypeSelected});
+  const _CreateApplicationScreenType({
+    required this.onTypeSelected,
+    required this.savedType,
+  });
 
   @override
   State<_CreateApplicationScreenType> createState() =>
@@ -12,7 +16,7 @@ class _CreateApplicationScreenType extends StatefulWidget {
 
 class _CreateApplicationScreenTypeState
     extends State<_CreateApplicationScreenType> {
-  CreateApplicationApplicationType? applicationType;
+  late CreateApplicationApplicationType? applicationType = widget.savedType;
 
   String _getNameByType(CreateApplicationApplicationType type) {
     switch (type) {

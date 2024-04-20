@@ -43,10 +43,8 @@ class CreateApplicationEventChangeCount implements CreateApplicationEvent {
 class CreateApplicationEventOnShowFinalScreen
     implements CreateApplicationEvent {}
 
-class CreateApplicationCreateButtonTap implements CreateApplicationEvent {
-  final String description;
-
-  const CreateApplicationCreateButtonTap(this.description);
+class CreateApplicationSaveButtonTap implements CreateApplicationEvent {
+  const CreateApplicationSaveButtonTap();
 }
 
 class _CreateApplicationEventProductsSelected
@@ -57,3 +55,16 @@ class _CreateApplicationEventProductsSelected
     required this.products,
   });
 }
+
+class CreateApplicationEventShowPreviousStep
+    implements CreateApplicationEvent {}
+
+class CreateApplicationOnDescriptionChanged implements CreateApplicationEvent {
+  final String description;
+
+  const CreateApplicationOnDescriptionChanged({
+    required this.description,
+  });
+}
+
+class CreateApplicationEditProducts implements CreateApplicationEvent {}

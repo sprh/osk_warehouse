@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import '../../../../features/applications/models/application/application.dart';
 import '../../../../features/products/select_products/bloc/bloc.dart';
 
 class AccountScopeRouteState {
@@ -42,6 +43,12 @@ class AccountScopeRouteApplicationsList extends AccountScopeRoute {}
 
 class AccountScopeRouteCreateApplicationPage extends AccountScopeRoute {
   const AccountScopeRouteCreateApplicationPage();
+}
+
+class AccountScopeRouteEditApplicationPage extends AccountScopeRoute {
+  final Application application;
+
+  const AccountScopeRouteEditApplicationPage(this.application);
 }
 
 class AccountScopeRouteProductData extends AccountScopeRoute {

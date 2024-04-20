@@ -22,6 +22,16 @@ abstract class CreateApplicationRepository extends Repository<void> {
     required String? linkedToApplicationId,
     required List<OskCreateApplicationProduct> items,
   });
+
+  Future<String> updateApplication({
+    required String id,
+    required String description,
+    required CreateApplicationApplicationType type,
+    required String? sentFromWarehouseId,
+    required String? sentToWarehouseId,
+    required String? linkedToApplicationId,
+    required List<OskCreateApplicationProduct> items,
+  });
 }
 
 class _CreateApplicationRepository extends Repository<void>
@@ -73,6 +83,55 @@ class _CreateApplicationRepository extends Repository<void>
     } on Exception catch (_) {
       throw RepositoryLocalizedError(
         message: 'Не удалось создать заявку. Пожалуйста, попробуйте позже',
+      );
+    }
+  }
+
+  @override
+  Future<String> updateApplication({
+    required String id,
+    required String description,
+    required CreateApplicationApplicationType type,
+    required String? sentFromWarehouseId,
+    required String? sentToWarehouseId,
+    required String? linkedToApplicationId,
+    required List<OskCreateApplicationProduct> items,
+  }) async {
+    try {
+      final data = CreateApplicationDto(
+        applicationData: CreateApplicationDataDto(
+          description: description,
+          type: type.name,
+          sentFromWarehouseId: sentFromWarehouseId,
+          sentToWarehouseId: sentToWarehouseId,
+          linkedToApplicationId: linkedToApplicationId,
+        ),
+        applicationPayload: CreateApplicationPayloadDto(
+          items: items
+              .map(
+                (e) => ProductDto(
+                  id: e.product.id,
+                  itemName: e.product.name,
+                  codes: e.product.codes.toList(),
+                  itemType: e.product.type.name,
+                  manufacturer: e.product.manufacturer,
+                  model: e.product.model,
+                  count: e.count,
+                ),
+              )
+              .toList(),
+        ),
+      );
+
+      final application = await _api.updateApplication(
+        data,
+        id,
+      );
+      return application.id;
+    } on Exception catch (_) {
+      throw RepositoryLocalizedError(
+        message:
+            'Не удалось обновить,здать заявку. Пожалуйста, попробуйте позже',
       );
     }
   }

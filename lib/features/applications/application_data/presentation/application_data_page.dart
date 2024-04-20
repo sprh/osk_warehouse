@@ -109,6 +109,7 @@ class _ApplicationDataPageState extends State<ApplicationDataPage> {
                       shrinkWrap: true,
                       itemCount: items.length,
                       physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
                       itemBuilder: (_, index) {
                         final product = items[index];
 

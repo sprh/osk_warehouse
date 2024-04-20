@@ -13,6 +13,7 @@ import '../../../features/applications/applications_list/bloc/bloc.dart';
 import '../../../features/applications/applications_list/presentation/applications_list_page.dart';
 import '../../../features/applications/create_application/bloc/bloc.dart';
 import '../../../features/applications/create_application/presentation/create_appication_page.dart';
+import '../../../features/applications/models/application/application.dart';
 import '../../../features/main_page/bloc/bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
 import '../../../features/products/product_data/bloc/bloc.dart';
@@ -71,6 +72,8 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
     void Function(List<DateTime>) onPeriodChanged,
     List<DateTime> initialPeriod,
   );
+
+  void openEditApplication(Application application);
 }
 
 class AccountScopeNavigationManagerImpl
@@ -163,6 +166,18 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).warehouseRepository,
                           this,
                           AccountScope.of(context).createApplicationRepository,
+                          AccountScope.of(context).applicationsListRepository,
+                        ),
+                        child: const CreateApplicationPage(),
+                      );
+                    case AccountScopeRouteEditApplicationPage():
+                      return BlocProvider(
+                        create: (context) => CreateApplicationBloc(
+                          AccountScope.of(context).warehouseRepository,
+                          this,
+                          AccountScope.of(context).createApplicationRepository,
+                          AccountScope.of(context).applicationsListRepository,
+                          route.application,
                         ),
                         child: const CreateApplicationPage(),
                       );
@@ -294,6 +309,14 @@ class AccountScopeNavigationManagerImpl
   void openCreateApplicationPage() {
     state.routes.add(
       const AccountScopeRouteCreateApplicationPage(),
+    );
+    notifyListeners();
+  }
+
+  @override
+  void openEditApplication(Application application) {
+    state.routes.add(
+      AccountScopeRouteEditApplicationPage(application),
     );
     notifyListeners();
   }

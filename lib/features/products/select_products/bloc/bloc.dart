@@ -124,7 +124,6 @@ class _SelectProductsBloc extends Bloc<SelectProductsEvent, SelectProductsState>
   @override
   Future<void> close() {
     super.stop();
-    _repository.stop();
     return super.close();
   }
 }

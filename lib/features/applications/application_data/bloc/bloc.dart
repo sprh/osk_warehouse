@@ -167,4 +167,10 @@ class _ApplicatioDataBloc
           ],
         ),
       );
+
+  @override
+  Future<void> close() {
+    super.stop();
+    return super.close();
+  }
 }

@@ -124,4 +124,10 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
     }
     emit((state as ReportsStateSelectedPeriod).copyWith(loading: false));
   }
+
+  @override
+  Future<void> close() {
+    super.stop();
+    return super.close();
+  }
 }

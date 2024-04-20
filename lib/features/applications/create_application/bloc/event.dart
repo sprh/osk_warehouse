@@ -66,3 +66,5 @@ class CreateApplicationOnDescriptionChanged implements CreateApplicationEvent {
     required this.description,
   });
 }
+
+class CreateApplicationEditProducts implements CreateApplicationEvent {}

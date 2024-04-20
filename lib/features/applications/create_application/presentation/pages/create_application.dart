@@ -5,12 +5,14 @@ class _CreateApplication extends StatefulWidget {
   final CreateApplicationStateData state;
   final VoidCallback onBackTap;
   final void Function(String) saveDescription;
+  final VoidCallback onEditProducts;
 
   const _CreateApplication({
     required this.onCreateTap,
     required this.state,
     required this.onBackTap,
     required this.saveDescription,
+    required this.onEditProducts,
   });
 
   @override
@@ -137,38 +139,46 @@ class _CreateApplicationState extends State<_CreateApplication> {
                     padding: EdgeInsets.zero,
                   ),
                   const SizedBox(height: 16),
-                  if (fromWarehouse != null) ...[
-                    OskText.title2(
-                      text: _fromWarehouseTitle,
-                      fontWeight: OskfontWeight.bold,
+                  if (fromWarehouse != null)
+                    _WarehouseData(
+                      title: _fromWarehouseTitle,
+                      name: fromWarehouse.name,
                     ),
-                    OskText.body(text: fromWarehouse.name),
-                  ],
                   if (fromWarehouse != null && toWarehouse != null) ...[
                     const SizedBox(height: 8),
                     const Icon(Icons.arrow_downward_rounded),
                     const SizedBox(height: 8),
                   ],
-                  if (toWarehouse != null) ...[
-                    OskText.title2(
-                      text: _toWarehouseTitle,
-                      fontWeight: OskfontWeight.bold,
+                  if (toWarehouse != null)
+                    _WarehouseData(
+                      title: _toWarehouseTitle,
+                      name: toWarehouse.name,
                     ),
-                    OskText.body(text: toWarehouse.name),
-                  ],
                   const SizedBox(height: 8),
                   const OskLineDivider(),
                   const SizedBox(height: 8),
-                  OskText.title2(
-                    text: 'Товары в заявке',
-                    fontWeight: OskfontWeight.bold,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OskText.title2(
+                        text: 'Товары в заявке',
+                        fontWeight: OskfontWeight.bold,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: widget.onEditProducts,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            padding: const EdgeInsets.only(bottom: 8, top: 8),
             sliver: SliverList.separated(
               itemCount: widget.state.selectedProducts!.length,
               itemBuilder: (_, index) {
@@ -197,4 +207,26 @@ class _CreateApplicationState extends State<_CreateApplication> {
       ),
     );
   }
+}
+
+class _WarehouseData extends StatelessWidget {
+  final String title;
+  final String name;
+
+  const _WarehouseData({
+    required this.title,
+    required this.name,
+  });
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          OskText.title2(
+            text: title,
+            fontWeight: OskfontWeight.bold,
+          ),
+          OskText.body(text: name),
+        ],
+      );
 }

@@ -73,7 +73,7 @@ class _ReportsRepository extends Repository<ReportsResponse>
       await file.writeAsBytes(content);
       await Share.shareXFiles(
         [XFile(filePath)],
-        text: 'Поделиться файлом',
+        text: 'Отчет $name',
       );
     } on Exception {
       emitError(

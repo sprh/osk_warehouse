@@ -7,6 +7,7 @@ import '../../../../core/navigation/manager/account_scope_navigation_manager.dar
 import '../../../products/models/product.dart';
 import '../../../warehouse/data/repository.dart';
 import '../../../warehouse/models/warehouse.dart';
+import '../../data/repository/applications_list_repository.dart';
 import '../../data/repository/create_application_repository.dart';
 import '../../models/application/appication_type.dart';
 import '../../models/application/application.dart';
@@ -24,7 +25,8 @@ abstract class CreateApplicationBloc
   factory CreateApplicationBloc(
     WarehouseListGetter warehouseListGetter,
     AccountScopeNavigationManager navigationManager,
-    CreateApplicationRepository repository, [
+    CreateApplicationRepository repository,
+    ApplicationsListRefresher refresher, [
     Application? application,
   ]) = _CreateApplicationBloc;
 }
@@ -35,11 +37,13 @@ class _CreateApplicationBloc
   final WarehouseListGetter _warehouseListGetter;
   final AccountScopeNavigationManager _navigationManager;
   final CreateApplicationRepository _repository;
+  final ApplicationsListRefresher _applicationsListRefresher;
 
   _CreateApplicationBloc(
     this._warehouseListGetter,
     this._navigationManager,
-    this._repository, [
+    this._repository,
+    this._applicationsListRefresher, [
     Application? application,
   ]) : super(
           CreateApplicationStateIdle(
@@ -95,6 +99,8 @@ class _CreateApplicationBloc
             description: event.description,
           ),
         );
+      case CreateApplicationEditProducts():
+        _onEditProducts(emit);
     }
   }
 
@@ -211,13 +217,24 @@ class _CreateApplicationBloc
     Emitter<CreateApplicationState> emit,
   ) {
     final state = this.state as CreateApplicationStateData;
+    final previousProducts = state.selectedProducts ?? [];
+
     final selectedProducts = products.map(
-      (product) => OskCreateApplicationProduct(
-        product: product,
-        count: 1,
-        // Тут используется количество на складе как максимальное количество
-        maxCount: product.count,
-      ),
+      (product) {
+        final count = previousProducts
+                .firstWhereOrNull(
+                  (previousProduct) => previousProduct.product.id == product.id,
+                )
+                ?.count ??
+            1;
+
+        return OskCreateApplicationProduct(
+          product: product,
+          count: count,
+          // Тут используется количество на складе как максимальное количество
+          maxCount: product.count,
+        );
+      },
     );
 
     emit(
@@ -277,18 +294,20 @@ class _CreateApplicationBloc
     );
   }
 
+  void _onEditProducts(Emitter<CreateApplicationState> emit) {
+    final state = this.state as CreateApplicationStateData;
+    emit(
+      state.copyWith(
+        step: CreateApplicationStepSelectProducts(),
+      ),
+    );
+  }
+
   Future<void> _onCreateApplication(
     Emitter<CreateApplicationState> emit,
   ) async {
     final state = this.state as CreateApplicationStateData;
     emit(state.copyWith(loading: true));
-
-    switch (state.mode) {
-      case CreateApplicationModeCreate():
-      // TODO: Handle this case.
-      case CreateApplicationModeEdit():
-      // TODO: Handle this case.
-    }
 
     final mode = state.mode;
 
@@ -307,7 +326,6 @@ class _CreateApplicationBloc
             ..pop()
             ..openApplicationData(id);
         case CreateApplicationModeEdit():
-          // TODO: update applications list
           final id = await _repository.updateApplication(
             id: mode.application.id,
             description: state.description ?? '',
@@ -317,6 +335,7 @@ class _CreateApplicationBloc
             linkedToApplicationId: null,
             items: state.selectedProducts ?? [],
           );
+          _applicationsListRefresher.refresh();
           _navigationManager
             ..pop()
             ..openApplicationData(id);

@@ -176,6 +176,9 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
                         description: description,
                       ),
                     ),
+                    onEditProducts: () => CreateApplicationBloc.of(context).add(
+                      CreateApplicationEditProducts(),
+                    ),
                   );
               }
           }

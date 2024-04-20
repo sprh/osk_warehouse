@@ -166,6 +166,7 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).warehouseRepository,
                           this,
                           AccountScope.of(context).createApplicationRepository,
+                          AccountScope.of(context).applicationsListRepository,
                         ),
                         child: const CreateApplicationPage(),
                       );
@@ -175,6 +176,7 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).warehouseRepository,
                           this,
                           AccountScope.of(context).createApplicationRepository,
+                          AccountScope.of(context).applicationsListRepository,
                           route.application,
                         ),
                         child: const CreateApplicationPage(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/kotlin_utils.dart';
+import '../../../utils/kotlin_utils.dart';
 import '../../checkbox/osk_checkbox.dart';
 import '../../tap/osk_tap_animation.dart';
 import '../../text/osk_text.dart';

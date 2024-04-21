@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'common/observers/osk_bloc_observer.dart';
+import 'common/observers/osk_flutter_error_observer.dart';
+import 'common/utils/kotlin_utils.dart';
 import 'core/authorization/bloc/authorization_data_bloc.dart';
 import 'core/authorization/data/db.dart';
 import 'core/authorization/data/manager.dart';
 import 'core/authorization/data/repository.dart';
 import 'core/network/dio_client.dart';
 import 'features/app/presentation/osk_app.dart';
-import 'features/observers/osk_bloc_observer.dart';
-import 'features/observers/osk_flutter_error_observer.dart';
-import 'utils/kotlin_utils.dart';
 
 void main() async {
   await runZonedGuarded<Future<void>>(

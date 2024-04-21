@@ -1,4 +1,4 @@
-import '../../../../utils/kotlin_utils.dart';
+import '../../../../common/utils/kotlin_utils.dart';
 import '../../../user/models/user.dart';
 import '../../data/models/application/application_data_dto.dart';
 import 'appication_type.dart';

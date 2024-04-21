@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../utils/kotlin_utils.dart';
 import '../error/repository_localized_error.dart';
+import '../utils/kotlin_utils.dart';
 
 abstract class Repository<T> {
   Stream<T> get dataStream {

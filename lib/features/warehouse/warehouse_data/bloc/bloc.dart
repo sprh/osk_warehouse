@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/error/repository_localized_error.dart';
+import '../../../../common/utils/kotlin_utils.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
-import '../../../../utils/kotlin_utils.dart';
 import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../data/repository.dart';
 import 'state.dart';

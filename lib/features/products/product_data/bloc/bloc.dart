@@ -116,9 +116,9 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
 
   Future<void> _scanBarcode(Emitter<ProductDataState> emit) async {
     const permission = Permission.camera;
-    if (await permission.isDenied) {
+    if (!await permission.isGranted) {
       await permission.request();
-      if (await permission.isDenied) {
+      if (!await permission.isGranted) {
         await _navigationManager.showSomethingWentWrontDialog(
           'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
         );

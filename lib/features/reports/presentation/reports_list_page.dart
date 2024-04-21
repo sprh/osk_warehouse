@@ -30,7 +30,7 @@ class _ReportsListPageState extends State<ReportsListPage> {
         builder: (context, state) => OskScaffold(
           header: OskScaffoldHeader(
             leading: const OskServiceIcon.report(),
-            title: 'Товары',
+            title: 'Отчеты',
             actions: const [
               OskCloseIconButton(),
               SizedBox(width: 8),

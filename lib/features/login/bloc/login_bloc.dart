@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/components/actions/actions_flex.dart';
 import '../../../common/components/button/osk_button.dart';
+import '../../../common/utils/kotlin_utils.dart';
 import '../../../core/authorization/data/manager.dart';
 import '../../../core/navigation/manager/app_scope_navigation_manager.dart';
-import '../../../utils/kotlin_utils.dart';
 import 'login_events.dart';
 import 'login_page_state.dart';
 

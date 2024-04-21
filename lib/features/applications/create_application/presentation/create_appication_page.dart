@@ -11,7 +11,7 @@ import '../../../../common/components/osk_line_divider.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
-import '../../../../utils/kotlin_utils.dart';
+import '../../../../common/utils/kotlin_utils.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../models/create_application/create_application_application_type.dart';
 import '../../models/osk_create_application_product.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../common/components/text/osk_text.dart';
 import '../../../../../common/utils/date_time_formatted.dart';
+import '../../../../../common/utils/kotlin_utils.dart';
 import '../../../../../theme/utils/theme_from_context.dart';
-import '../../../../../utils/kotlin_utils.dart';
 import '../../../models/application/application_status.dart';
 
 class ApplicationInfoStatus extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/utils/theme_from_context.dart';
-import '../../../utils/kotlin_utils.dart';
+import '../../utils/kotlin_utils.dart';
 import '../actions/actions_flex.dart';
 import '../text/osk_text.dart';
 

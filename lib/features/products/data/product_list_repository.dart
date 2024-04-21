@@ -1,6 +1,6 @@
 import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
-import '../../../utils/kotlin_utils.dart';
+import '../../../common/utils/kotlin_utils.dart';
 import '../models/product.dart';
 import 'api/api.dart';
 

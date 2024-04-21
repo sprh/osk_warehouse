@@ -6,8 +6,8 @@ import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../common/interface/repository_subscriber.dart';
 import '../../../common/utils/date_time_formatted.dart';
+import '../../../common/utils/kotlin_utils.dart';
 import '../../../core/navigation/manager/account_scope_navigation_manager.dart';
-import '../../../utils/kotlin_utils.dart';
 import '../data/api/models/reports_response.dart';
 import '../data/repository.dart';
 

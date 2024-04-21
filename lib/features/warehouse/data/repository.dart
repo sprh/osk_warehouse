@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
-import '../../../utils/kotlin_utils.dart';
+import '../../../common/utils/kotlin_utils.dart';
 import '../models/warehouse.dart';
 import 'api/api.dart';
 import 'api/models/warehouse_create_request_dto.dart';

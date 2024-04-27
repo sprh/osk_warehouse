@@ -56,6 +56,7 @@ class AppScopeNavigationManagerImpl extends RouterDelegate<AppScopeRoute>
           ),
         ],
         onPopPage: (_, __) => false,
+        key: navigatorKey,
       );
 
   @override

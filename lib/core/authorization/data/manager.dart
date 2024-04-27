@@ -64,6 +64,7 @@ class _AuthorizationDataManager implements AuthorizationDataManager {
     required String username,
     required String password,
   }) async {
+    
     final token = await _repository.refreshToken(
       username: username,
       password: password,

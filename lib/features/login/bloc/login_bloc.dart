@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/components/actions/actions_flex.dart';
 import '../../../common/components/button/osk_button.dart';
-import '../../../common/utils/kotlin_utils.dart';
 import '../../../core/authorization/data/manager.dart';
 import '../../../core/navigation/manager/app_scope_navigation_manager.dart';
 import 'login_events.dart';
@@ -39,26 +38,24 @@ class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
   }
 
   Future<void> _tryAuthorize(String username, String password) async {
-    await _authorizationDataManager
-        .getToken(
-          username: username,
-          password: password,
-        )
-        .callTrowable(
-          onError: (_) =>
-              // TODO: translate
-              _navigationManager.showModalDialog(
-            title: 'Не удалось авторизироваться',
-            subtitle: 'Проверьте правильность введенных данных',
-            actions: OskActionsFlex(
-              widgets: [
-                OskButton.main(
-                  title: 'Хорошо',
-                  onTap: _navigationManager.popDialog,
-                ),
-              ],
+    try {
+      await _authorizationDataManager.getToken(
+        username: username,
+        password: password,
+      );
+    } on Object {
+      await _navigationManager.showModalDialog(
+        title: 'Не удалось авторизироваться',
+        subtitle: 'Проверьте правильность введенных данных',
+        actions: OskActionsFlex(
+          widgets: [
+            OskButton.main(
+              title: 'Хорошо',
+              onTap: _navigationManager.popDialog,
             ),
-          ),
-        );
+          ],
+        ),
+      );
+    }
   }
 }

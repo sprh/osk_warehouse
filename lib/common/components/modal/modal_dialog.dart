@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/utils/theme_from_context.dart';
+import '../../theme/utils/theme_from_context.dart';
 import '../text/osk_text.dart';
 
 class ModalDialog extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:osk_warehouse/theme/theme_constants.dart';
+import 'package:osk_warehouse/common/theme/theme_constants.dart';
 
 Widget makeTestableWidget({required Widget child}) {
   return MaterialApp(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/components/actions/actions_flex.dart';
 import '../../../common/components/button/osk_button.dart';
 import '../../../common/components/modal/modal_dialog.dart';
-import '../../../theme/utils/theme_from_context.dart';
+import '../../../common/theme/utils/theme_from_context.dart';
 
 mixin NavigationManager {
   GlobalKey<NavigatorState> get navigatorKey;

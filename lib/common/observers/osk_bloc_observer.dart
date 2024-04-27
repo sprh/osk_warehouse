@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
-import '../../logger/tagged_logger.dart';
+import '../logger/tagged_logger.dart';
 
 class OskBlocObserver extends BlocObserver {
   final _logger = Logger(

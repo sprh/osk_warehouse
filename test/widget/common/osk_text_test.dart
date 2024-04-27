@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:osk_warehouse/common/components/text/osk_text.dart';
-import 'package:osk_warehouse/theme/text/text_theme_extension.dart';
+import 'package:osk_warehouse/common/theme/text/text_theme_extension.dart';
 
 import '../common.dart';
 

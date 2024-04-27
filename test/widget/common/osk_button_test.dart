@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:osk_warehouse/common/components/button/osk_button.dart';
 import 'package:osk_warehouse/common/components/loading_effect/loading_effect.dart';
 import 'package:osk_warehouse/common/components/scaffold/osk_scaffold.dart';
-import 'package:osk_warehouse/theme/theme_constants.dart';
+import 'package:osk_warehouse/common/theme/theme_constants.dart';
 
 void main() {
   testWidgets(

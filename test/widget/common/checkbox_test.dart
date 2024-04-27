@@ -11,9 +11,21 @@ void main() {
       // Create a test widget with OskCheckbox
       await tester.pumpWidget(
         makeTestableWidget(
-          child: OskCheckbox(
-            selected: false,
-            onSelect: () {},
+          child: Builder(
+            builder: (context) {
+              var selected = false;
+
+              return StatefulBuilder(
+                builder: (
+                  BuildContext context,
+                  void Function(void Function()) setState,
+                ) =>
+                    OskCheckbox(
+                  selected: selected,
+                  onSelect: () => setState(() => selected = !selected),
+                ),
+              );
+            },
           ),
         ),
       );
@@ -29,7 +41,7 @@ void main() {
       await tester.pump();
 
       // Verify that the Checkbox is still unselected
-      expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, false);
+      expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, true);
     },
   );
 }

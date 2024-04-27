@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../common/components/checkbox/osk_checkbox.dart';
 import '../../../../../common/components/tap/osk_tap_animation.dart';
 import '../../../../../common/components/text/osk_text.dart';
-import '../../../../../theme/utils/theme_from_context.dart';
+import '../../../../../common/theme/utils/theme_from_context.dart';
 
 class SelectApplicationTypeWidget extends StatelessWidget {
   final bool selected;

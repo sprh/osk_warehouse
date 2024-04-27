@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../../common/theme/theme_constants.dart';
 import '../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../../../core/authorization/bloc/state.dart';
 import '../../../core/authorization/data/manager.dart';
@@ -11,7 +12,6 @@ import '../../../core/navigation/manager/app_scope_navigation_manager.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../core/scopes/account_scope.dart';
 import '../../../core/scopes/app_scope.dart';
-import '../../../theme/theme_constants.dart';
 
 class OskApp extends StatefulWidget {
   final DioClient dio;

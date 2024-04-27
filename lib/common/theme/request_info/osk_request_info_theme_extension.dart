@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/applications/models/application/application_status.dart';
+import '../../../features/applications/models/application/application_status.dart';
 
 class OskRequestInfoThemeExtension
     extends ThemeExtension<OskRequestInfoThemeExtension> {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../theme/utils/theme_from_context.dart';
+import '../../theme/utils/theme_from_context.dart';
 import '../icon/osk_icon_button.dart';
 import '../icon/osk_icons.dart';
 

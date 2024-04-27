@@ -2,7 +2,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-import '../../logger/tagged_logger.dart';
+import '../logger/tagged_logger.dart';
 
 class FlutterErrorObserver {
   static final _logger = Logger(

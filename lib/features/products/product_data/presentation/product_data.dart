@@ -10,7 +10,7 @@ import '../../../../common/components/icon/osk_service_icons.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
-import '../../../../theme/utils/theme_from_context.dart';
+import '../../../../common/theme/utils/theme_from_context.dart';
 import '../../models/product.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';

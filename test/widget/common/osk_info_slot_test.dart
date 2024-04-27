@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:osk_warehouse/common/components/info_slot/osk_info_slot.dart';
-import 'package:osk_warehouse/theme/theme_constants.dart';
+import 'package:osk_warehouse/common/theme/theme_constants.dart';
 
 void main() {
   testWidgets('OskInfoSlot displays title and content correctly',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/button/button_theme_extension.dart';
-import '../../../theme/utils/theme_from_context.dart';
+import '../../theme/button/button_theme_extension.dart';
+import '../../theme/utils/theme_from_context.dart';
 import '../loading_effect/loading_effect.dart';
 import '../tap/osk_tap_animation.dart';
 import '../text/osk_text.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/utils/theme_from_context.dart';
+import '../../theme/utils/theme_from_context.dart';
 import '../checkbox/osk_checkbox.dart';
 import '../icon/osk_icons.dart';
 import '../tap/osk_tap_animation.dart';

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
+import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/product_list_repository.dart';
 import '../../data/product_repository.dart';
@@ -24,11 +27,13 @@ abstract class ProductDataBloc
     ProductRepository repository,
     ProductListRefresher refresher,
     String? productId,
+    CurrentUserHolder currentUserHolder,
   ) =>
       _ProductDataBloc(
         navigationManager,
         repository,
         refresher,
+        currentUserHolder,
         productId: productId,
       );
 
@@ -42,11 +47,13 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   final ProductRepository _repository;
   final String? productId;
   final ProductListRefresher _refresher;
+  final CurrentUserHolder _currentUserHolder;
 
   _ProductDataBloc(
     this._navigationManager,
     this._repository,
-    this._refresher, {
+    this._refresher,
+    this._currentUserHolder, {
     required this.productId,
   }) : super(ProductDataStateInitial()) {
     on<ProductDataPageEvent>(_onEvent);
@@ -68,7 +75,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
       case _ProductDataPageEventSetLoading():
         _maybeSetLoading(event.loading, emit);
       case _ProductDataPageEventSetData():
-        _setData(event.product, emit);
+        await _setData(event.product, emit);
       case ProductDataPageEventAddOrUpdateProduct():
         await _addOrUpdateProduct(event);
       case ProductDataPageEventScanBarcode():
@@ -103,26 +110,30 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
             product: state.product,
             loading: loading,
             barcodes: state.barcodes,
+            showUpdateProductButton: state.showUpdateProductButton,
           ),
         );
       case ProductDataStateCreate():
         emit(
           ProductDataStateCreate(
             loading: loading,
+            showUpdateProductButton: state.showUpdateProductButton,
           ),
         );
     }
   }
 
   Future<void> _scanBarcode(Emitter<ProductDataState> emit) async {
-    const permission = Permission.camera;
-    if (!await permission.isGranted) {
-      await permission.request();
+    if (Platform.isAndroid) {
+      const permission = Permission.camera;
       if (!await permission.isGranted) {
-        await _navigationManager.showSomethingWentWrontDialog(
-          'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
-        );
-        return;
+        await permission.request();
+        if (!await permission.isGranted) {
+          await _navigationManager.showSomethingWentWrontDialog(
+            'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
+          );
+          return;
+        }
       }
     }
 
@@ -146,6 +157,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
             ProductDataStateUpdate(
               barcodes: barcodes,
               product: state.product,
+              showUpdateProductButton: state.showUpdateProductButton,
             ),
           );
         case ProductDataStateCreate():
@@ -154,6 +166,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           emit(
             ProductDataStateCreate(
               barcodes: barcodes,
+              showUpdateProductButton: state.showUpdateProductButton,
             ),
           );
       }
@@ -174,6 +187,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           ProductDataStateUpdate(
             barcodes: barcodes,
             product: state.product,
+            showUpdateProductButton: state.showUpdateProductButton,
           ),
         );
       case ProductDataStateCreate():
@@ -183,25 +197,33 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
         emit(
           ProductDataStateCreate(
             barcodes: barcodes,
+            showUpdateProductButton: state.showUpdateProductButton,
           ),
         );
     }
   }
 
-  void _setData(
+  Future<void> _setData(
     Product? product,
     // List<Warehouse> warehouses,
     Emitter<ProductDataState> emit,
-  ) {
+  ) async {
+    final currentUser = await _currentUserHolder.currentUser;
+
     if (product != null) {
       emit(
         ProductDataStateUpdate(
           product: product,
           barcodes: product.codes.toSet(),
+          showUpdateProductButton: currentUser.canManagerProducts,
         ),
       );
     } else {
-      emit(const ProductDataStateCreate());
+      emit(
+        ProductDataStateCreate(
+          showUpdateProductButton: currentUser.canManagerProducts,
+        ),
+      );
     }
   }
 

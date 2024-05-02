@@ -55,4 +55,6 @@ class User {
   bool get canManagerUser => isSuperuser;
 
   bool get canManagerWarehouse => isSuperuser || isAdmin;
+
+  bool get canManagerProducts => isSuperuser || isAdmin || isReviewer;
 }

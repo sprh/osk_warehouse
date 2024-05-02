@@ -133,6 +133,18 @@ class __ProductDataPageState extends State<_ProductDataPage> {
   String get name =>
       manufacturer.isEmpty || model.isEmpty ? '' : '$manufacturer - $model';
 
+  bool get canUpdate {
+    final state = widget.state;
+    switch (state) {
+      case ProductDataStateInitial():
+        return false;
+      case ProductDataStateUpdate():
+        return state.showUpdateProductButton;
+      case ProductDataStateCreate():
+        return state.showUpdateProductButton;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -187,24 +199,28 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                 readOnly: true,
               ),
               const SizedBox(height: 16),
-              OskDropDown<ProductType>(
-                items: [
-                  OskDropdownMenuItem(
-                    label: 'Другое',
-                    value: ProductType.other,
-                  ),
-                ],
-                selectedValuel: itemType,
-                label: 'Тип товара',
-                onSelectedItemChanged: (type) {
-                  itemType = type;
-                  _onDataChanged();
-                },
+              IgnorePointer(
+                ignoring: !canUpdate,
+                child: OskDropDown<ProductType>(
+                  items: [
+                    OskDropdownMenuItem(
+                      label: 'Другое',
+                      value: ProductType.other,
+                    ),
+                  ],
+                  selectedValuel: itemType,
+                  label: 'Тип товара',
+                  onSelectedItemChanged: (type) {
+                    itemType = type;
+                    _onDataChanged();
+                  },
+                ),
               ),
               const SizedBox(height: 16),
               OskTextField(
                 label: 'Производитель',
                 hintText: 'Автора',
+                readOnly: !canUpdate,
                 initialText: manufacturer,
                 onChanged: (manufacturer) {
                   this.manufacturer = manufacturer;
@@ -215,6 +231,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Модель',
                 hintText: 'Картридж',
+                readOnly: !canUpdate,
                 initialText: model,
                 onChanged: (model) {
                   this.model = model;
@@ -225,6 +242,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Описание',
                 hintText: 'Заполнять необязательно',
+                readOnly: !canUpdate,
                 initialText: description,
                 onChanged: (description) {
                   this.description = description;
@@ -232,15 +250,18 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                 },
               ),
               const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _BarcodesListWidget(
-                  barcodes: barcodes,
-                  onAddBarcodeTap: () => ProductDataBloc.of(context).add(
-                    ProductDataPageEventScanBarcode(),
-                  ),
-                  onDeleteBarcodeTap: (id) => ProductDataBloc.of(context).add(
-                    ProductDataPageEventDeleteBarcode(id: id),
+              IgnorePointer(
+                ignoring: !canUpdate,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: _BarcodesListWidget(
+                    barcodes: barcodes,
+                    onAddBarcodeTap: () => ProductDataBloc.of(context).add(
+                      ProductDataPageEventScanBarcode(),
+                    ),
+                    onDeleteBarcodeTap: (id) => ProductDataBloc.of(context).add(
+                      ProductDataPageEventDeleteBarcode(id: id),
+                    ),
                   ),
                 ),
               ),
@@ -299,24 +320,25 @@ class __ProductDataPageState extends State<_ProductDataPage> {
             ],
           ),
           actions: [
-            OskButton.main(
-              title: buttonTitle,
-              state: loading
-                  ? OskButtonState.loading
-                  : buttonEnabled
-                      ? OskButtonState.enabled
-                      : OskButtonState.disabled,
-              onTap: () => ProductDataBloc.of(context).add(
-                ProductDataPageEventAddOrUpdateProduct(
-                  name: name,
-                  codes: barcodes,
-                  itemType: itemType,
-                  manufacturer: manufacturer,
-                  model: model,
-                  description: description,
+            if (canUpdate)
+              OskButton.main(
+                title: buttonTitle,
+                state: loading
+                    ? OskButtonState.loading
+                    : buttonEnabled
+                        ? OskButtonState.enabled
+                        : OskButtonState.disabled,
+                onTap: () => ProductDataBloc.of(context).add(
+                  ProductDataPageEventAddOrUpdateProduct(
+                    name: name,
+                    codes: barcodes,
+                    itemType: itemType,
+                    manufacturer: manufacturer,
+                    model: model,
+                    description: description,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       );

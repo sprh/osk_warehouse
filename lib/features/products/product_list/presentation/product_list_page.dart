@@ -81,12 +81,13 @@ class _ProductListPageState extends State<ProductListPage> {
             ),
           ],
           actions: [
-            OskButton.main(
-              title: 'Добавить',
-              onTap: () => ProductListBloc.of(context).add(
-                ProductListEventAddNewProduct(),
+            if (state is ProductListDataState && state.showCreateProductButton)
+              OskButton.main(
+                title: 'Добавить',
+                onTap: () => ProductListBloc.of(context).add(
+                  ProductListEventAddNewProduct(),
+                ),
               ),
-            ),
           ],
         ),
       );

@@ -7,6 +7,7 @@ import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
+import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../data/product_list_repository.dart';
 import '../../models/product.dart';
 import 'state.dart';
@@ -21,12 +22,8 @@ abstract class ProductListBloc
     AccountScopeNavigationManager navigationManager,
     ProductListRepository repository,
     String? warehouseId,
-  ) =>
-      _ProductListBloc(
-        navigationManager,
-        repository,
-        warehouseId,
-      );
+    CurrentUserHolder currentUserHolder,
+  ) = _ProductListBloc;
 }
 
 class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
@@ -35,11 +32,13 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
   final AccountScopeNavigationManager _navigationManager;
   final ProductListRepository _repository;
   final String? warehouseId;
+  final CurrentUserHolder _currentUserHolder;
 
   _ProductListBloc(
     this._navigationManager,
     this._repository,
     this.warehouseId,
+    this._currentUserHolder,
   ) : super(ProductListInitialState()) {
     on<ProductListEvent>(_onEvent);
   }
@@ -79,7 +78,7 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
           ),
         );
       case _ProductListUpdateStateEvent():
-        _onProductListUpdate(event.products, event.loading, emit);
+        await _onProductListUpdate(event.products, event.loading, emit);
       case ProductListProductTapEvent():
         _navigationManager.openProductData(event.id);
     }
@@ -98,17 +97,32 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
   void onRepositoryError(RepositoryLocalizedError error) =>
       _navigationManager.showSomethingWentWrontDialog(error.message);
 
-  void _onProductListUpdate(
+  Future<void> _onProductListUpdate(
     List<Product>? products,
     bool? loading,
     Emitter<ProductListState> emit,
-  ) {
+  ) async {
     final state = this.state;
 
+    final currentUser = await _currentUserHolder.currentUser;
     if (state is ProductListDataState) {
-      emit(state.copyWith(loading: state.loading, products: products));
+      emit(
+        state.copyWith(
+          loading: state.loading,
+          products: products,
+          showCreateProductButton:
+              currentUser.canManagerProducts && warehouseId == null,
+        ),
+      );
     } else if (products != null) {
-      emit(ProductListDataState(products, loading: loading ?? false));
+      emit(
+        ProductListDataState(
+          products,
+          loading: loading ?? false,
+          showCreateProductButton:
+              currentUser.canManagerProducts && warehouseId == null,
+        ),
+      );
     }
   }
 

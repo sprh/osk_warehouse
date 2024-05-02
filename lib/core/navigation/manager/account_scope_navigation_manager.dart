@@ -149,6 +149,7 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).productListRepository,
                           route.warehouseId,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const ProductListPage(),
                       );
@@ -188,6 +189,7 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).productRepository,
                           AccountScope.of(context).productListRepository,
                           route.productId,
+                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const ProductDataPage(),
                       );

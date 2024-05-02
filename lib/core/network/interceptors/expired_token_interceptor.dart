@@ -22,6 +22,7 @@ class ExpiredTokenInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       if (await refreshToken()) {
         handler.resolve(await retry(err.requestOptions));
+        return;
       }
     }
     super.onError(err, handler);

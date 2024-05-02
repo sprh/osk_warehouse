@@ -9,8 +9,13 @@ abstract interface class ProductListRefresher {
   void refreshData();
 }
 
+// ignore: one_member_abstracts
+abstract interface class ProductListGetter {
+  Future<List<Product>> productList({required String? warehouseId});
+}
+
 abstract class ProductListRepository extends Repository<List<Product>>
-    implements ProductListRefresher {
+    implements ProductListRefresher, ProductListGetter {
   factory ProductListRepository(
     ProductApi api,
   ) =>
@@ -30,6 +35,17 @@ class _ProductListRepository extends Repository<List<Product>>
   _ProductListRepository(
     this._api,
   );
+
+  @override
+  Future<List<Product>> productList({required String? warehouseId}) async {
+    final data = await warehouseId?.let(
+          (id) => _api.getProductListByWarehouse(warehouseId),
+        ) ??
+        await _api.getProductList();
+
+    final products = data.items.map(Product.fromDto);
+    return products.toList();
+  }
 
   @override
   Future<void> refreshProductList({required String? warehouseId}) async {

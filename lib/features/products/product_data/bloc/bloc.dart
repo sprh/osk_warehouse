@@ -1,14 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
+import '../../../barcode/barcode_scanner.dart';
 import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../../warehouse/models/warehouse.dart';
 import '../../data/product_list_repository.dart';
@@ -26,16 +23,10 @@ abstract class ProductDataBloc
     AccountScopeNavigationManager navigationManager,
     ProductRepository repository,
     ProductListRefresher refresher,
-    String? productId,
     CurrentUserHolder currentUserHolder,
-  ) =>
-      _ProductDataBloc(
-        navigationManager,
-        repository,
-        refresher,
-        currentUserHolder,
-        productId: productId,
-      );
+    BarcodeScanner barcodeScanner,
+    String? productId,
+  ) = _ProductDataBloc;
 
   void stop();
 }
@@ -48,14 +39,16 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   final String? productId;
   final ProductListRefresher _refresher;
   final CurrentUserHolder _currentUserHolder;
+  final BarcodeScanner _barcodeScanner;
 
   _ProductDataBloc(
     this._navigationManager,
     this._repository,
     this._refresher,
-    this._currentUserHolder, {
-    required this.productId,
-  }) : super(ProductDataStateInitial()) {
+    this._currentUserHolder,
+    this._barcodeScanner,
+    this.productId,
+  ) : super(ProductDataStateInitial()) {
     on<ProductDataPageEvent>(_onEvent);
   }
 
@@ -124,34 +117,16 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   }
 
   Future<void> _scanBarcode(Emitter<ProductDataState> emit) async {
-    if (Platform.isAndroid) {
-      const permission = Permission.camera;
-      if (!await permission.isGranted) {
-        await permission.request();
-        if (!await permission.isGranted) {
-          await _navigationManager.showSomethingWentWrontDialog(
-            'Чтобы отсканировать штрихкод, дайте доступ к камере в настройках',
-          );
-          return;
-        }
-      }
-    }
+    final barcode = await _barcodeScanner.scanBarcode();
 
-    final result = await FlutterBarcodeScanner.scanBarcode(
-      '#000000',
-      'Отмена',
-      true,
-      ScanMode.BARCODE,
-    );
-
-    if (result != '-1') {
+    if (barcode != null) {
       final state = this.state;
 
       switch (state) {
         case ProductDataStateInitial():
           break;
         case ProductDataStateUpdate():
-          final barcodes = {...state.barcodes, result};
+          final barcodes = {...state.barcodes, barcode};
 
           emit(
             ProductDataStateUpdate(
@@ -161,7 +136,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
             ),
           );
         case ProductDataStateCreate():
-          final barcodes = {...state.barcodes, result};
+          final barcodes = {...state.barcodes, barcode};
 
           emit(
             ProductDataStateCreate(

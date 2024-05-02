@@ -14,6 +14,7 @@ import '../../../features/applications/applications_list/presentation/applicatio
 import '../../../features/applications/create_application/bloc/bloc.dart';
 import '../../../features/applications/create_application/presentation/create_appication_page.dart';
 import '../../../features/applications/models/application/application.dart';
+import '../../../features/barcode/barcode_scanner.dart';
 import '../../../features/main_page/bloc/bloc.dart';
 import '../../../features/main_page/presentation/main_page.dart';
 import '../../../features/products/product_data/bloc/bloc.dart';
@@ -168,6 +169,8 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).createApplicationRepository,
                           AccountScope.of(context).applicationsListRepository,
+                          BarcodeScanner(this),
+                          AccountScope.of(context).productListRepository,
                         ),
                         child: const CreateApplicationPage(),
                       );
@@ -178,6 +181,8 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).createApplicationRepository,
                           AccountScope.of(context).applicationsListRepository,
+                          BarcodeScanner(this),
+                          AccountScope.of(context).productListRepository,
                           route.application,
                         ),
                         child: const CreateApplicationPage(),
@@ -188,6 +193,7 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).productRepository,
                           AccountScope.of(context).productListRepository,
+                          BarcodeScanner(this),
                           route.productId,
                           AccountScope.of(context).currentUserHolder,
                         ),

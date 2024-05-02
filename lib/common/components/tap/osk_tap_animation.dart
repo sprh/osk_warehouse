@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class OskTapAnimationBuilder extends StatefulWidget {
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Duration duration;
   final bool disabled;
 
@@ -54,13 +54,13 @@ class _TapAnimationBuilderState extends State<OskTapAnimationBuilder>
   void _onTapCancel() => _controller.reverse();
 
   void _onTap() {
-    widget.onTap();
+    widget.onTap?.call();
     _controller.reverse();
   }
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        ignoring: widget.disabled,
+        ignoring: widget.disabled || widget.onTap == null,
         child: GestureDetector(
           onTapDown: _onTapDown,
           onTapUp: _onTapUp,

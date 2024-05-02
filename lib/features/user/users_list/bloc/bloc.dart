@@ -111,7 +111,7 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
       emit(
         UserListDataState(
           users,
-          currentUser.canManagerUser,
+          currentUser.canManageUser,
           loading: loading ?? false,
         ),
       );

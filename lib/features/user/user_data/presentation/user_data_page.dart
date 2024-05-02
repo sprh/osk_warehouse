@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/components/button/osk_button.dart';
 import '../../../../common/components/button/osk_close_icon_button.dart';
 import '../../../../common/components/dropdown/components/osk_dropdown_menu_item.dart';
+import '../../../../common/components/dropdown/osk_dropdown_menu.dart';
 import '../../../../common/components/dropdown/osk_multiselect_dropdown.dart';
 import '../../../../common/components/icon/osk_service_icons.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
@@ -86,13 +87,13 @@ class __UserDataPageState extends State<_UserDataPage> {
   late String lastName;
   late String phoneNumber;
   late Set<Warehouse> warehouses;
-  late Set<UserAccessTypes> accessTypes;
+  late UserAccessTypes? accessType;
   String password = '';
 
   late List<Warehouse> availableWarehouses;
 
   late final String title;
-  late final String buttonTitle;
+  late final String? buttonTitle;
 
   bool buttonEnabled = false;
   bool canEditUsername = true;
@@ -146,9 +147,14 @@ class __UserDataPageState extends State<_UserDataPage> {
             )
             .whereNotNull()
             .toSet();
-        accessTypes = state.user.accesses;
-        title = 'Редактирование пользователя';
-        buttonTitle = 'Обновить';
+        accessType = state.user.accessType;
+        if (state.canEditData) {
+          title = 'Редактирование пользователя';
+          buttonTitle = 'Обновить';
+        } else {
+          title = 'Информация о пользователе';
+          buttonTitle = null;
+        }
         availableWarehouses = state.availableWarehouses;
         canEditUsername = false;
       case UserDataStateCreate():
@@ -157,7 +163,7 @@ class __UserDataPageState extends State<_UserDataPage> {
         lastName = '';
         phoneNumber = '';
         warehouses = {};
-        accessTypes = {};
+        accessType = null;
         title = 'Новый пользователь';
         buttonTitle = 'Добавить';
         availableWarehouses = state.availableWarehouses;
@@ -194,7 +200,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 readOnly: !canEditUsername || !canEditData,
                 onChanged: (text) {
                   username = text;
-                  _onTextChanged();
+                  _onDataChanged();
                 },
               ),
               const SizedBox(height: 16),
@@ -205,7 +211,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 readOnly: !canEditData,
                 onChanged: (text) {
                   firstName = text;
-                  _onTextChanged();
+                  _onDataChanged();
                 },
               ),
               const SizedBox(height: 16),
@@ -216,7 +222,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 readOnly: !canEditData,
                 onChanged: (text) {
                   lastName = text;
-                  _onTextChanged();
+                  _onDataChanged();
                 },
               ),
               const SizedBox(height: 16),
@@ -232,7 +238,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                 ],
                 onChanged: (text) {
                   phoneNumber = text;
-                  _onTextChanged();
+                  _onDataChanged();
                 },
               ),
               const SizedBox(height: 16),
@@ -251,7 +257,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                       .toList(),
                   onSelectedItemsChanged: (items) {
                     warehouses = items;
-                    _onTextChanged();
+                    _onDataChanged();
                   },
                   initialSelectedValues: warehouses.toSet(),
                 ),
@@ -259,7 +265,7 @@ class __UserDataPageState extends State<_UserDataPage> {
               const SizedBox(height: 16),
               IgnorePointer(
                 ignoring: !canEditData,
-                child: OskMultiSelectDropDown<UserAccessTypes>(
+                child: OskDropDown<UserAccessTypes>(
                   label: 'Доcтупы',
                   items: [
                     OskDropdownMenuItem(
@@ -267,15 +273,15 @@ class __UserDataPageState extends State<_UserDataPage> {
                       value: UserAccessTypes.admin,
                     ),
                     OskDropdownMenuItem(
-                      label: 'Ревьюер',
-                      value: UserAccessTypes.reviewer,
-                    ),
-                    OskDropdownMenuItem(
                       label: 'Суперюзер',
                       value: UserAccessTypes.superuser,
                     ),
                   ],
-                  initialSelectedValues: accessTypes,
+                  selectedValue: accessType,
+                  onSelectedItemChanged: (selected) {
+                    accessType = selected;
+                    _onDataChanged();
+                  },
                 ),
               ),
               const SizedBox(height: 16),
@@ -285,15 +291,15 @@ class __UserDataPageState extends State<_UserDataPage> {
                 readOnly: !canEditData,
                 onChanged: (text) {
                   password = text;
-                  _onTextChanged();
+                  _onDataChanged();
                 },
               ),
             ],
           ),
           actions: [
-            if (canEditData)
+            if (canEditData && buttonTitle != null)
               OskButton.main(
-                title: buttonTitle,
+                title: buttonTitle!,
                 state: loading
                     ? OskButtonState.loading
                     : buttonEnabled
@@ -306,7 +312,7 @@ class __UserDataPageState extends State<_UserDataPage> {
                     lastName: lastName,
                     phoneNumber: phoneNumber,
                     warehouses: warehouses,
-                    accessTypes: accessTypes,
+                    accessType: accessType,
                     password: password,
                   ),
                 ),
@@ -315,7 +321,7 @@ class __UserDataPageState extends State<_UserDataPage> {
         ),
       );
 
-  void _onTextChanged() {
+  void _onDataChanged() {
     final state = widget.state;
 
     buttonEnabled = () {
@@ -333,14 +339,11 @@ class __UserDataPageState extends State<_UserDataPage> {
               firstName != state.user.firstName ||
               lastName != state.user.lastName ||
               phoneNumber != state.user.phoneNumber;
-          final warehousesUpdated = setEquals(
+          final warehousesUpdated = !setEquals(
             warehouses.map((w) => w.id).toSet(),
             state.user.warehouses.toSet(),
           );
-          final accessesUpdated = setEquals(
-            accessTypes,
-            state.user.accesses,
-          );
+          final accessesUpdated = accessType != state.user.accessType;
           return isNotEmpty &&
               (dataUpdated ||
                   warehousesUpdated ||

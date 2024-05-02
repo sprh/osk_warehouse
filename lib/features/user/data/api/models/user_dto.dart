@@ -10,7 +10,6 @@ class UserDto {
   final String phoneNumber;
   final List<String> warehouses; // Список id warehouses
   final bool isAdmin;
-  final bool isReviewer;
   final bool isSuperuser;
 
   const UserDto({
@@ -20,7 +19,6 @@ class UserDto {
     required this.phoneNumber,
     required this.warehouses,
     required this.isAdmin,
-    required this.isReviewer,
     required this.isSuperuser,
   });
 

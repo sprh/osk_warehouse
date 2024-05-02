@@ -8,10 +8,12 @@ class ProductDataStateUpdate implements ProductDataState {
   final Product product;
   final bool loading;
   final Set<String> barcodes;
+  final bool showUpdateProductButton;
 
   const ProductDataStateUpdate({
     required this.product,
     required this.barcodes,
+    required this.showUpdateProductButton,
     this.loading = false,
   });
 }
@@ -19,9 +21,11 @@ class ProductDataStateUpdate implements ProductDataState {
 class ProductDataStateCreate implements ProductDataState {
   final bool loading;
   final Set<String> barcodes;
+  final bool showUpdateProductButton;
 
   const ProductDataStateCreate({
     this.loading = false,
     this.barcodes = const <String>{},
+    required this.showUpdateProductButton,
   });
 }

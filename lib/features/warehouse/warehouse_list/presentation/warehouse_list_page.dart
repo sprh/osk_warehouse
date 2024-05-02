@@ -56,8 +56,7 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: OskText.body(
-                              text:
-                                  'Складов пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                              text: 'Складов пока нет.',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -93,12 +92,16 @@ class _WarehouseListPageState extends State<WarehouseListPage> {
                                       return Future.value(false);
                                     }
                                   : null,
-                              onEdit: () {
-                                WarehouseListBloc.of(context).add(
-                                  WarehouseListEventEditWarehouse(item.id),
-                                );
-                                return Future.value(false);
-                              },
+                              onEdit: state.canEditData
+                                  ? () {
+                                      WarehouseListBloc.of(context).add(
+                                        WarehouseListEventEditWarehouse(
+                                          item.id,
+                                        ),
+                                      );
+                                      return Future.value(false);
+                                    }
+                                  : null,
                             ),
                           );
                         },

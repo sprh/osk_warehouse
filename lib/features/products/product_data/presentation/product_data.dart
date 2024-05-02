@@ -89,7 +89,7 @@ class _ProductDataPage extends StatefulWidget {
 
 class __ProductDataPageState extends State<_ProductDataPage> {
   late String title;
-  late String buttonTitle;
+  late String? buttonTitle;
 
   ProductType? itemType;
   late String manufacturer;
@@ -133,6 +133,18 @@ class __ProductDataPageState extends State<_ProductDataPage> {
   String get name =>
       manufacturer.isEmpty || model.isEmpty ? '' : '$manufacturer - $model';
 
+  bool get canUpdate {
+    final state = widget.state;
+    switch (state) {
+      case ProductDataStateInitial():
+        return false;
+      case ProductDataStateUpdate():
+        return state.showUpdateProductButton;
+      case ProductDataStateCreate():
+        return state.showUpdateProductButton;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -149,8 +161,13 @@ class __ProductDataPageState extends State<_ProductDataPage> {
         manufacturer = '';
         model = '';
       case ProductDataStateUpdate():
-        title = 'Редактирование продукта';
-        buttonTitle = 'Обновить';
+        if (state.showUpdateProductButton) {
+          title = 'Редактирование продукта';
+          buttonTitle = 'Обновить';
+        } else {
+          title = 'О продукте';
+          buttonTitle = null;
+        }
         manufacturer = state.product.manufacturer;
         model = state.product.model;
         description = state.product.description;
@@ -187,24 +204,28 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                 readOnly: true,
               ),
               const SizedBox(height: 16),
-              OskDropDown<ProductType>(
-                items: [
-                  OskDropdownMenuItem(
-                    label: 'Другое',
-                    value: ProductType.other,
-                  ),
-                ],
-                selectedValuel: itemType,
-                label: 'Тип товара',
-                onSelectedItemChanged: (type) {
-                  itemType = type;
-                  _onDataChanged();
-                },
+              IgnorePointer(
+                ignoring: !canUpdate,
+                child: OskDropDown<ProductType>(
+                  items: [
+                    OskDropdownMenuItem(
+                      label: 'Другое',
+                      value: ProductType.other,
+                    ),
+                  ],
+                  selectedValue: itemType,
+                  label: 'Тип товара',
+                  onSelectedItemChanged: (type) {
+                    itemType = type;
+                    _onDataChanged();
+                  },
+                ),
               ),
               const SizedBox(height: 16),
               OskTextField(
                 label: 'Производитель',
                 hintText: 'Автора',
+                readOnly: !canUpdate,
                 initialText: manufacturer,
                 onChanged: (manufacturer) {
                   this.manufacturer = manufacturer;
@@ -215,6 +236,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Модель',
                 hintText: 'Картридж',
+                readOnly: !canUpdate,
                 initialText: model,
                 onChanged: (model) {
                   this.model = model;
@@ -225,6 +247,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               OskTextField(
                 label: 'Описание',
                 hintText: 'Заполнять необязательно',
+                readOnly: !canUpdate,
                 initialText: description,
                 onChanged: (description) {
                   this.description = description;
@@ -232,15 +255,19 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                 },
               ),
               const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _BarcodesListWidget(
-                  barcodes: barcodes,
-                  onAddBarcodeTap: () => ProductDataBloc.of(context).add(
-                    ProductDataPageEventScanBarcode(),
-                  ),
-                  onDeleteBarcodeTap: (id) => ProductDataBloc.of(context).add(
-                    ProductDataPageEventDeleteBarcode(id: id),
+              IgnorePointer(
+                ignoring: !canUpdate,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: _BarcodesListWidget(
+                    barcodes: barcodes,
+                    onAddBarcodeTap: () => ProductDataBloc.of(context).add(
+                      ProductDataPageEventScanBarcode(),
+                    ),
+                    onDeleteBarcodeTap: (id) => ProductDataBloc.of(context).add(
+                      ProductDataPageEventDeleteBarcode(id: id),
+                    ),
+                    canEdit: canUpdate,
                   ),
                 ),
               ),
@@ -299,24 +326,25 @@ class __ProductDataPageState extends State<_ProductDataPage> {
             ],
           ),
           actions: [
-            OskButton.main(
-              title: buttonTitle,
-              state: loading
-                  ? OskButtonState.loading
-                  : buttonEnabled
-                      ? OskButtonState.enabled
-                      : OskButtonState.disabled,
-              onTap: () => ProductDataBloc.of(context).add(
-                ProductDataPageEventAddOrUpdateProduct(
-                  name: name,
-                  codes: barcodes,
-                  itemType: itemType,
-                  manufacturer: manufacturer,
-                  model: model,
-                  description: description,
+            if (canUpdate && buttonTitle != null)
+              OskButton.main(
+                title: buttonTitle!,
+                state: loading
+                    ? OskButtonState.loading
+                    : buttonEnabled
+                        ? OskButtonState.enabled
+                        : OskButtonState.disabled,
+                onTap: () => ProductDataBloc.of(context).add(
+                  ProductDataPageEventAddOrUpdateProduct(
+                    name: name,
+                    codes: barcodes,
+                    itemType: itemType,
+                    manufacturer: manufacturer,
+                    model: model,
+                    description: description,
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       );
@@ -350,11 +378,13 @@ class _BarcodesListWidget extends StatelessWidget {
   final Set<String> barcodes;
   final VoidCallback onAddBarcodeTap;
   final void Function(String) onDeleteBarcodeTap;
+  final bool canEdit;
 
   const _BarcodesListWidget({
     required this.barcodes,
     required this.onAddBarcodeTap,
     required this.onDeleteBarcodeTap,
+    required this.canEdit,
   });
 
   @override
@@ -366,25 +396,27 @@ class _BarcodesListWidget extends StatelessWidget {
             _BarcodeItem(
               barcode: barcode,
               onDeleteBarcodeTap: onDeleteBarcodeTap,
+              canEdit: canEdit,
             ),
-          InkWell(
-            onTap: onAddBarcodeTap,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: context.textFiledTheme.outlineColor,
+          if (canEdit)
+            InkWell(
+              onTap: onAddBarcodeTap,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: context.textFiledTheme.outlineColor,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(
+                    Icons.add,
+                    color: context.textFiledTheme.outlineColor,
+                  ),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Icon(
-                  Icons.add,
-                  color: context.textFiledTheme.outlineColor,
-                ),
-              ),
             ),
-          ),
         ],
       );
 }
@@ -392,8 +424,13 @@ class _BarcodesListWidget extends StatelessWidget {
 class _BarcodeItem extends StatelessWidget {
   final String barcode;
   final void Function(String) onDeleteBarcodeTap;
+  final bool canEdit;
 
-  const _BarcodeItem({required this.barcode, required this.onDeleteBarcodeTap});
+  const _BarcodeItem({
+    required this.barcode,
+    required this.onDeleteBarcodeTap,
+    required this.canEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -410,13 +447,14 @@ class _BarcodeItem extends StatelessWidget {
           const SizedBox(width: 8),
           OskText.body(text: barcode),
           const SizedBox(width: 8),
-          InkWell(
-            onTap: () => onDeleteBarcodeTap(barcode),
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: OskIcon.delete(),
+          if (canEdit)
+            InkWell(
+              onTap: () => onDeleteBarcodeTap(barcode),
+              child: const Padding(
+                padding: EdgeInsets.all(8),
+                child: OskIcon.delete(),
+              ),
             ),
-          ),
         ],
       ),
     );

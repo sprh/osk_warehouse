@@ -35,7 +35,6 @@ abstract class UserRepository extends Repository<(User?, List<Warehouse>)> {
     required String phoneNumber,
     required List<String> warehouses,
     required bool isAdmin,
-    required bool isReviewer,
     required bool isSuperuser,
     required String password,
   });
@@ -47,7 +46,6 @@ abstract class UserRepository extends Repository<(User?, List<Warehouse>)> {
     required String phoneNumber,
     required List<String> warehouses,
     required bool isAdmin,
-    required bool isReviewer,
     required bool isSuperuser,
     required String password,
   });
@@ -104,7 +102,6 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
     required String phoneNumber,
     required List<String> warehouses,
     required bool isAdmin,
-    required bool isReviewer,
     required bool isSuperuser,
     required String password,
   }) async {
@@ -117,7 +114,6 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
           phoneNumber: phoneNumber,
           warehouses: warehouses,
           isAdmin: isAdmin,
-          isReviewer: isReviewer,
           isSuperuser: isSuperuser,
           password: password,
         ),
@@ -142,7 +138,6 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
     required String phoneNumber,
     required List<String> warehouses,
     required bool isAdmin,
-    required bool isReviewer,
     required bool isSuperuser,
     required String password,
   }) async {
@@ -155,7 +150,6 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
           phoneNumber: phoneNumber,
           warehouses: warehouses,
           isAdmin: isAdmin,
-          isReviewer: isReviewer,
           isSuperuser: isSuperuser,
           password: password.isEmpty ? null : password,
         ),

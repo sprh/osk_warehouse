@@ -8,12 +8,9 @@ class User {
   final String phoneNumber;
   final List<String> warehouses; // Список id warehouses
 
-  /// Все что ревьюер, дополнительно может менять склады и просматривать отчеты
-  /// Не может создвать пользователей
+  /// Может получать выгрузки, видеть склады и остатки, менять карточки товаров,
+  /// одобрять заявки, видеть перемещения(заявки)
   final bool isAdmin;
-
-  /// Доступ к созданию заявки, просмотру заявок, оку заявок, может просматривать склады
-  final bool isReviewer;
 
   /// Может все
   final bool isSuperuser;
@@ -27,7 +24,6 @@ class User {
     required this.phoneNumber,
     required this.warehouses,
     required this.isAdmin,
-    required this.isReviewer,
     required this.isSuperuser,
     required this.isCurrentUser,
   });
@@ -39,20 +35,27 @@ class User {
         phoneNumber: dto.phoneNumber,
         warehouses: dto.warehouses,
         isAdmin: dto.isAdmin,
-        isReviewer: dto.isReviewer,
         isSuperuser: dto.isSuperuser,
         isCurrentUser: isCurrentUser,
       );
 
   String get fullName => '$firstName $lastName';
 
-  Set<UserAccessTypes> get accesses => {
-        if (isAdmin) UserAccessTypes.admin,
-        if (isReviewer) UserAccessTypes.reviewer,
-        if (isSuperuser) UserAccessTypes.superuser,
-      };
+  UserAccessTypes? get accessType {
+    if (isAdmin) {
+      return UserAccessTypes.admin;
+    }
 
-  bool get canManagerUser => isSuperuser;
+    if (isSuperuser) {
+      return UserAccessTypes.superuser;
+    }
 
-  bool get canManagerWarehouse => isSuperuser || isAdmin;
+    return null;
+  }
+
+  bool get canManageUser => isSuperuser;
+
+  bool get canManageWarehouse => isSuperuser;
+
+  bool get canManagerProducts => isSuperuser || isAdmin;
 }

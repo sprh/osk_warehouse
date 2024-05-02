@@ -149,7 +149,7 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
     } on Exception catch (_) {
       emitError(
         RepositoryLocalizedError(
-          message: 'Не удалось создать пользователя',
+          message: 'Не удалось создать товар',
         ),
       );
       rethrow;

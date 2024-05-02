@@ -118,14 +118,14 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
         UserDataStateUpdate(
           user: user,
           availableWarehouses: warehouses,
-          canEditData: currentUser.canManagerUser,
+          canEditData: currentUser.canManageUser,
         ),
       );
     } else {
       emit(
         UserDataStateCreate(
           availableWarehouses: warehouses,
-          canEditData: currentUser.canManagerUser,
+          canEditData: currentUser.canManageUser,
         ),
       );
     }
@@ -142,9 +142,8 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
           lastName: event.lastName,
           phoneNumber: event.phoneNumber,
           warehouses: event.warehouses.map((w) => w.id).toList(),
-          isAdmin: event.accessTypes.contains(UserAccessTypes.admin),
-          isReviewer: event.accessTypes.contains(UserAccessTypes.reviewer),
-          isSuperuser: event.accessTypes.contains(UserAccessTypes.superuser),
+          isAdmin: event.accessType == UserAccessTypes.admin,
+          isSuperuser: event.accessType == UserAccessTypes.superuser,
           password: event.password,
         );
       } else {
@@ -154,9 +153,8 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
           lastName: event.lastName,
           phoneNumber: event.phoneNumber,
           warehouses: event.warehouses.map((w) => w.id).toList(),
-          isAdmin: event.accessTypes.contains(UserAccessTypes.admin),
-          isReviewer: event.accessTypes.contains(UserAccessTypes.reviewer),
-          isSuperuser: event.accessTypes.contains(UserAccessTypes.superuser),
+          isAdmin: event.accessType == UserAccessTypes.admin,
+          isSuperuser: event.accessType == UserAccessTypes.superuser,
           password: event.password,
         );
       }

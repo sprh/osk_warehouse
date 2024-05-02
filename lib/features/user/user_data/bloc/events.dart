@@ -26,7 +26,7 @@ class UserDataPageEventAddOrUpdateUser implements UserDataPageEvent {
   final String lastName;
   final String phoneNumber;
   final Set<Warehouse> warehouses;
-  final Set<UserAccessTypes> accessTypes;
+  final UserAccessTypes? accessType;
   final String password;
 
   const UserDataPageEventAddOrUpdateUser({
@@ -35,7 +35,7 @@ class UserDataPageEventAddOrUpdateUser implements UserDataPageEvent {
     required this.lastName,
     required this.phoneNumber,
     required this.warehouses,
-    required this.accessTypes,
+    required this.accessType,
     required this.password,
   });
 }

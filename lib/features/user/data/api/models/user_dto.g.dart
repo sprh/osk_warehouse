@@ -15,7 +15,6 @@ UserDto _$UserDtoFromJson(Map json) => UserDto(
           .map((e) => e as String)
           .toList(),
       isAdmin: json['is_admin'] as bool,
-      isReviewer: json['is_reviewer'] as bool,
       isSuperuser: json['is_superuser'] as bool,
     );
 
@@ -26,6 +25,5 @@ Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
       'phone_number': instance.phoneNumber,
       'warehouses': instance.warehouses,
       'is_admin': instance.isAdmin,
-      'is_reviewer': instance.isReviewer,
       'is_superuser': instance.isSuperuser,
     };

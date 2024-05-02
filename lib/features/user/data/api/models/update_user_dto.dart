@@ -10,7 +10,7 @@ class UpdateUserDto {
   final String? phoneNumber;
   final List<String>? warehouses; // Список id warehouses
   final bool? isAdmin;
-  final bool? isReviewer;
+
   final bool? isSuperuser;
   final String? password;
 
@@ -21,7 +21,6 @@ class UpdateUserDto {
     this.phoneNumber,
     this.warehouses,
     this.isAdmin,
-    this.isReviewer,
     this.isSuperuser,
     this.password,
   });

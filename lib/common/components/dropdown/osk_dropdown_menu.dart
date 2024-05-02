@@ -18,7 +18,7 @@ class OskDropDown<T> extends StatefulWidget {
   final List<OskDropdownMenuItem<T>> items;
   final void Function(T?)? onSelectedItemChanged;
   final String label;
-  final T? selectedValuel;
+  final T? selectedValue;
 
   final OskDropDownController<T>? controller;
 
@@ -27,7 +27,7 @@ class OskDropDown<T> extends StatefulWidget {
     required this.label,
     this.onSelectedItemChanged,
     this.controller,
-    this.selectedValuel,
+    this.selectedValue,
     super.key,
   });
 
@@ -38,7 +38,7 @@ class OskDropDown<T> extends StatefulWidget {
 class _OskDropDownState<T> extends State<OskDropDown<T>>
     with SingleTickerProviderStateMixin, OskDropdownAnimationBuilder {
   late OskDropdownMenuItem<T>? selectedValue = widget.items.firstWhereOrNull(
-    (item) => item.value == widget.selectedValuel,
+    (item) => item.value == widget.selectedValue,
   );
 
   @override
@@ -62,7 +62,7 @@ class _OskDropDownState<T> extends State<OskDropDown<T>>
                     (e) => OskDropdownItemWidget<T>(
                       item: e,
                       onSelect: (item) {
-                        if (selectedValue == item) {
+                        if (selectedValue?.value == item.value) {
                           selectedValue = null;
                         } else {
                           selectedValue = item;

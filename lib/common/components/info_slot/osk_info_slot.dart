@@ -9,7 +9,7 @@ import '../text/osk_text.dart';
 class OskInfoSlot extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   final Future<bool> Function()? onDelete;
   final Future<bool> Function()? onEdit;

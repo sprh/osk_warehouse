@@ -57,8 +57,7 @@ class _ProductListPageState extends State<ProductListPage> {
                             padding: const EdgeInsets.all(8),
                             child: OskText.body(
                               textAlign: TextAlign.center,
-                              text:
-                                  'Товаров пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                              text: 'Товаров пока нет.',
                             ),
                           ),
                         ),
@@ -71,9 +70,11 @@ class _ProductListPageState extends State<ProductListPage> {
                         onProductTap: (id) => ProductListBloc.of(context).add(
                           ProductListProductTapEvent(id),
                         ),
-                        onDelete: (id) => ProductListBloc.of(context).add(
-                          ProductListEventDeleteProduct(id),
-                        ),
+                        onDelete: (id) => state.showCreateProductButton
+                            ? ProductListBloc.of(context).add(
+                                ProductListEventDeleteProduct(id),
+                              )
+                            : null,
                       ),
                     );
                 }

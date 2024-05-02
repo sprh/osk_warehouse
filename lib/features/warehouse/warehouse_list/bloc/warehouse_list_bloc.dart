@@ -62,7 +62,7 @@ class _WarehouseListBloc extends Bloc<WarehouseListEvent, WarehouseListState>
         emit(
           WarehouseListDataState(
             items: event.warehouses,
-            canEditData: currentUser.canManagerWarehouse,
+            canEditData: currentUser.canManageWarehouse,
           ),
         );
       case _WarehouseListUpdateLoadingStateEvent():

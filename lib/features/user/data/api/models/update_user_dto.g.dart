@@ -15,7 +15,6 @@ UpdateUserDto _$UpdateUserDtoFromJson(Map json) => UpdateUserDto(
           ?.map((e) => e as String)
           .toList(),
       isAdmin: json['is_admin'] as bool?,
-      isReviewer: json['is_reviewer'] as bool?,
       isSuperuser: json['is_superuser'] as bool?,
       password: json['password'] as String?,
     );
@@ -28,7 +27,6 @@ Map<String, dynamic> _$UpdateUserDtoToJson(UpdateUserDto instance) =>
       'phone_number': instance.phoneNumber,
       'warehouses': instance.warehouses,
       'is_admin': instance.isAdmin,
-      'is_reviewer': instance.isReviewer,
       'is_superuser': instance.isSuperuser,
       'password': instance.password,
     };

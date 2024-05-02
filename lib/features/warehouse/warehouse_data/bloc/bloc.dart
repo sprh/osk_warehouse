@@ -78,7 +78,7 @@ class _WarehouseDataBloc
             WarehouseDataStateUpdateWarehouse(
               name: data.name,
               address: data.address,
-              canEditData: currentUser.canManagerWarehouse,
+              canEditData: currentUser.canManageWarehouse,
             ),
           );
         },

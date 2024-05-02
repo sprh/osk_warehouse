@@ -56,8 +56,7 @@ class _UserListPageState extends State<UserListPage> {
                           padding: const EdgeInsets.all(8),
                           child: Center(
                             child: OskText.body(
-                              text:
-                                  'Пользователей пока нет. Нажмите на кнопку Добавить, чтобы создать',
+                              text: 'Пользователей пока нет.',
                             ),
                           ),
                         ),
@@ -81,9 +80,11 @@ class _UserListPageState extends State<UserListPage> {
                                           OskTextColorType.highlightedYellow,
                                     )
                                   : null,
-                              onTap: () => UserListBloc.of(context).add(
-                                UserListUserTapEvent(user.username),
-                              ),
+                              onTap: !user.isCurrentUser
+                                  ? () => UserListBloc.of(context).add(
+                                        UserListUserTapEvent(user.username),
+                                      )
+                                  : null,
                               dismissibleKey: ValueKey(user.username),
                               onDelete: user.isCurrentUser || !state.canEditData
                                   ? null

@@ -89,7 +89,7 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
   late String address;
 
   late final String title;
-  late final String buttonTitle;
+  late final String? buttonTitle;
 
   bool buttonEnabled = false;
 
@@ -124,8 +124,13 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
       case WarehouseDataStateUpdateWarehouse():
         name = state.name;
         address = state.address;
-        title = 'Редактирование склада';
-        buttonTitle = 'Обновить';
+        if (state.canEditData) {
+          title = 'Редактирование склада';
+          buttonTitle = 'Обновить';
+        } else {
+          title = 'О складе';
+          buttonTitle = null;
+        }
     }
 
     WidgetsBinding.instance.addPostFrameCallback(
@@ -176,9 +181,9 @@ class __WarehouseDataPageState extends State<_WarehouseDataPage> {
             ],
           ),
           actions: [
-            if (widget.canEditData)
+            if (widget.canEditData && buttonTitle != null)
               OskButton.main(
-                title: buttonTitle,
+                title: buttonTitle!,
                 state: loading
                     ? OskButtonState.loading
                     : buttonEnabled

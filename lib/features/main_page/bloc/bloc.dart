@@ -61,15 +61,15 @@ class _MainPageBloc extends Bloc<MainPageEvent, MainPageState>
     final currentUser = await _currentUserHolder.currentUser;
     final Set<MainPageBlocks> availableBlocks;
 
-    if (currentUser.isSuperuser || currentUser.isAdmin) {
+    if (currentUser.isSuperuser) {
       availableBlocks = MainPageBlocks.values.toSet();
-    } else if (currentUser.isReviewer) {
+    } else if (currentUser.isAdmin) {
       availableBlocks = {
         MainPageBlocks.createRequest,
         MainPageBlocks.requests,
         MainPageBlocks.warehouses,
+        MainPageBlocks.reports,
         MainPageBlocks.products,
-        MainPageBlocks.workers,
       };
     } else {
       availableBlocks = {

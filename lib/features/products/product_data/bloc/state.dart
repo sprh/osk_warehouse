@@ -24,8 +24,8 @@ class ProductDataStateCreate implements ProductDataState {
   final bool showUpdateProductButton;
 
   const ProductDataStateCreate({
+    required this.showUpdateProductButton,
     this.loading = false,
     this.barcodes = const <String>{},
-    required this.showUpdateProductButton,
   });
 }

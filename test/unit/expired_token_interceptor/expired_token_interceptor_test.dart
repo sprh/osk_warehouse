@@ -76,7 +76,7 @@ void main() {
       needRetry: (url, statusCode) => statusCode == 401,
       refreshToken: mockRefreshToken,
       retry: (_) async =>
-          throw DioError(requestOptions: RequestOptions(path: '/test')),
+          throw DioException(requestOptions: RequestOptions(path: '/test')),
     );
 
     // Call onError method with the mocked handler
@@ -101,7 +101,7 @@ void main() {
     interceptor = MockExpiredTokenInterceptor(
       needRetry: (url, statusCode) => url != '/test',
       refreshToken: () async => true,
-      retry: (_) async => throw DioError(
+      retry: (_) async => throw DioException(
         requestOptions: RequestOptions(path: '/test'),
       ),
     );

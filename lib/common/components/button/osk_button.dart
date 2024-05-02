@@ -98,7 +98,7 @@ class OskButton extends StatelessWidget {
                   color: theme.borderColor,
                 ),
               ),
-              height: 54, // TODO(sktimokhina): maybe depend on screen size?
+              height: 54,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

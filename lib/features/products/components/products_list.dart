@@ -64,7 +64,7 @@ class ProductsList extends StatelessWidget {
               trailing: product.count == null
                   ? null
                   : OskText.caption(
-                      text: '${product.count!} шт.', // TODO:
+                      text: '${product.count!} шт.',
                       fontWeight: OskfontWeight.medium,
                     ),
             ),

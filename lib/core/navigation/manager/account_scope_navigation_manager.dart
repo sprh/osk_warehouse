@@ -193,9 +193,9 @@ class AccountScopeNavigationManagerImpl
                           this,
                           AccountScope.of(context).productRepository,
                           AccountScope.of(context).productListRepository,
+                          AccountScope.of(context).currentUserHolder,
                           BarcodeScanner(this),
                           route.productId,
-                          AccountScope.of(context).currentUserHolder,
                         ),
                         child: const ProductDataPage(),
                       );

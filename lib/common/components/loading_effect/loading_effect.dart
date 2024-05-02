@@ -55,7 +55,6 @@ class LoadingEffectState extends State<LoadingEffect>
         blendMode: BlendMode.dstIn,
         shaderCallback: (rect) => LinearGradient(
           colors: [
-            /// TODO: to theme
             Colors.white,
             Colors.white.withOpacity(0.1),
             Colors.white,

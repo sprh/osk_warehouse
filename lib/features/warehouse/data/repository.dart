@@ -84,7 +84,7 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
       .callTrowable(
         onError: (error) => throw RepositoryLocalizedError(
           message:
-              'Не удалось создать склад. Пожалуйста, повторите попытку позже', // TODO:
+              'Не удалось создать склад. Пожалуйста, повторите попытку позже',
         ),
         onSuccess: (dto) => refreshWarehouseList(),
       );

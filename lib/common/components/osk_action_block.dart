@@ -43,7 +43,7 @@ class OskActionBlock extends StatelessWidget {
                   ],
                   color: theme.blockBackgroundColor,
                 ),
-                height: 130, // TODO(sktimokhina): depends on screen size?
+                height: 130,
                 width: 140,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

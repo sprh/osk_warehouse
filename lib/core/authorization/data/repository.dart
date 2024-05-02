@@ -53,7 +53,7 @@ class _AuthorizationRepository implements AuthorizationRepository {
     final token = await _dio.core.post<Map<String, dynamic>>(
       _AuthorizationApiConstants.tokenPath,
       data: {
-        'username': username, // TODO: models
+        'username': username,
         'password': password,
       },
       options: Options(

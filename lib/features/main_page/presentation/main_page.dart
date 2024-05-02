@@ -50,12 +50,12 @@ class _MainPageState extends State<MainPage> {
             // actions: [
             //   OskIconButton(
             //     icon: const OskIcon.notification(),
-            //     onTap: () {}, // TODO:
+            //     onTap: () {},
             //   ),
             //   const SizedBox(width: 16),
             //   OskIconButton(
             //     icon: const OskIcon.setting(),
-            //     onTap: () {}, // TODO:
+            //     onTap: () {},
             //   ),
             //   const SizedBox(width: 16),
             // ],

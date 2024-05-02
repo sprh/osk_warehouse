@@ -114,11 +114,13 @@ class CreateApplicationStateData extends CreateApplicationState {
     List<OskCreateApplicationProduct>? selectedProducts,
     bool? loading,
     String? description,
+    bool updatePrevious = true,
   }) =>
       CreateApplicationStateData(
         mode: mode,
         step: step ?? this.step,
-        previousStep: [...previousStep, this.step],
+        previousStep:
+            updatePrevious ? [...previousStep, this.step] : previousStep,
         type: type ?? this.type,
         toWarehouse: toWarehouse ?? this.toWarehouse,
         fromWarehouse: fromWarehouse ?? this.fromWarehouse,
@@ -166,6 +168,10 @@ class CreateApplicationStepSelectFromWarehouse
   const CreateApplicationStepSelectFromWarehouse(this.canSkip);
 }
 
-class CreateApplicationStepSelectProducts implements CreateApplicationStep {}
+class CreateApplicationStepSelectProducts implements CreateApplicationStep {
+  final bool loading;
+
+  const CreateApplicationStepSelectProducts({this.loading = false});
+}
 
 class CreateApplicationStepSave implements CreateApplicationStep {}

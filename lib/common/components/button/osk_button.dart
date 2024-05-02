@@ -106,12 +106,14 @@ class OskButton extends StatelessWidget {
                   Center(
                     child: OskText.body(
                       text: title,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   if (subtitle != null)
                     Center(
                       child: OskText.caption(
                         text: subtitle!,
+                        textAlign: TextAlign.center,
                       ),
                     ),
                 ],

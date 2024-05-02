@@ -160,6 +160,9 @@ class _CreateApplicationPageState extends State<CreateApplicationPage> {
                     onBackTap: () => CreateApplicationBloc.of(context).add(
                       CreateApplicationEventShowPreviousStep(),
                     ),
+                    onScanBarcode: () => CreateApplicationBloc.of(context).add(
+                      CreateApplicationScanBarcode(),
+                    ),
                   );
                 case CreateApplicationStepSave():
                   return _CreateApplication(

@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/error/repository_localized_error.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
+import '../../../barcode/barcode_scanner.dart';
+import '../../../products/data/product_list_repository.dart';
 import '../../../products/models/product.dart';
 import '../../../warehouse/data/repository.dart';
 import '../../../warehouse/models/warehouse.dart';
@@ -26,7 +28,9 @@ abstract class CreateApplicationBloc
     WarehouseListGetter warehouseListGetter,
     AccountScopeNavigationManager navigationManager,
     CreateApplicationRepository repository,
-    ApplicationsListRefresher refresher, [
+    ApplicationsListRefresher refresher,
+    BarcodeScanner barcodeScanner,
+    ProductListGetter productListGetter, [
     Application? application,
   ]) = _CreateApplicationBloc;
 }
@@ -38,12 +42,16 @@ class _CreateApplicationBloc
   final AccountScopeNavigationManager _navigationManager;
   final CreateApplicationRepository _repository;
   final ApplicationsListRefresher _applicationsListRefresher;
+  final BarcodeScanner _barcodeScanner;
+  final ProductListGetter _productListGetter;
 
   _CreateApplicationBloc(
     this._warehouseListGetter,
     this._navigationManager,
     this._repository,
-    this._applicationsListRefresher, [
+    this._applicationsListRefresher,
+    this._barcodeScanner,
+    this._productListGetter, [
     Application? application,
   ]) : super(
           CreateApplicationStateIdle(
@@ -101,6 +109,8 @@ class _CreateApplicationBloc
         );
       case CreateApplicationEditProducts():
         _onEditProducts(emit);
+      case CreateApplicationScanBarcode():
+        await _onScanBarcode(emit);
     }
   }
 
@@ -182,7 +192,7 @@ class _CreateApplicationBloc
         warehouse?.id != state.fromWarehouse?.id) {
       emit(
         state.copyWith(
-          step: CreateApplicationStepSelectProducts(),
+          step: const CreateApplicationStepSelectProducts(),
           fromWarehouse: warehouse,
           selectedProducts: [],
         ),
@@ -190,7 +200,7 @@ class _CreateApplicationBloc
     } else {
       emit(
         state.copyWith(
-          step: CreateApplicationStepSelectProducts(),
+          step: const CreateApplicationStepSelectProducts(),
           fromWarehouse: warehouse,
         ),
       );
@@ -298,7 +308,7 @@ class _CreateApplicationBloc
     final state = this.state as CreateApplicationStateData;
     emit(
       state.copyWith(
-        step: CreateApplicationStepSelectProducts(),
+        step: const CreateApplicationStepSelectProducts(),
       ),
     );
   }
@@ -353,5 +363,46 @@ class _CreateApplicationBloc
     final state = this.state as CreateApplicationStateData;
 
     emit(state.onShowPreviousStep());
+  }
+
+  Future<void> _onScanBarcode(Emitter<CreateApplicationState> emit) async {
+    final barcode = await _barcodeScanner.scanBarcode();
+    final state = this.state as CreateApplicationStateData;
+    final previousProducts = state.selectedProducts ?? [];
+    var products = [...previousProducts];
+
+    if (previousProducts.any((item) => item.product.codes.contains(barcode))) {
+      products = products
+          .map(
+            (item) => item.product.codes.contains(barcode)
+                ? item.copyWith(count: item.count + 1)
+                : item,
+          )
+          .toList();
+
+      emit(state.copyWith(selectedProducts: products));
+    } else {
+      try {
+        final id = state.fromWarehouse?.id;
+        final availableProducts =
+            await _productListGetter.productList(warehouseId: id);
+        final productByBarcode = availableProducts
+            .firstWhereOrNull((item) => item.codes.contains(barcode));
+        if (productByBarcode != null) {
+          products.add(
+            OskCreateApplicationProduct(count: 1, product: productByBarcode),
+          );
+          emit(state.copyWith(selectedProducts: products));
+        } else {
+          await _navigationManager.showSomethingWentWrontDialog(
+            'Не удалось найти товар по штрихкоду',
+          );
+        }
+      } on Object {
+        await _navigationManager.showSomethingWentWrontDialog(
+          'Не удалось загрузить товары',
+        );
+      }
+    }
   }
 }

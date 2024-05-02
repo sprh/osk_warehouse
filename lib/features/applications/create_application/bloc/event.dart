@@ -68,3 +68,5 @@ class CreateApplicationOnDescriptionChanged implements CreateApplicationEvent {
 }
 
 class CreateApplicationEditProducts implements CreateApplicationEvent {}
+
+class CreateApplicationScanBarcode implements CreateApplicationEvent {}

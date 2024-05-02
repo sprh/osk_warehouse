@@ -7,6 +7,7 @@ class _SelectProducts extends StatelessWidget {
   final void Function(String) onRemove;
   final void Function(String, int) onChangeCount;
   final VoidCallback onBackTap;
+  final VoidCallback onScanBarcode;
 
   const _SelectProducts({
     required this.products,
@@ -15,6 +16,7 @@ class _SelectProducts extends StatelessWidget {
     required this.onRemove,
     required this.onChangeCount,
     required this.onBackTap,
+    required this.onScanBarcode,
   });
 
   @override
@@ -35,9 +37,18 @@ class _SelectProducts extends StatelessWidget {
         direction: Axis.vertical,
         maxWidth: size.width,
         widgets: [
-          OskButton.minor(
-            title: 'Добавить товары ',
-            onTap: onAddProductsTap,
+          OskActionsFlex(
+            maxWidth: size.width,
+            widgets: [
+              OskButton.minor(
+                title: 'Выбрать товары ',
+                onTap: onAddProductsTap,
+              ),
+              OskButton.minor(
+                title: 'Отсканировать штрихкод',
+                onTap: onScanBarcode,
+              ),
+            ],
           ),
           OskActionsFlex(
             maxWidth: size.width,

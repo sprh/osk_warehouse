@@ -53,19 +53,8 @@ void main() {
         ),
       );
 
-      // Initially obscureText should be true, so the text is hidden.
-      // This is difficult to test directly without access to the TextFormField's state.
-      // However, we can test if tapping the visibility toggle updates the widget's state.
-
-      // Assume your OskIconButton can be found via OskIcon.show/hide.
       await tester.tap(find.byType(OskIconButton));
-      await tester.pump(); // Rebuild the widget after state change.
-
-      // Without direct access to internal flags or rendering the actual obscure text state,
-      // you will need to rely on either specific behavior or integration testing to
-      // verify that the text visibility toggles correctly.
-      // This example demonstrates the structure of such a test, but you'd ideally verify
-      // the visibility has actually changed, perhaps by checking the OskIconButton's icon state.
+      await tester.pump();
     });
   });
 }

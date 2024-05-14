@@ -6,11 +6,9 @@ import 'package:osk_warehouse/common/theme/theme_constants.dart';
 void main() {
   testWidgets('OskInfoSlot displays title and content correctly',
       (WidgetTester tester) async {
-    // Define test data.
     const testTitle = 'Test Title';
     const testContent = 'Test Content';
 
-    // Build our app and trigger a frame.
     await tester.pumpWidget(
       MaterialApp(
         home: Theme(
@@ -28,7 +26,6 @@ void main() {
       ),
     );
 
-    // Check if the OskInfoSlot widget displays the test title and content.
     expect(
       find.text(testTitle),
       findsOneWidget,

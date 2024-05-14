@@ -8,7 +8,6 @@ void main() {
   testWidgets(
     'OskCheckbox renders correctly',
     (WidgetTester tester) async {
-      // Create a test widget with OskCheckbox
       await tester.pumpWidget(
         makeTestableWidget(
           child: Builder(
@@ -30,17 +29,13 @@ void main() {
         ),
       );
 
-      // Verify that the Checkbox is rendered
       expect(find.byType(Checkbox), findsOneWidget);
 
-      // Verify that the Checkbox is initially unchecked
       expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, false);
 
-      // Tap the Checkbox to select it
       await tester.tap(find.byType(Checkbox));
       await tester.pump();
 
-      // Verify that the Checkbox is still unselected
       expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, true);
     },
   );

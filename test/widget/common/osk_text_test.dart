@@ -8,7 +8,6 @@ import '../common.dart';
 void main() {
   testWidgets('OskText displays text with specified style',
       (WidgetTester tester) async {
-    // Build the OskText widget
     await tester.pumpWidget(
       makeTestableWidget(
         child: OskText.title1(
@@ -19,20 +18,17 @@ void main() {
       ),
     );
 
-    // Find the text widget
     expect(find.text('Test Text'), findsOneWidget);
 
-    // Verify text style
     final textWidget = tester.widget<Text>(find.text('Test Text'));
     expect(textWidget.style!.fontSize, 20);
     expect(textWidget.style!.fontWeight, FontWeight.bold);
-    // You may need to adjust the color comparison based on your test setup
+
     expect(
       textWidget.style!.color,
       TextThemeExtension.light.mainText,
-    ); // Replace with your expected color
+    );
 
-    // Verify text alignment
     expect(textWidget.textAlign, TextAlign.center);
   });
 }

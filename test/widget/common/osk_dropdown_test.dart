@@ -10,14 +10,12 @@ void main() {
   testWidgets(
     'OskDropDown displays label and items',
     (WidgetTester tester) async {
-      // Create a list of items for the dropdown
       final items = <OskDropdownMenuItem<String>>[
         OskDropdownMenuItem(value: 'item1', label: 'Item 1'),
         OskDropdownMenuItem(value: 'item2', label: 'Item 2'),
         OskDropdownMenuItem(value: 'item3', label: 'Item 3'),
       ];
 
-      // Build the OskDropDown widget
       await tester.pumpWidget(
         makeTestableWidget(
           child: OskDropDown<String>(
@@ -27,20 +25,15 @@ void main() {
         ),
       );
 
-      // Find the label text widget
       expect(find.text('Test Label'), findsOneWidget);
 
-      // Find the dropdown button widget
       expect(find.byType(OskDropdownButton), findsOneWidget);
 
-      // Tap on the dropdown button
       await tester.tap(find.byType(OskDropdownButton));
       await tester.pump();
 
-      // Find the dropdown list widget
       expect(find.byType(OskDropdownList<String>), findsOneWidget);
 
-      // Find the items in the dropdown list
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
       expect(find.text('Item 3'), findsOneWidget);

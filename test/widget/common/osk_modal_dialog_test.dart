@@ -8,7 +8,6 @@ void main() {
   testWidgets(
     'ModalDialog displays title, subtitle, and actions',
     (WidgetTester tester) async {
-      // Build the ModalDialog widget
       await tester.pumpWidget(
         makeTestableWidget(
           child: ModalDialog(
@@ -22,13 +21,10 @@ void main() {
         ),
       );
 
-      // Find the title text widget
       expect(find.text('Test Title'), findsOneWidget);
 
-      // Find the subtitle text widget
       expect(find.text('Test Subtitle'), findsOneWidget);
 
-      // Find the action button widget
       expect(find.text('Action Button'), findsOneWidget);
     },
   );

@@ -88,29 +88,22 @@ void main() {
     late AuthorizationDataManager manager;
 
     setUp(() {
-      // Initialize mocks
       mockDio = MockDioClient();
       mockRepository = MockAuthorizationRepository();
       mockBloc = MockAuthorizationDataBloc();
 
-      // Create the manager with the mocks
       manager = AuthorizationDataManager(mockDio, mockRepository, mockBloc);
     });
 
     test('getCachedToken should set authorized state if token found', () async {
-      // Arrange: Set up the mocks to return a token
       when(mockRepository.getCachedToken())
           .thenAnswer((_) async => 'mock_token');
       when(mockRepository.username).thenAnswer((_) async => 'user');
 
-      // Act: Call the method under test
       await manager.getCachedToken();
 
-      // Assert: Verify the interactions
       verify(mockBloc.setAuthorized(username: anyNamed('username'))).called(1);
       verifyNever(mockBloc.setNotAuthorized());
-
-      // Optionally verify that interceptors are added, depending on your project setup
     });
   });
 }

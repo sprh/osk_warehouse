@@ -8,6 +8,7 @@ name: "Build and Release Android"
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:

@@ -10,7 +10,7 @@ class CreateUserDto {
   final String phoneNumber;
   final List<String> warehouses; // Список id warehouses
   final bool isAdmin;
-
+  final bool isReviewer;
   final bool isSuperuser;
   final String password;
 
@@ -23,6 +23,7 @@ class CreateUserDto {
     required this.isAdmin,
     required this.isSuperuser,
     required this.password,
+    this.isReviewer = false,
   });
 
   factory CreateUserDto.fromJson(Map<String, dynamic> json) =>

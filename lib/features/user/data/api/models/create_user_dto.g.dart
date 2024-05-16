@@ -17,6 +17,7 @@ CreateUserDto _$CreateUserDtoFromJson(Map json) => CreateUserDto(
       isAdmin: json['is_admin'] as bool,
       isSuperuser: json['is_superuser'] as bool,
       password: json['password'] as String,
+      isReviewer: json['is_reviewer'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$CreateUserDtoToJson(CreateUserDto instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$CreateUserDtoToJson(CreateUserDto instance) =>
       'phone_number': instance.phoneNumber,
       'warehouses': instance.warehouses,
       'is_admin': instance.isAdmin,
+      'is_reviewer': instance.isReviewer,
       'is_superuser': instance.isSuperuser,
       'password': instance.password,
     };

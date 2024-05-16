@@ -18,6 +18,19 @@ class UserDataStateUpdate implements UserDataState {
     required this.canEditData,
     this.loading = false,
   });
+
+  UserDataStateUpdate copyWith({
+    User? user,
+    List<Warehouse>? availableWarehouses,
+    bool? loading,
+    bool? canEditData,
+  }) =>
+      UserDataStateUpdate(
+        user: user ?? this.user,
+        availableWarehouses: availableWarehouses ?? this.availableWarehouses,
+        loading: loading ?? this.loading,
+        canEditData: canEditData ?? this.canEditData,
+      );
 }
 
 class UserDataStateCreate implements UserDataState {
@@ -31,4 +44,15 @@ class UserDataStateCreate implements UserDataState {
     required this.canEditData,
     this.loading = false,
   });
+
+  UserDataStateCreate copyWith({
+    List<Warehouse>? availableWarehouses,
+    bool? loading,
+    bool? canEditData,
+  }) =>
+      UserDataStateCreate(
+        availableWarehouses: availableWarehouses ?? this.availableWarehouses,
+        loading: loading ?? this.loading,
+        canEditData: canEditData ?? this.canEditData,
+      );
 }

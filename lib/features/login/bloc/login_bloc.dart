@@ -30,14 +30,23 @@ class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
     on<LoginEvent>(_onEvent);
   }
 
-  void _onEvent(LoginEvent event, Emitter<dynamic> emit) {
+  Future<void> _onEvent(LoginEvent event, Emitter<dynamic> emit) async {
     switch (event) {
       case LoginEventButtonSignInTap():
-        _tryAuthorize(event.username, event.password);
+        await _tryAuthorize(event.username, event.password, emit);
     }
   }
 
-  Future<void> _tryAuthorize(String username, String password) async {
+  Future<void> _tryAuthorize(
+    String username,
+    String password,
+    Emitter<dynamic> emit,
+  ) async {
+    if (state is LoginPageStateLoading) {
+      return;
+    }
+
+    emit(LoginPageStateLoading());
     try {
       await _authorizationDataManager.getToken(
         username: username,
@@ -56,6 +65,8 @@ class _LoginBloc extends Bloc<LoginEvent, LoginPageState> implements LoginBloc {
           ],
         ),
       );
+    } finally {
+      emit(LoginPageStateDefault());
     }
   }
 }

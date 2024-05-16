@@ -16,6 +16,20 @@ class ProductDataStateUpdate implements ProductDataState {
     required this.showUpdateProductButton,
     this.loading = false,
   });
+
+  ProductDataStateUpdate copyWith({
+    Product? product,
+    bool? loading,
+    Set<String>? barcodes,
+    bool? showUpdateProductButton,
+  }) =>
+      ProductDataStateUpdate(
+        product: product ?? this.product,
+        barcodes: barcodes ?? this.barcodes,
+        showUpdateProductButton:
+            showUpdateProductButton ?? this.showUpdateProductButton,
+        loading: loading ?? this.loading,
+      );
 }
 
 class ProductDataStateCreate implements ProductDataState {
@@ -28,4 +42,16 @@ class ProductDataStateCreate implements ProductDataState {
     this.loading = false,
     this.barcodes = const <String>{},
   });
+
+  ProductDataStateCreate copyWith({
+    bool? loading,
+    Set<String>? barcodes,
+    bool? showUpdateProductButton,
+  }) =>
+      ProductDataStateCreate(
+        loading: loading ?? this.loading,
+        barcodes: barcodes ?? this.barcodes,
+        showUpdateProductButton:
+            showUpdateProductButton ?? this.showUpdateProductButton,
+      );
 }

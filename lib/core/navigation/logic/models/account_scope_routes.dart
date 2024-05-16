@@ -19,8 +19,9 @@ class AccountScopeRouteMain extends AccountScopeRoute {}
 
 class AccountScopeRouteUserData extends AccountScopeRoute {
   final String? username;
+  final bool canEdit;
 
-  const AccountScopeRouteUserData([this.username]);
+  const AccountScopeRouteUserData({required this.canEdit, this.username});
 }
 
 class AccountScopeRouteWorkersList extends AccountScopeRoute {}
@@ -53,8 +54,9 @@ class AccountScopeRouteEditApplicationPage extends AccountScopeRoute {
 
 class AccountScopeRouteProductData extends AccountScopeRoute {
   final String? productId;
+  final bool canEdit;
 
-  const AccountScopeRouteProductData([this.productId]);
+  const AccountScopeRouteProductData({required this.canEdit, this.productId});
 }
 
 class AccountScopeRouteSelectProducts extends AccountScopeRoute {

@@ -146,6 +146,12 @@ class __ProductDataPageState extends State<_ProductDataPage> {
   }
 
   @override
+  void didUpdateWidget(covariant _ProductDataPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _onDataChanged();
+  }
+
+  @override
   void initState() {
     super.initState();
     final state = widget.state;
@@ -363,7 +369,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               state.product.type != itemType ||
               state.product.model != model ||
               state.product.description != description ||
-              state.product.codes != barcodes;
+              state.product.codes != state.barcodes;
       }
     }
 

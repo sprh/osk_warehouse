@@ -81,7 +81,7 @@ class _UserListBloc extends Bloc<UserListEvent, UserListState>
       case _UserListUpdateStateEvent():
         await _onUserListUpdate(event.users, event.loading, emit);
       case UserListUserTapEvent():
-        _navigationManager.openUserData(event.username);
+        _navigationManager.openUserData(username: event.username);
     }
   }
 

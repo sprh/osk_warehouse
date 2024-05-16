@@ -39,7 +39,7 @@ import 'navigation_manager.dart';
 
 abstract class AccountScopeNavigationManager implements NavigationManager {
   // Workers
-  void openUserData([String? username]);
+  void openUserData({String? username, bool canEdit = true});
 
   void openWorkersList();
 
@@ -51,7 +51,7 @@ abstract class AccountScopeNavigationManager implements NavigationManager {
   // Products
   void openProductsList([String? warehouseId]);
 
-  void openProductData([String? productId]);
+  void openProductData({String? productId, bool canEdit = true});
 
   // Requests
   void openApplicationsList();
@@ -113,6 +113,7 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).userRepository,
                           route.username,
                           AccountScope.of(context).currentUserHolder,
+                          canEdit: route.canEdit,
                         ),
                         child: const UserDataPage(),
                       );
@@ -196,6 +197,7 @@ class AccountScopeNavigationManagerImpl
                           AccountScope.of(context).currentUserHolder,
                           BarcodeScanner(this),
                           route.productId,
+                          canEdit: route.canEdit,
                         ),
                         child: const ProductDataPage(),
                       );
@@ -266,9 +268,9 @@ class AccountScopeNavigationManagerImpl
   }
 
   @override
-  void openUserData([String? username]) {
+  void openUserData({String? username, bool canEdit = true}) {
     state.routes.add(
-      AccountScopeRouteUserData(username),
+      AccountScopeRouteUserData(username: username, canEdit: canEdit),
     );
     notifyListeners();
   }
@@ -330,9 +332,9 @@ class AccountScopeNavigationManagerImpl
   }
 
   @override
-  void openProductData([String? productId]) {
+  void openProductData({String? productId, bool canEdit = true}) {
     state.routes.add(
-      AccountScopeRouteProductData(productId),
+      AccountScopeRouteProductData(productId: productId, canEdit: canEdit),
     );
     notifyListeners();
   }

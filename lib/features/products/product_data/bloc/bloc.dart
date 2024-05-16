@@ -25,8 +25,9 @@ abstract class ProductDataBloc
     ProductListRefresher refresher,
     CurrentUserHolder currentUserHolder,
     BarcodeScanner barcodeScanner,
-    String? productId,
-  ) = _ProductDataBloc;
+    String? productId, {
+    required bool canEdit,
+  }) = _ProductDataBloc;
 
   void stop();
 }
@@ -40,15 +41,16 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
   final ProductListRefresher _refresher;
   final CurrentUserHolder _currentUserHolder;
   final BarcodeScanner _barcodeScanner;
-
+  final bool canEdit;
   _ProductDataBloc(
     this._navigationManager,
     this._repository,
     this._refresher,
     this._currentUserHolder,
     this._barcodeScanner,
-    this.productId,
-  ) : super(ProductDataStateInitial()) {
+    this.productId, {
+    required this.canEdit,
+  }) : super(ProductDataStateInitial()) {
     on<ProductDataPageEvent>(_onEvent);
   }
 
@@ -99,19 +101,11 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
         break;
       case ProductDataStateUpdate():
         emit(
-          ProductDataStateUpdate(
-            product: state.product,
-            loading: loading,
-            barcodes: state.barcodes,
-            showUpdateProductButton: state.showUpdateProductButton,
-          ),
+          state.copyWith(loading: loading),
         );
       case ProductDataStateCreate():
         emit(
-          ProductDataStateCreate(
-            loading: loading,
-            showUpdateProductButton: state.showUpdateProductButton,
-          ),
+          state.copyWith(loading: loading),
         );
     }
   }
@@ -129,20 +123,15 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           final barcodes = {...state.barcodes, barcode};
 
           emit(
-            ProductDataStateUpdate(
+            state.copyWith(
               barcodes: barcodes,
-              product: state.product,
-              showUpdateProductButton: state.showUpdateProductButton,
             ),
           );
         case ProductDataStateCreate():
           final barcodes = {...state.barcodes, barcode};
 
           emit(
-            ProductDataStateCreate(
-              barcodes: barcodes,
-              showUpdateProductButton: state.showUpdateProductButton,
-            ),
+            state.copyWith(barcodes: barcodes),
           );
       }
     }
@@ -159,21 +148,14 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
             state.barcodes.where((barcode) => barcode != id).toSet();
 
         emit(
-          ProductDataStateUpdate(
-            barcodes: barcodes,
-            product: state.product,
-            showUpdateProductButton: state.showUpdateProductButton,
-          ),
+          state.copyWith(barcodes: barcodes),
         );
       case ProductDataStateCreate():
         final barcodes =
             state.barcodes.where((barcode) => barcode != id).toSet();
 
         emit(
-          ProductDataStateCreate(
-            barcodes: barcodes,
-            showUpdateProductButton: state.showUpdateProductButton,
-          ),
+          state.copyWith(barcodes: barcodes),
         );
     }
   }
@@ -190,13 +172,13 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
         ProductDataStateUpdate(
           product: product,
           barcodes: product.codes.toSet(),
-          showUpdateProductButton: currentUser.canManagerProducts,
+          showUpdateProductButton: currentUser.canManagerProducts && canEdit,
         ),
       );
     } else {
       emit(
         ProductDataStateCreate(
-          showUpdateProductButton: currentUser.canManagerProducts,
+          showUpdateProductButton: currentUser.canManagerProducts && canEdit,
         ),
       );
     }

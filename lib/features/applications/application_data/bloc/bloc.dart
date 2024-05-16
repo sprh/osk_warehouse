@@ -73,9 +73,12 @@ class _ApplicatioDataBloc
       case _ApplicationDataEventOnData():
         emit(ApplicationDataStateData(event.data));
       case ApplicationDataEventOnItemTap():
-        _navigationManager.openProductData(event.id);
+        _navigationManager.openProductData(productId: event.id, canEdit: false);
       case ApplicationDataEventOnUserTap():
-        _navigationManager.openUserData(event.username);
+        _navigationManager.openUserData(
+          username: event.username,
+          canEdit: false,
+        );
       case ApplicationDataEventOnActionTap():
         if (event.action != ApplicationAction.edit) {
           _showAreYouSureDialog(
@@ -122,11 +125,11 @@ class _ApplicatioDataBloc
         case ApplicationAction.reject:
           await _repository.reject(_applicationId);
           _applicationsListRefresher.refresh();
-          _navigationManager.pop();
+          await _repository.loadApplication(_applicationId);
         case ApplicationAction.approve:
           await _repository.approve(_applicationId);
           _applicationsListRefresher.refresh();
-          _navigationManager.pop();
+          await _repository.loadApplication(_applicationId);
         case ApplicationAction.edit:
           _navigationManager
             ..pop()

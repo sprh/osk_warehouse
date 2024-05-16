@@ -80,7 +80,7 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
       case _ProductListUpdateStateEvent():
         await _onProductListUpdate(event.products, event.loading, emit);
       case ProductListProductTapEvent():
-        _navigationManager.openProductData(event.id);
+        _navigationManager.openProductData(productId: event.id);
     }
   }
 

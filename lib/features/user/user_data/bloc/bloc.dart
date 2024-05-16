@@ -21,13 +21,15 @@ abstract class UserDataBloc extends Bloc<UserDataPageEvent, UserDataState> {
     AccountScopeNavigationManager navigationManager,
     UserRepository repository,
     String? username,
-    CurrentUserHolder currentUserHolder,
-  ) =>
+    CurrentUserHolder currentUserHolder, {
+    required bool canEdit,
+  }) =>
       _UserDataBloc(
         navigationManager,
         repository,
         currentUserHolder,
         username: username,
+        canEdit: canEdit,
       );
 }
 
@@ -38,12 +40,14 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
   final UserRepository _repository;
   final String? username;
   final CurrentUserHolder _currentUserHolder;
+  final bool canEdit;
 
   _UserDataBloc(
     this._navigationManager,
     this._repository,
     this._currentUserHolder, {
     required this.username,
+    required this.canEdit,
   }) : super(UserDataStateInitial()) {
     on<UserDataPageEvent>(_onEvent);
   }
@@ -88,20 +92,11 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
         break;
       case UserDataStateUpdate():
         emit(
-          UserDataStateUpdate(
-            user: state.user,
-            availableWarehouses: state.availableWarehouses,
-            loading: loading,
-            canEditData: state.canEditData,
-          ),
+          state.copyWith(loading: loading),
         );
       case UserDataStateCreate():
         emit(
-          UserDataStateCreate(
-            availableWarehouses: state.availableWarehouses,
-            loading: loading,
-            canEditData: state.canEditData,
-          ),
+          state.copyWith(loading: loading),
         );
     }
   }
@@ -118,14 +113,14 @@ class _UserDataBloc extends Bloc<UserDataPageEvent, UserDataState>
         UserDataStateUpdate(
           user: user,
           availableWarehouses: warehouses,
-          canEditData: currentUser.canManageUser,
+          canEditData: currentUser.canManageUser && canEdit,
         ),
       );
     } else {
       emit(
         UserDataStateCreate(
           availableWarehouses: warehouses,
-          canEditData: currentUser.canManageUser,
+          canEditData: currentUser.canManageUser && canEdit,
         ),
       );
     }

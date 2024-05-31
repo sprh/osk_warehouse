@@ -4,15 +4,19 @@ import '../../../../../common/components/osk_line_divider.dart';
 import '../../../../../common/components/tap/osk_tap_animation.dart';
 import '../../../../../common/components/text/osk_text.dart';
 import '../../../../../common/theme/utils/theme_from_context.dart';
+import '../../../../../l10n/utils/application_data_mapper.dart';
+import '../../../models/application/appication_type.dart';
 import '../../../models/application/application.dart';
 import 'info_status.dart';
 
+part 'application_info_header.dart';
+
 class ApplicationInfo extends StatelessWidget {
-  final Application request;
+  final Application application;
   final VoidCallback onTap;
 
   const ApplicationInfo({
-    required this.request,
+    required this.application,
     required this.onTap,
     super.key,
   });
@@ -21,6 +25,7 @@ class ApplicationInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.requestInfoTheme;
     final size = MediaQuery.of(context).size;
+    final applicationData = application.data;
 
     return OskTapAnimationBuilder(
       onTap: onTap,
@@ -44,22 +49,28 @@ class ApplicationInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                OskText.body(
-                  text: 'Заявка #${request.data.serialNumber}',
-                  fontWeight: OskfontWeight.bold,
+                _ApplicationInfoHeader(
+                  applicationType: applicationData.type,
+                  fromWarehouseName:
+                      applicationData.sentFromWarehouse?.warehouseName,
+                  toWarehouseName:
+                      applicationData.sentToWarehouse?.warehouseName,
                 ),
                 ApplicationInfoStatus(
-                  status: request.data.status,
-                  updatedAt: request.updatedAt,
-                  createdAt: request.updatedAt,
+                  status: application.data.status,
+                  updatedAt: application.updatedAt,
+                  createdAt: application.updatedAt,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: OskLineDivider(),
                 ),
-                OskText.body(text: request.data.createdBy.fullName),
+                OskText.body(text: application.data.createdBy.fullName),
                 const SizedBox(height: 8),
-                OskText.body(text: request.data.description, maxLines: 1),
+                OskText.body(
+                  text: application.data.description,
+                  maxLines: 1,
+                ),
               ],
             ),
           ),

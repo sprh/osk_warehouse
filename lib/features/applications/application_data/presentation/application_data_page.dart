@@ -11,8 +11,8 @@ import '../../../../common/components/info_slot/osk_info_slot.dart';
 import '../../../../common/components/osk_line_divider.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../../common/components/text/osk_text.dart';
+import '../../../../l10n/utils/application_data_mapper.dart';
 import '../../applications_list/presentation/components/info_status.dart';
-import '../../models/application/appication_type.dart';
 import '../../models/application/application_actions.dart';
 import '../bloc/bloc.dart';
 
@@ -187,51 +187,6 @@ class _ApplicationCommonInfo extends StatelessWidget {
 
   const _ApplicationCommonInfo(this.state, this.onUserTap);
 
-  String _typeAsString(ApplicationType type) {
-    switch (type) {
-      case ApplicationType.send:
-        return 'Отправка';
-      case ApplicationType.recieve:
-        return 'Приемка';
-      case ApplicationType.defect:
-        return 'Браковка';
-      case ApplicationType.use:
-        return 'Использование';
-      case ApplicationType.revert:
-        return 'Отмена заявки';
-    }
-  }
-
-  String _toWarehouseTitle(ApplicationType type) {
-    switch (type) {
-      case ApplicationType.send:
-        return 'На склад';
-      case ApplicationType.recieve:
-        return 'На склад';
-      case ApplicationType.defect:
-        return '';
-      case ApplicationType.use:
-        return '';
-      case ApplicationType.revert:
-        return 'На склад';
-    }
-  }
-
-  String _fromWarehouseTitle(ApplicationType type) {
-    switch (type) {
-      case ApplicationType.send:
-        return 'Со склада';
-      case ApplicationType.recieve:
-        return 'Со склада';
-      case ApplicationType.defect:
-        return 'На складе';
-      case ApplicationType.use:
-        return 'На складе';
-      case ApplicationType.revert:
-        return 'Со склада';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final finishedBy = state.application.data.finishedBy;
@@ -248,7 +203,9 @@ class _ApplicationCommonInfo extends StatelessWidget {
           fontWeight: OskfontWeight.bold,
         ),
         OskText.body(
-          text: _typeAsString(state.application.data.type),
+          text: ApplicationDataMapper.getApplicationTypeAsString(
+            state.application.data.type,
+          ),
         ),
         const SizedBox(height: 8),
         const OskLineDivider(),
@@ -288,7 +245,7 @@ class _ApplicationCommonInfo extends StatelessWidget {
         const SizedBox(height: 8),
         if (fromWarehouse != null) ...[
           OskText.title2(
-            text: _fromWarehouseTitle(
+            text: ApplicationDataMapper.getApplicationFromWarehouseTitleByType(
               state.application.data.type,
             ),
             fontWeight: OskfontWeight.bold,
@@ -307,7 +264,7 @@ class _ApplicationCommonInfo extends StatelessWidget {
         ],
         if (toWarehouse != null) ...[
           OskText.title2(
-            text: _toWarehouseTitle(
+            text: ApplicationDataMapper.getApplicationFromWarehouseTitleByType(
               state.application.data.type,
             ),
             fontWeight: OskfontWeight.bold,

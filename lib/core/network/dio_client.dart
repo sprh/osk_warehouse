@@ -36,6 +36,7 @@ class _DioClient implements DioClient {
       ..options = BaseOptions(
         // ignore: avoid_redundant_argument_values
         baseUrl: const String.fromEnvironment('base_url'),
+        connectTimeout: const Duration(seconds: 10),
       )
       ..interceptors.add(
         LogInterceptor(

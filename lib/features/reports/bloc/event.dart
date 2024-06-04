@@ -18,4 +18,12 @@ class _RepositoryEventOnSelectedPeriodChanged implements ReportsEvent {
   const _RepositoryEventOnSelectedPeriodChanged({required this.selectedPeriod});
 }
 
-class ReportsEventDownloadFile implements ReportsEvent {}
+class ReportsEventShareFile implements ReportsEvent {}
+
+class ReportsEventSaveFile implements ReportsEvent {}
+
+class _ReportsEventOpenFile implements ReportsEvent {
+  final String path;
+
+  const _ReportsEventOpenFile(this.path);
+}

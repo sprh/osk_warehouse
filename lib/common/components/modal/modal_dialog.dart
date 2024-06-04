@@ -38,18 +38,15 @@ class ModalDialog extends StatelessWidget {
                     ),
                     if (subtitle != null) ...[
                       const SizedBox(height: 4),
-                      OskText.caption(
+                      OskText.body(
                         text: subtitle!,
                         textAlign: TextAlign.center,
                         fontWeight: OskfontWeight.medium,
                         colorType: OskTextColorType.minor,
                       ),
                     ],
-                    if (actions != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: actions,
-                      ),
+                    const SizedBox(height: 10),
+                    if (actions != null) actions!,
                   ],
                 ),
               ),

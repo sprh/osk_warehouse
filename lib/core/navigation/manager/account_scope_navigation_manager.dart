@@ -421,6 +421,7 @@ class AccountScopeNavigationManagerImpl
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
               ],
             ),
           ),

@@ -2,6 +2,8 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/components/actions/actions_flex.dart';
+import '../../../common/components/button/osk_button.dart';
 import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../common/interface/repository_subscriber.dart';
@@ -55,8 +57,12 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
         await _openCalendar();
       case _RepositoryEventOnSelectedPeriodChanged():
         await _onSelectedPeriodChanged(event.selectedPeriod, emit);
-      case ReportsEventDownloadFile():
-        await _onDownloadFile(emit);
+      case ReportsEventSaveFile():
+        await _onSaveFile(emit);
+      case ReportsEventShareFile():
+        await _onShareFile(emit);
+      case _ReportsEventOpenFile():
+        await _onOpenFile(emit, event.path);
     }
   }
 
@@ -113,15 +119,68 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
     await _repository.getReports(selectedPeriod);
   }
 
-  Future<void> _onDownloadFile(Emitter<ReportsState> emit) async {
+  Future<void> _onShareFile(Emitter<ReportsState> emit) async {
     emit((state as ReportsStateSelectedPeriod).copyWith(loading: true));
+
     final file = await _repository.downloadFile(selectedPeriod);
     if (file != null) {
-      await _repository.saveAndShareFile(
-        (state as ReportsStateSelectedPeriod).formattedPeriod,
+      final formattedPeriod =
+          (state as ReportsStateSelectedPeriod).formattedPeriod;
+      final path = await _repository.saveFileToApplicationDirectory(
+        formattedPeriod,
         file,
       );
+
+      if (path != null) {
+        await _repository.shareFile(path, formattedPeriod);
+      }
     }
+
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: false));
+  }
+
+  Future<void> _onSaveFile(Emitter<ReportsState> emit) async {
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: true));
+
+    final file = await _repository.downloadFile(selectedPeriod);
+    if (file != null) {
+      final formattedPeriod =
+          (state as ReportsStateSelectedPeriod).formattedPeriod;
+      final path = await _repository.saveFileToDownloads(
+        formattedPeriod,
+        file,
+      );
+
+      if (path != null) {
+        await _navigationManager.showModalDialog(
+          title: 'Файл $formattedPeriod скачался. Его можно найти в Загрузках',
+          subtitle: 'Хотите открыть файл?',
+          dismissible: true,
+          actions: OskActionsFlex(
+            widgets: [
+              OskButton.minor(
+                title: 'Не открывать',
+                onTap: _navigationManager.popDialog,
+              ),
+              OskButton.main(
+                title: 'Открыть файл',
+                onTap: () {
+                  add(_ReportsEventOpenFile(path));
+                  _navigationManager.popDialog();
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    }
+
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: false));
+  }
+
+  Future<void> _onOpenFile(Emitter<ReportsState> emit, String filePath) async {
+    emit((state as ReportsStateSelectedPeriod).copyWith(loading: true));
+    await _repository.openFile(filePath);
     emit((state as ReportsStateSelectedPeriod).copyWith(loading: false));
   }
 

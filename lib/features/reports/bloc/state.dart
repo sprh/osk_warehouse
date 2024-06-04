@@ -32,3 +32,16 @@ class ReportsStateSelectedPeriodLoading implements ReportsState {
 
   const ReportsStateSelectedPeriodLoading(this.formattedPeriod);
 }
+
+extension ReportsStateX on ReportsState {
+  bool get needShowActions {
+    final state = this;
+    switch (state) {
+      case ReportsStateNoSelectedPeriod():
+      case ReportsStateSelectedPeriodLoading():
+        return false;
+      case ReportsStateSelectedPeriod():
+        return state.response.items.isNotEmpty;
+    }
+  }
+}

@@ -125,16 +125,23 @@ class _ReportsListPageState extends State<ReportsListPage> {
               }
             },
           ),
-          actions: [
-            if (state is ReportsStateSelectedPeriod &&
-                state.response.items.isNotEmpty)
-              OskButton.main(
-                title: 'Скачать отчет',
-                onTap: () => ReportsBloc.of(context).add(
-                  ReportsEventDownloadFile(),
-                ),
-              ),
-          ],
+          actionsDirection: Axis.horizontal,
+          actions: state.needShowActions
+              ? [
+                  OskButton.main(
+                    title: 'Скачать отчет',
+                    onTap: () => ReportsBloc.of(context).add(
+                      ReportsEventSaveFile(),
+                    ),
+                  ),
+                  OskButton.minor(
+                    title: 'Поделиться отчетом',
+                    onTap: () => ReportsBloc.of(context).add(
+                      ReportsEventShareFile(),
+                    ),
+                  ),
+                ]
+              : [],
         ),
       );
 }

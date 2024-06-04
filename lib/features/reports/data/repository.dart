@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -17,7 +18,18 @@ abstract class ReportsRepository extends Repository<ReportsResponse> {
 
   Future<Uint8List?> downloadFile(List<DateTime> period);
 
-  Future<void> saveAndShareFile(String name, Uint8List content);
+  /// returns file path
+  Future<String?> saveFileToApplicationDirectory(
+    String name,
+    Uint8List content,
+  );
+
+  /// returns file path
+  Future<String?> saveFileToDownloads(String name, Uint8List content);
+
+  Future<void> shareFile(String path, String reportName);
+
+  Future<void> openFile(String path);
 }
 
 class _ReportsRepository extends Repository<ReportsResponse>
@@ -63,22 +75,81 @@ class _ReportsRepository extends Repository<ReportsResponse>
   }
 
   @override
-  Future<void> saveAndShareFile(String name, Uint8List content) async {
+  Future<void> shareFile(String path, String reportName) async {
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/$name.xlsx';
-
-      // Сохранение файла
-      final file = File(filePath);
-      await file.writeAsBytes(content);
       await Share.shareXFiles(
-        [XFile(filePath)],
-        text: 'Отчет $name',
+        [XFile(path)],
+        text: 'Отчет $reportName',
       );
     } on Exception {
       emitError(
         RepositoryLocalizedError(
           message: 'Не удалось поделиться файлом',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<String?> saveFileToApplicationDirectory(
+    String name,
+    Uint8List content,
+  ) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/$name.xlsx';
+
+    return _saveFile(filePath, content);
+  }
+
+  @override
+  Future<String?> saveFileToDownloads(String name, Uint8List content) async {
+    final directory = await getDownloadsDirectory();
+
+    if (directory == null) {
+      emitError(
+        RepositoryLocalizedError(
+          message: 'Не смогли получить директорию для скачивания',
+        ),
+      );
+      return null;
+    }
+
+    final filePath = '${directory.path}/$name.xlsx';
+
+    return _saveFile(filePath, content);
+  }
+
+  Future<String?> _saveFile(String filePath, Uint8List content) async {
+    try {
+      final file = File(filePath);
+      await file.writeAsBytes(content);
+      return filePath;
+    } on Exception {
+      emitError(
+        RepositoryLocalizedError(
+          message: 'Не удалось сохранить файл',
+        ),
+      );
+    }
+
+    return null;
+  }
+
+  @override
+  Future<void> openFile(String path) async {
+    try {
+      final result = await OpenFile.open(path);
+      if (result.type != ResultType.done) {
+        emitError(
+          RepositoryLocalizedError(
+            message: 'Не удалось открыть файл',
+          ),
+        );
+      }
+    } on Exception {
+      emitError(
+        RepositoryLocalizedError(
+          message: 'Не удалось открыть файл',
         ),
       );
     }

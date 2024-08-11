@@ -9,13 +9,15 @@ class OskDropdownButton extends StatelessWidget {
   final String label;
   final String? selectedItemText;
   final Animation<double> iconAnimation;
+  final bool showIcon;
 
   const OskDropdownButton({
     required this.label,
     required this.onTap,
     required this.iconAnimation,
-    super.key,
     this.selectedItemText,
+    this.showIcon = true,
+    super.key,
   });
 
   @override
@@ -50,13 +52,14 @@ class OskDropdownButton extends StatelessWidget {
                     ),
                     child: OskText.body(text: selectedItemText!),
                   ),
-                RotationTransition(
-                  turns: iconAnimation,
-                  child: Icon(
-                    Icons.expand_more,
-                    color: theme.borderSideColor,
+                if (showIcon)
+                  RotationTransition(
+                    turns: iconAnimation,
+                    child: Icon(
+                      Icons.expand_more,
+                      color: theme.borderSideColor,
+                    ),
                   ),
-                ),
               ],
             ),
           ),

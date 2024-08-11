@@ -30,7 +30,7 @@ class _ProductDataPageEventSetData implements ProductDataPageEvent {
 
 class ProductDataPageEventAddOrUpdateProduct implements ProductDataPageEvent {
   final String name;
-  final ProductType? itemType;
+  final String? itemType;
   final String manufacturer;
   final String model;
   final String? description;

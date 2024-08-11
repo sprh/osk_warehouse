@@ -28,7 +28,7 @@ abstract class ProductRepository
 
   Future<void> createProduct({
     required String itemName,
-    required String itemType,
+    required String? itemType,
     required String manufacturer,
     required String model,
     required String? description,
@@ -38,7 +38,7 @@ abstract class ProductRepository
   Future<void> updateProduct({
     required String id,
     required String itemName,
-    required String itemType,
+    required String? itemType,
     required String manufacturer,
     required String model,
     required String? description,
@@ -61,7 +61,7 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
   @override
   Future<void> createProduct({
     required String itemName,
-    required String itemType,
+    required String? itemType,
     required String manufacturer,
     required String model,
     required String? description,
@@ -126,7 +126,7 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
   Future<void> updateProduct({
     required String id,
     required String itemName,
-    required String itemType,
+    required String? itemType,
     required String manufacturer,
     required String model,
     required String? description,

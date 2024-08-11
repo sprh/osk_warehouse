@@ -6,7 +6,7 @@ part 'update_product_dto.g.dart';
 class UpdateProductDto {
   final String id;
   final String itemName;
-  final String itemType;
+  final String? itemType;
   final String manufacturer;
   final String model;
   final String? description;

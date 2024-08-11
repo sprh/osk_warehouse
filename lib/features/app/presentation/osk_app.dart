@@ -9,6 +9,7 @@ import '../../../core/authorization/bloc/state.dart';
 import '../../../core/authorization/data/manager.dart';
 import '../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../../core/navigation/manager/app_scope_navigation_manager.dart';
+import '../../../core/navigation/manager/navigation_manager.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../core/scopes/account_scope.dart';
 import '../../../core/scopes/app_scope.dart';
@@ -61,14 +62,14 @@ class _OskAppState extends State<OskApp> with WidgetsBindingObserver {
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           late final RouterDelegate<Object> routerDelegate;
+          final NavigationManager navigationManager;
           switch (state) {
             case AuthorizedState():
-              final navigationManager =
+              navigationManager =
                   routerDelegate = accountScopeNavigationManager;
               onPop = navigationManager.pop;
             case NotAuthorizedState():
-              final navigationManager =
-                  routerDelegate = appScopeNavigationManager;
+              navigationManager = routerDelegate = appScopeNavigationManager;
               onPop = navigationManager.pop;
           }
 
@@ -76,6 +77,7 @@ class _OskAppState extends State<OskApp> with WidgetsBindingObserver {
             state: state,
             secureStorage: widget.secureStorage,
             authDataManager: widget.authDataManager,
+            navigationManager: navigationManager,
             dio: widget.dio,
             child: MaterialApp.router(
               routerDelegate: routerDelegate,
@@ -111,6 +113,7 @@ class _ScopeWrapper extends StatelessWidget {
   final FlutterSecureStorage secureStorage;
   final AuthorizationDataManager authDataManager;
   final Widget child;
+  final NavigationManager navigationManager;
 
   const _ScopeWrapper({
     required this.state,
@@ -118,6 +121,7 @@ class _ScopeWrapper extends StatelessWidget {
     required this.secureStorage,
     required this.authDataManager,
     required this.child,
+    required this.navigationManager,
   });
 
   @override
@@ -128,6 +132,7 @@ class _ScopeWrapper extends StatelessWidget {
           authManager: authDataManager,
           dio: dio,
           secureStorage: secureStorage,
+          navigationManager: navigationManager,
           child: child,
         );
       case NotAuthorizedState():

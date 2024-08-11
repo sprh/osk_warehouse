@@ -17,6 +17,7 @@ import '../../features/user/data/user_repository.dart';
 import '../../features/warehouse/data/api/api.dart';
 import '../../features/warehouse/data/repository.dart';
 import '../authorization/data/manager.dart';
+import '../navigation/manager/navigation_manager.dart';
 import '../network/dio_client.dart';
 import 'interface/scope.dart';
 
@@ -24,6 +25,7 @@ final class AccountScope extends Scope {
   final FlutterSecureStorage secureStorage;
   final AuthorizationDataManager authManager;
   final DioClient dio;
+  final NavigationManager navigationManager;
 
   static final _appScopeKey = GlobalKey();
 
@@ -35,6 +37,7 @@ final class AccountScope extends Scope {
     required this.authManager,
     required this.dio,
     required super.child,
+    required this.navigationManager,
   }) : super(key: _appScopeKey);
 
   late final warehouseApi = WarehouseApi(dio);

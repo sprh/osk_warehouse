@@ -194,7 +194,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
           id: productId,
           itemName: event.name,
           codes: event.codes.toList(),
-          itemType: event.itemType?.name ?? ProductType.other.name,
+          itemType: event.itemType,
           manufacturer: event.manufacturer,
           model: event.model,
           description: event.description,
@@ -203,7 +203,7 @@ class _ProductDataBloc extends Bloc<ProductDataPageEvent, ProductDataState>
         await _repository.createProduct(
           itemName: event.name,
           codes: event.codes.toList(),
-          itemType: event.itemType?.name ?? ProductType.other.name,
+          itemType: event.itemType,
           manufacturer: event.manufacturer,
           model: event.model,
           description: event.description,

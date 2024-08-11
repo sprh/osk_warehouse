@@ -3,15 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/components/button/osk_button.dart';
 import '../../../../common/components/button/osk_close_icon_button.dart';
-import '../../../../common/components/dropdown/components/osk_dropdown_menu_item.dart';
-import '../../../../common/components/dropdown/osk_dropdown_menu.dart';
 import '../../../../common/components/icon/osk_icons.dart';
 import '../../../../common/components/icon/osk_service_icons.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
 import '../../../../common/theme/utils/theme_from_context.dart';
-import '../../models/product.dart';
+import '../../../category/presentation/categories_list.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
 
@@ -91,7 +89,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
   late String title;
   late String? buttonTitle;
 
-  ProductType? itemType;
+  String? category;
   late String manufacturer;
   late String model;
   String? description;
@@ -178,7 +176,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
         model = state.product.model;
         description = state.product.description;
         warehouseCount = state.product.warehouseCount;
-        itemType = ProductType.other;
+        category = state.product.type;
     }
 
     WidgetsBinding.instance.addPostFrameCallback(
@@ -212,17 +210,11 @@ class __ProductDataPageState extends State<_ProductDataPage> {
               const SizedBox(height: 16),
               IgnorePointer(
                 ignoring: !canUpdate,
-                child: OskDropDown<ProductType>(
-                  items: [
-                    OskDropdownMenuItem(
-                      label: 'Другое',
-                      value: ProductType.other,
-                    ),
-                  ],
-                  selectedValue: itemType,
-                  label: 'Тип товара',
-                  onSelectedItemChanged: (type) {
-                    itemType = type;
+                child: CategoriesListDropdownItem(
+                  selectedCategory: category,
+                  canAddCategory: canUpdate,
+                  onSelectedCategoryChanged: (value) {
+                    category = value;
                     _onDataChanged();
                   },
                 ),
@@ -290,8 +282,8 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Table(
-                    border: TableBorder.symmetric(
-                      inside: const BorderSide(),
+                    border: const TableBorder.symmetric(
+                      inside: BorderSide(),
                     ),
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     children: [
@@ -344,7 +336,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
                   ProductDataPageEventAddOrUpdateProduct(
                     name: name,
                     codes: barcodes,
-                    itemType: itemType,
+                    itemType: category,
                     manufacturer: manufacturer,
                     model: model,
                     description: description,
@@ -366,7 +358,7 @@ class __ProductDataPageState extends State<_ProductDataPage> {
           return true;
         case ProductDataStateUpdate():
           return state.product.manufacturer != manufacturer ||
-              state.product.type != itemType ||
+              state.product.type != category ||
               state.product.model != model ||
               state.product.description != description ||
               state.product.codes != state.barcodes;

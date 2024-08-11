@@ -54,6 +54,7 @@ class _OskDropDownState<T> extends State<OskDropDown<T>>
               iconAnimation: iconTurns,
               onTap: onChangeExpansion,
               selectedItemText: selectedValue?.label,
+              showIcon: widget.items.isNotEmpty,
             ),
             OskDropdownList(
               animation: listExpand,

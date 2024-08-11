@@ -64,7 +64,7 @@ class _ProductListPageState extends State<ProductListPage> {
                       );
                     }
                     return SliverPadding(
-                      padding: const EdgeInsets.only(top: 16),
+                      padding: const EdgeInsets.only(top: 16, bottom: 8),
                       sliver: ProductsList(
                         products: state.products,
                         onProductTap: (id) => ProductListBloc.of(context).add(

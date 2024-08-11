@@ -7,7 +7,7 @@ part of 'application_data_dto.dart';
 // **************************************************************************
 
 ApplicationDataDto _$ApplicationDataDtoFromJson(Map json) => ApplicationDataDto(
-      serialNumber: json['serial_number'] as int,
+      serialNumber: (json['serial_number'] as num).toInt(),
       description: json['description'] as String,
       type: $enumDecode(_$ApplicationTypeDtoEnumMap, json['type']),
       status: $enumDecode(_$ApplicationStatusDtoEnumMap, json['status']),

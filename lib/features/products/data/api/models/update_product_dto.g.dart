@@ -9,7 +9,7 @@ part of 'update_product_dto.dart';
 UpdateProductDto _$UpdateProductDtoFromJson(Map json) => UpdateProductDto(
       id: json['id'] as String,
       itemName: json['item_name'] as String,
-      itemType: json['item_type'] as String,
+      itemType: json['item_type'] as String?,
       manufacturer: json['manufacturer'] as String,
       model: json['model'] as String,
       description: json['description'] as String?,

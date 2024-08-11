@@ -22,19 +22,19 @@ void main() {
   group('ProductListRepository Tests', () {
     test('refreshProductList emits products', () async {
       final dummyProducts = [
-        ProductDto(
+        const ProductDto(
           id: '1',
           itemName: 'Product 1',
-          itemType: ProductType.other.name,
+          itemType: '123',
           manufacturer: '',
           model: '',
           description: '',
           codes: <String>[],
         ),
-        ProductDto(
+        const ProductDto(
           id: '2',
           itemName: 'Product 2',
-          itemType: ProductType.other.name,
+          itemType: '123',
           manufacturer: '',
           model: '',
           description: '',

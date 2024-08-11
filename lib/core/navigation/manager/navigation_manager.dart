@@ -60,10 +60,12 @@ mixin NavigationManager {
 
   void showModal(Widget Function(BuildContext) builder) {
     final context = navigatorKey.currentState?.context;
+
     if (context != null) {
       showModalBottomSheet<void>(
         context: context,
         builder: builder,
+        isScrollControlled: true,
       );
     }
   }

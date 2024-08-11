@@ -10,14 +10,14 @@ ProductDto _$ProductDtoFromJson(Map json) => ProductDto(
       id: json['id'] as String,
       itemName: json['item_name'] as String,
       codes: (json['codes'] as List<dynamic>).map((e) => e as String).toList(),
-      itemType: json['item_type'] as String,
+      itemType: json['item_type'] as String?,
       manufacturer: json['manufacturer'] as String,
       model: json['model'] as String,
       description: json['description'] as String?,
       warehouseCount: (json['warehouse_count'] as Map?)?.map(
-        (k, e) => MapEntry(k as String, e as int),
+        (k, e) => MapEntry(k as String, (e as num).toInt()),
       ),
-      count: json['count'] as int?,
+      count: (json['count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProductDtoToJson(ProductDto instance) =>

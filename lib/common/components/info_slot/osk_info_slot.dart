@@ -110,35 +110,26 @@ class OskInfoSlot extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: LayoutBuilder(
                 builder: (_, constraints) => Row(
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: constraints.maxWidth,
-                          ),
-                          child: OskText.body(
+                    Flexible(
+                      child: Wrap(
+                        children: [
+                          OskText.body(
                             text: title,
                             fontWeight: OskfontWeight.medium,
                           ),
-                        ),
-                        if (subtitle != null)
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: constraints.maxWidth,
-                            ),
-                            child: OskText.caption(
+                          if (subtitle != null)
+                            OskText.caption(
                               text: subtitle!,
                               colorType: OskTextColorType.minor,
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         if (trailing != null) trailing!,
                         if (selected != null && onSelected != null)

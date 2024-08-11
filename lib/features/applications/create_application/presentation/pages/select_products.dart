@@ -114,6 +114,7 @@ class _SelectProducts extends StatelessWidget {
                           opacity: !canAdd ? 0.5 : 1.0,
                           child: IconButton(
                             icon: const Icon(Icons.add),
+                            padding: EdgeInsets.zero,
                             onPressed: () => onChangeCount(
                               product.product.id,
                               product.count + 1,

@@ -145,6 +145,7 @@ class OskText extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: fontSize,
+        overflow: TextOverflow.clip,
         fontWeight: fontWeight.fontWeight,
         color: colorType.colorFromTheme(theme),
       ),

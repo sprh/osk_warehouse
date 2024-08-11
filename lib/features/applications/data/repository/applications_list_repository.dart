@@ -45,7 +45,7 @@ class _ApplicationsListRepository
   Future<void> loadApplications() async {
     cursor = null;
 
-    final data = await _loadData(null);
+    final data = await _loadData();
     if (data == null) return;
 
     final items = data.$1;
@@ -61,10 +61,10 @@ class _ApplicationsListRepository
 
   @override
   Future<void> loadMore() async {
-    if (cursor == null) {
+    if (cursor == null || loading) {
       return;
     }
-    final data = await _loadData(cursor);
+    final data = await _loadData();
     if (data == null) return;
 
     final previousItems = lastValue?.applications ?? [];
@@ -80,13 +80,11 @@ class _ApplicationsListRepository
     );
   }
 
-  Future<(List<Application> items, bool hasMore)?> _loadData(
-    String? cursor,
-  ) async {
+  Future<(List<Application> items, bool hasMore)?> _loadData() async {
     setLoading();
     try {
       final applications = await _api.getApplications(cursor);
-      this.cursor = applications.cursor;
+      cursor = applications.cursor;
       return (
         applications.items
             .map(

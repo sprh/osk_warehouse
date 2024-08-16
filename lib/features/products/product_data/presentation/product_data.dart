@@ -193,7 +193,6 @@ class __ProductDataPageState extends State<_ProductDataPage> {
             leading: const OskServiceIcon.warehouse(),
             actions: const [
               OskCloseIconButton(),
-              SizedBox(width: 8),
             ],
           ),
           body: Column(

@@ -155,24 +155,22 @@ class OskScaffoldHeader extends StatelessWidget {
       child: ColoredBox(
         color: theme.backgroundColor,
         child: Padding(
-          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+          padding: const EdgeInsets.only(
+            top: 16,
+            left: 16,
+            right: 16,
+          ),
           child: Center(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 if (leading != null) ...[
                   leading!,
                   const SizedBox(width: 16),
                 ],
-                if (titleWidget != null)
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.65,
-                    ),
-                    child: titleWidget,
-                  ),
+                if (titleWidget != null) Expanded(child: titleWidget!),
                 if (actions != null) ...[
-                  const Spacer(),
                   Row(children: actions!),
                 ],
               ],

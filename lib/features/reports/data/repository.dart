@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../common/error/repository_localized_error.dart';
@@ -103,16 +104,24 @@ class _ReportsRepository extends Repository<ReportsResponse>
 
   @override
   Future<String?> saveFileToDownloads(String name, Uint8List content) async {
-    final directory = await getDownloadsDirectory();
+    if (!Platform.isAndroid) {
+      return null;
+    }
 
-    if (directory == null) {
+    final status = await _requestStoragePermissions();
+    if (!status) {
       emitError(
         RepositoryLocalizedError(
-          message: 'Не смогли получить директорию для скачивания',
+          message:
+              'Для сохранения файла нужно разрешить доступ к памяти устройства',
         ),
       );
       return null;
     }
+
+    // general downloads
+    // https://stackoverflow.com/a/68760026
+    final directory = Directory('/storage/emulated/0/Download');
 
     final filePath = '${directory.path}/$name.xlsx';
 
@@ -161,6 +170,15 @@ class _ReportsRepository extends Repository<ReportsResponse>
           toDate: period.last.withMaxTime,
         ),
       );
+
+  Future<bool> _requestStoragePermissions() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      status = await Permission.storage.request();
+    }
+
+    return status == PermissionStatus.granted;
+  }
 }
 
 extension on DateTime {

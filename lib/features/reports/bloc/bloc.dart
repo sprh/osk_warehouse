@@ -92,6 +92,7 @@ class _ReportsBloc extends Bloc<ReportsEvent, ReportsState>
         fontWeight: FontWeight.bold,
       ),
       lastDate: DateTime.now(),
+      currentDate: DateTime.now(),
     );
 
     await _navigationManager.openCalenarPicker(

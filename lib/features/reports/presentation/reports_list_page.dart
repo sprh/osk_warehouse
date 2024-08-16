@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -128,12 +130,13 @@ class _ReportsListPageState extends State<ReportsListPage> {
           actionsDirection: Axis.horizontal,
           actions: state.needShowActions
               ? [
-                  OskButton.main(
-                    title: 'Скачать отчет',
-                    onTap: () => ReportsBloc.of(context).add(
-                      ReportsEventSaveFile(),
+                  if (Platform.isAndroid)
+                    OskButton.main(
+                      title: 'Скачать отчет',
+                      onTap: () => ReportsBloc.of(context).add(
+                        ReportsEventSaveFile(),
+                      ),
                     ),
-                  ),
                   OskButton.minor(
                     title: 'Поделиться отчетом',
                     onTap: () => ReportsBloc.of(context).add(

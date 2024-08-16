@@ -32,8 +32,8 @@ class _ApplicationInfoHeaderState extends State<_ApplicationInfoHeader> {
     final from = widget.fromWarehouseName;
     final to = widget.toWarehouseName;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         OskText.body(
           text: '[$_applicationTypeFormatted]',

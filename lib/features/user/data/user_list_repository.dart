@@ -1,4 +1,3 @@
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../models/user.dart';
@@ -51,11 +50,10 @@ class _UserListRepository extends Repository<List<User>>
     try {
       await _api.deleteUser(username);
       await _refreshData();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список пользователей',
-        ),
+    } on Exception catch (e) {
+      onError(
+        e: e,
+        fallbackMessage: 'Не удалось получить список пользователей',
       );
     }
   }
@@ -73,11 +71,10 @@ class _UserListRepository extends Repository<List<User>>
         ),
       );
       emit(users.toList());
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список пользователей',
-        ),
+    } on Exception catch (e) {
+      onError(
+        e: e,
+        fallbackMessage: 'Не удалось получить список пользователей',
       );
     }
   }

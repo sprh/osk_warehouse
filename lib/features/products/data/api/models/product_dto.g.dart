@@ -15,9 +15,9 @@ ProductDto _$ProductDtoFromJson(Map json) => ProductDto(
       model: json['model'] as String,
       description: json['description'] as String?,
       warehouseCount: (json['warehouse_count'] as Map?)?.map(
-        (k, e) => MapEntry(k as String, (e as num).toInt()),
+        (k, e) => MapEntry(k as String, e as int),
       ),
-      count: (json['count'] as num?)?.toInt(),
+      count: json['count'] as int?,
     );
 
 Map<String, dynamic> _$ProductDtoToJson(ProductDto instance) =>

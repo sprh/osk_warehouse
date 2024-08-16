@@ -1,6 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../products/data/api/models/product_dto.dart';
 import '../../models/create_application/create_application_application_type.dart';
@@ -80,9 +79,11 @@ class _CreateApplicationRepository extends Repository<void>
         const Uuid().v4(),
       );
       return application.id;
-    } on Exception catch (_) {
-      throw RepositoryLocalizedError(
-        message: 'Не удалось создать заявку. Пожалуйста, попробуйте позже',
+    } on Exception catch (e) {
+      throw buildError(
+        fallbackMessage:
+            'Не удалось создать заявку. Пожалуйста, попробуйте позже',
+        e: e,
       );
     }
   }
@@ -128,10 +129,11 @@ class _CreateApplicationRepository extends Repository<void>
         id,
       );
       return application.id;
-    } on Exception catch (_) {
-      throw RepositoryLocalizedError(
-        message:
+    } on Exception catch (e) {
+      throw buildError(
+        fallbackMessage:
             'Не удалось обновить,здать заявку. Пожалуйста, попробуйте позже',
+        e: e,
       );
     }
   }

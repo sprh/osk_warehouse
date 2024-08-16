@@ -1,6 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../warehouse/data/repository.dart';
 import '../../warehouse/models/warehouse.dart';
@@ -81,12 +80,8 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
         const Uuid().v4(),
       );
       _productListRefresher.refreshData();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось создать товар',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось создать товар');
       rethrow;
     } finally {
       setLoading(false);
@@ -111,12 +106,8 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
         final warehouses = data[1] as List<Warehouse>;
         emit((product, warehouses));
       }
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить данные пользователя',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось обновить данные');
     } finally {
       setLoading(false);
     }
@@ -146,12 +137,8 @@ class _ProductRepository extends Repository<(Product?, List<Warehouse>)>
         ),
       );
       _productListRefresher.refreshData();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось создать товар',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось обновить продукт');
       rethrow;
     } finally {
       setLoading(false);

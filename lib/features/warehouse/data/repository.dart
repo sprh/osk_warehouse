@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../common/utils/kotlin_utils.dart';
 import '../models/warehouse.dart';
@@ -55,9 +54,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
     try {
       final data = await _api.getWarehouse(id);
       return Warehouse.fromDto(data);
-    } on Exception catch (_) {
-      throw RepositoryLocalizedError(
-        message:
+    } on Exception catch (e) {
+      throw buildError(
+        e: e,
+        fallbackMessage:
             'Не удалось получить данные склада. Пожалуйста, попробуйте позже',
       );
     }
@@ -70,7 +70,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
     }
 
     await _getWarehouseList().callTrowable(
-      onError: (error) => emitError(RepositoryLocalizedError(message: 'todo')),
+      onError: (error) => onError(
+        fallbackMessage: 'Не удалось обновить данные складов',
+        e: error,
+      ),
       onSuccess: emit,
     );
   }
@@ -82,9 +85,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
         const Uuid().v4(),
       )
       .callTrowable(
-        onError: (error) => throw RepositoryLocalizedError(
-          message:
+        onError: (error) => throw buildError(
+          fallbackMessage:
               'Не удалось создать склад. Пожалуйста, повторите попытку позже',
+          e: error,
         ),
         onSuccess: (dto) => refreshWarehouseList(),
       );
@@ -92,9 +96,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
   @override
   Future<void> deleteWarehouse(String id) async =>
       _api.deleteWarehouse(id).callTrowable(
-            onError: (error) => throw RepositoryLocalizedError(
-              message:
-                  'Не удалось удалить склад. Пожалуйста, повторите попытку позже', // TODO:
+            onError: (error) => throw buildError(
+              e: error,
+              fallbackMessage:
+                  'Не удалось удалить склад. Пожалуйста, повторите попытку позже',
             ),
             onSuccess: (dto) => refreshWarehouseList(),
           );
@@ -110,9 +115,10 @@ class _WarehouseRepository extends Repository<List<Warehouse>>
             WarehouseDto(warehouseName: name, address: address, id: id),
           )
           .callTrowable(
-            onError: (error) => throw RepositoryLocalizedError(
-              message:
-                  'Не удалось обновить склад. Пожалуйста, повторите попытку позже', // TODO:
+            onError: (error) => throw buildError(
+              fallbackMessage:
+                  'Не удалось обновить склад. Пожалуйста, повторите попытку позже',
+              e: error,
             ),
             onSuccess: (dto) => refreshWarehouseList(),
           );

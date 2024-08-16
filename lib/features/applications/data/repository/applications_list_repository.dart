@@ -1,4 +1,3 @@
-import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../../models/application/application.dart';
@@ -96,9 +95,10 @@ class _ApplicationsListRepository
             .toList(),
         cursor != null
       );
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(message: 'Не удалось загрузить заявки'),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось загрузить заявки',
+        e: e,
       );
       return null;
     } finally {

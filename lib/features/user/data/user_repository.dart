@@ -1,6 +1,5 @@
 import 'package:uuid/uuid.dart';
 
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../../warehouse/data/repository.dart';
@@ -83,12 +82,8 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
         final warehouses = data[1] as List<Warehouse>;
         emit((user, warehouses));
       }
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить данные пользователя',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось получить данные пользователя');
     }
   }
 
@@ -120,12 +115,8 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
         const Uuid().v4(),
       );
       _userListRefresher.refreshData();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось создать пользователя',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось создать пользователя');
       rethrow;
     }
   }
@@ -155,12 +146,8 @@ class _UserRepository extends Repository<(User?, List<Warehouse>)>
         ),
       );
       _userListRefresher.refreshData();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось обновить пользователя',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось обновить пользователя');
       rethrow;
     }
   }

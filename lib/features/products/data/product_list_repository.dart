@@ -1,4 +1,3 @@
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../../../common/utils/kotlin_utils.dart';
 import '../models/product.dart';
@@ -71,11 +70,10 @@ class _ProductListRepository extends Repository<List<Product>>
     try {
       await _api.deleteProduct(id);
       await _refreshData(warehouseId);
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список пользователей',
-        ),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось удалить продукт',
+        e: e,
       );
     }
   }
@@ -91,11 +89,10 @@ class _ProductListRepository extends Repository<List<Product>>
 
       final products = data.items.map(Product.fromDto);
       emit(products.toList());
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список пользователей',
-        ),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось получить список продуктов',
+        e: e,
       );
     }
   }

@@ -20,9 +20,9 @@ class OskCheckbox extends StatelessWidget {
       dimension: 24,
       child: Checkbox(
         checkColor: theme.background,
-        fillColor: MaterialStateProperty.resolveWith<Color>(
+        fillColor: WidgetStateProperty.resolveWith<Color>(
           (states) {
-            if (states.contains(MaterialState.disabled)) {
+            if (states.contains(WidgetState.disabled)) {
               return theme.activeBackground.withOpacity(.32);
             }
             return theme.activeBackground;

@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../error/error_response_detail.dart';
 import '../error/repository_localized_error.dart';
 import '../utils/kotlin_utils.dart';
 
@@ -63,10 +65,26 @@ abstract class Repository<T> {
 
   @nonVirtual
   @protected
-  void emitError(RepositoryLocalizedError value) {
+  void onError({
+    required Exception? e,
+    required String fallbackMessage,
+  }) {
+    final value = buildError(e: e, fallbackMessage: fallbackMessage);
     _dataStreamController?.addError(value);
     loading = false;
     _loadingStreamController?.add(false);
+  }
+
+  @protected
+  Error buildError({
+    required Exception? e,
+    required String fallbackMessage,
+  }) {
+    String? message;
+    if (e is DioException) {
+      message = e.localizedErrorMessage;
+    }
+    return RepositoryLocalizedError(message: message ?? fallbackMessage);
   }
 
   @nonVirtual

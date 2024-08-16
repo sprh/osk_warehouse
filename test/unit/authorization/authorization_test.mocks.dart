@@ -3,19 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
 import 'package:dio/dio.dart' as _i3;
-import 'package:flutter/foundation.dart' as _i4;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i10;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i10;
+import 'package:mockito/src/dummies.dart' as _i9;
 import 'package:osk_warehouse/core/authorization/bloc/authorization_data_bloc.dart'
-    as _i8;
-import 'package:osk_warehouse/core/authorization/bloc/state.dart' as _i9;
-import 'package:osk_warehouse/core/authorization/data/repository.dart' as _i7;
-import 'package:osk_warehouse/core/network/dio_client.dart' as _i6;
+    as _i7;
+import 'package:osk_warehouse/core/authorization/bloc/state.dart' as _i8;
+import 'package:osk_warehouse/core/authorization/data/repository.dart' as _i6;
+import 'package:osk_warehouse/core/network/dio_client.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -176,61 +175,7 @@ class MockFlutterSecureStorage extends _i1.Mock
       ) as _i2.MacOsOptions);
 
   @override
-  void registerListener({
-    required String? key,
-    required _i4.ValueChanged<String?>? listener,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #registerListener,
-          [],
-          {
-            #key: key,
-            #listener: listener,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void unregisterListener({
-    required String? key,
-    required _i4.ValueChanged<String?>? listener,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #unregisterListener,
-          [],
-          {
-            #key: key,
-            #listener: listener,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void unregisterAllListenersForKey({required String? key}) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #unregisterAllListenersForKey,
-          [],
-          {#key: key},
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void unregisterAllListeners() => super.noSuchMethod(
-        Invocation.method(
-          #unregisterAllListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i5.Future<void> write({
+  _i4.Future<void> write({
     required String? key,
     required String? value,
     _i2.IOSOptions? iOptions,
@@ -255,12 +200,12 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i5.Future<String?> read({
+  _i4.Future<String?> read({
     required String? key,
     _i2.IOSOptions? iOptions,
     _i2.AndroidOptions? aOptions,
@@ -283,11 +228,11 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
-  _i5.Future<bool> containsKey({
+  _i4.Future<bool> containsKey({
     required String? key,
     _i2.IOSOptions? iOptions,
     _i2.AndroidOptions? aOptions,
@@ -310,11 +255,11 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
-  _i5.Future<void> delete({
+  _i4.Future<void> delete({
     required String? key,
     _i2.IOSOptions? iOptions,
     _i2.AndroidOptions? aOptions,
@@ -337,12 +282,12 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i5.Future<Map<String, String>> readAll({
+  _i4.Future<Map<String, String>> readAll({
     _i2.IOSOptions? iOptions,
     _i2.AndroidOptions? aOptions,
     _i2.LinuxOptions? lOptions,
@@ -363,11 +308,11 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<Map<String, String>>.value(<String, String>{}),
-      ) as _i5.Future<Map<String, String>>);
+        returnValue: _i4.Future<Map<String, String>>.value(<String, String>{}),
+      ) as _i4.Future<Map<String, String>>);
 
   @override
-  _i5.Future<void> deleteAll({
+  _i4.Future<void> deleteAll({
     _i2.IOSOptions? iOptions,
     _i2.AndroidOptions? aOptions,
     _i2.LinuxOptions? lOptions,
@@ -388,24 +333,15 @@ class MockFlutterSecureStorage extends _i1.Mock
             #wOptions: wOptions,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<bool?> isCupertinoProtectedDataAvailable() => (super.noSuchMethod(
-        Invocation.method(
-          #isCupertinoProtectedDataAvailable,
-          [],
-        ),
-        returnValue: _i5.Future<bool?>.value(),
-      ) as _i5.Future<bool?>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [DioClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDioClient extends _i1.Mock implements _i6.DioClient {
+class MockDioClient extends _i1.Mock implements _i5.DioClient {
   MockDioClient() {
     _i1.throwOnMissingStub(this);
   }
@@ -448,39 +384,39 @@ class MockDioClient extends _i1.Mock implements _i6.DioClient {
       );
 
   @override
-  _i5.Future<_i3.Response<T>> retry<T>(_i3.RequestOptions? requestOptions) =>
+  _i4.Future<_i3.Response<T>> retry<T>(_i3.RequestOptions? requestOptions) =>
       (super.noSuchMethod(
         Invocation.method(
           #retry,
           [requestOptions],
         ),
-        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_7<T>(
+        returnValue: _i4.Future<_i3.Response<T>>.value(_FakeResponse_7<T>(
           this,
           Invocation.method(
             #retry,
             [requestOptions],
           ),
         )),
-      ) as _i5.Future<_i3.Response<T>>);
+      ) as _i4.Future<_i3.Response<T>>);
 }
 
 /// A class which mocks [AuthorizationRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthorizationRepository extends _i1.Mock
-    implements _i7.AuthorizationRepository {
+    implements _i6.AuthorizationRepository {
   MockAuthorizationRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<String?> get username => (super.noSuchMethod(
+  _i4.Future<String?> get username => (super.noSuchMethod(
         Invocation.getter(#username),
-        returnValue: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
-  _i5.Future<String?> refreshToken({
+  _i4.Future<String?> refreshToken({
     required String? username,
     required String? password,
   }) =>
@@ -493,26 +429,26 @@ class MockAuthorizationRepository extends _i1.Mock
             #password: password,
           },
         ),
-        returnValue: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
-  _i5.Future<String?> getCachedToken() => (super.noSuchMethod(
+  _i4.Future<String?> getCachedToken() => (super.noSuchMethod(
         Invocation.method(
           #getCachedToken,
           [],
         ),
-        returnValue: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
-  _i5.Future<String?> getTokenByCachedUserCreds() => (super.noSuchMethod(
+  _i4.Future<String?> getTokenByCachedUserCreds() => (super.noSuchMethod(
         Invocation.method(
           #getTokenByCachedUserCreds,
           [],
         ),
-        returnValue: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
   bool needRetryUrl(
@@ -531,39 +467,39 @@ class MockAuthorizationRepository extends _i1.Mock
       ) as bool);
 
   @override
-  _i5.Future<void> logout() => (super.noSuchMethod(
+  _i4.Future<void> logout() => (super.noSuchMethod(
         Invocation.method(
           #logout,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [AuthorizationDataBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthorizationDataBloc extends _i1.Mock
-    implements _i8.AuthorizationDataBloc {
+    implements _i7.AuthorizationDataBloc {
   MockAuthorizationDataBloc() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i9.AuthorizationDataState get state => (super.noSuchMethod(
+  _i8.AuthorizationDataState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i10.dummyValue<_i9.AuthorizationDataState>(
+        returnValue: _i9.dummyValue<_i8.AuthorizationDataState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i9.AuthorizationDataState);
+      ) as _i8.AuthorizationDataState);
 
   @override
-  _i5.Stream<_i9.AuthorizationDataState> get stream => (super.noSuchMethod(
+  _i4.Stream<_i8.AuthorizationDataState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i5.Stream<_i9.AuthorizationDataState>.empty(),
-      ) as _i5.Stream<_i9.AuthorizationDataState>);
+        returnValue: _i4.Stream<_i8.AuthorizationDataState>.empty(),
+      ) as _i4.Stream<_i8.AuthorizationDataState>);
 
   @override
   bool get isClosed => (super.noSuchMethod(
@@ -591,7 +527,7 @@ class MockAuthorizationDataBloc extends _i1.Mock
       );
 
   @override
-  void emit(_i9.AuthorizationDataState? state) => super.noSuchMethod(
+  void emit(_i8.AuthorizationDataState? state) => super.noSuchMethod(
         Invocation.method(
           #emit,
           [state],
@@ -600,7 +536,7 @@ class MockAuthorizationDataBloc extends _i1.Mock
       );
 
   @override
-  void onChange(_i11.Change<_i9.AuthorizationDataState>? change) =>
+  void onChange(_i10.Change<_i8.AuthorizationDataState>? change) =>
       super.noSuchMethod(
         Invocation.method(
           #onChange,
@@ -642,12 +578,12 @@ class MockAuthorizationDataBloc extends _i1.Mock
       );
 
   @override
-  _i5.Future<void> close() => (super.noSuchMethod(
+  _i4.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

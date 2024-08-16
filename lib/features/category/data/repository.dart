@@ -1,4 +1,3 @@
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import '../models/item_category.dart';
 import 'api.dart';
@@ -30,11 +29,10 @@ class _CategoriesRepositoryImpl extends Repository<List<ItemCategory>>
     try {
       final categories = await _api.getCategories();
       emit(categories);
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список категорий',
-        ),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось получить список категорий',
+        e: e,
       );
     }
   }
@@ -44,11 +42,10 @@ class _CategoriesRepositoryImpl extends Repository<List<ItemCategory>>
     try {
       await _api.createCategory(category);
       await loadCategories();
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось сохранить категорию',
-        ),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось сохранить категорию',
+        e: e,
       );
     }
   }

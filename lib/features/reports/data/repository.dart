@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../common/error/repository_localized_error.dart';
 import '../../../common/interface/repository.dart';
 import 'api/api.dart';
 import 'api/models/reports_request.dart';
@@ -51,12 +50,8 @@ class _ReportsRepository extends Repository<ReportsResponse>
       );
 
       emit(reports);
-    } on Exception {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить список отчетов',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось получить список отчетов');
     }
   }
 
@@ -65,12 +60,8 @@ class _ReportsRepository extends Repository<ReportsResponse>
     try {
       final file = await _api.createFile(_formatRequest(period));
       return file;
-    } on Exception {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось получить отчет',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось получить отчет');
       return null;
     }
   }
@@ -82,12 +73,8 @@ class _ReportsRepository extends Repository<ReportsResponse>
         [XFile(path)],
         text: 'Отчет $reportName',
       );
-    } on Exception {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось поделиться файлом',
-        ),
-      );
+    } on Exception catch (e) {
+      onError(e: e, fallbackMessage: 'Не удалось поделиться файлом');
     }
   }
 
@@ -110,11 +97,10 @@ class _ReportsRepository extends Repository<ReportsResponse>
 
     final status = await _requestStoragePermissions();
     if (!status) {
-      emitError(
-        RepositoryLocalizedError(
-          message:
-              'Для сохранения файла нужно разрешить доступ к памяти устройства',
-        ),
+      onError(
+        e: null,
+        fallbackMessage:
+            'Для сохранения файла нужно разрешить доступ к памяти устройства',
       );
       return null;
     }
@@ -134,10 +120,9 @@ class _ReportsRepository extends Repository<ReportsResponse>
       await file.writeAsBytes(content);
       return filePath;
     } on Exception {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось сохранить файл',
-        ),
+      onError(
+        fallbackMessage: 'Не удалось сохранить файл',
+        e: null,
       );
     }
 
@@ -149,18 +134,13 @@ class _ReportsRepository extends Repository<ReportsResponse>
     try {
       final result = await OpenFile.open(path);
       if (result.type != ResultType.done) {
-        emitError(
-          RepositoryLocalizedError(
-            message: 'Не удалось открыть файл',
-          ),
+        onError(
+          fallbackMessage: 'Не удалось открыть файл',
+          e: null,
         );
       }
     } on Exception {
-      emitError(
-        RepositoryLocalizedError(
-          message: 'Не удалось открыть файл',
-        ),
-      );
+      onError(e: null, fallbackMessage: 'Не удалось открыть файл');
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-import '../../../../common/error/repository_localized_error.dart';
 import '../../../../common/interface/repository.dart';
 import '../../../../core/authorization/bloc/authorization_data_bloc.dart';
 import '../../models/application/application.dart';
@@ -39,9 +38,10 @@ class _ApplicationDataRepository extends Repository<Application>
           (username) => _currentUsernameHolder.currentUserUsername == username,
         ),
       );
-    } on Exception catch (_) {
-      emitError(
-        RepositoryLocalizedError(message: 'Не удалось загрузить заявку'),
+    } on Exception catch (e) {
+      onError(
+        fallbackMessage: 'Не удалось загрузить заявку',
+        e: e,
       );
     }
   }
@@ -56,7 +56,7 @@ class _ApplicationDataRepository extends Repository<Application>
       if (e is DioException && e.type == DioExceptionType.unknown) {
         return;
       }
-      throw RepositoryLocalizedError(message: 'Не удалось подтвердить заявку');
+      throw buildError(fallbackMessage: 'Не удалось подтвердить заявку', e: e);
     }
   }
 
@@ -70,8 +70,9 @@ class _ApplicationDataRepository extends Repository<Application>
       if (e is DioException && e.type == DioExceptionType.unknown) {
         return;
       }
-      throw RepositoryLocalizedError(
-        message: 'Не удалось удалить заявку',
+      throw buildError(
+        fallbackMessage: 'Не удалось удалить заявку',
+        e: e,
       );
     }
   }
@@ -86,8 +87,9 @@ class _ApplicationDataRepository extends Repository<Application>
       if (e is DioException && e.type == DioExceptionType.unknown) {
         return;
       }
-      throw RepositoryLocalizedError(
-        message: 'Не удалось отклонить заявку',
+      throw buildError(
+        fallbackMessage: 'Не удалось отклонить заявку',
+        e: e,
       );
     }
   }

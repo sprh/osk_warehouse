@@ -2,11 +2,13 @@ part of 'info.dart';
 
 class _ApplicationInfoHeader extends StatefulWidget {
   final ApplicationType applicationType;
+  final int applicationNumber;
   final String? fromWarehouseName;
   final String? toWarehouseName;
 
   const _ApplicationInfoHeader({
     required this.applicationType,
+    required this.applicationNumber,
     required this.fromWarehouseName,
     required this.toWarehouseName,
   });
@@ -32,37 +34,47 @@ class _ApplicationInfoHeaderState extends State<_ApplicationInfoHeader> {
     final from = widget.fromWarehouseName;
     final to = widget.toWarehouseName;
 
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        OskText.body(
-          text: '[$_applicationTypeFormatted]',
-          fontWeight: OskfontWeight.bold,
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            OskText.body(
+              text: '[$_applicationTypeFormatted]',
+              fontWeight: OskfontWeight.bold,
+            ),
+            const SizedBox(width: 4),
+            if (from != null && to != null) ...[
+              OskText.body(
+                text: from,
+                fontWeight: OskfontWeight.bold,
+              ),
+              const Icon(
+                Icons.arrow_forward_outlined,
+                size: 16,
+              ),
+              OskText.body(
+                text: to,
+                fontWeight: OskfontWeight.bold,
+              ),
+            ] else if (to != null)
+              OskText.body(
+                text: to,
+                fontWeight: OskfontWeight.bold,
+              )
+            else if (from != null)
+              OskText.body(
+                text: from,
+                fontWeight: OskfontWeight.bold,
+              ),
+          ],
         ),
-        const SizedBox(width: 4),
-        if (from != null && to != null) ...[
-          OskText.body(
-            text: from,
-            fontWeight: OskfontWeight.bold,
-          ),
-          const Icon(
-            Icons.arrow_forward_outlined,
-            size: 16,
-          ),
-          OskText.body(
-            text: to,
-            fontWeight: OskfontWeight.bold,
-          ),
-        ] else if (to != null)
-          OskText.body(
-            text: to,
-            fontWeight: OskfontWeight.bold,
-          )
-        else if (from != null)
-          OskText.body(
-            text: from,
-            fontWeight: OskfontWeight.bold,
-          ),
+        OskText.caption(
+          text: 'Заявка #${widget.applicationNumber}',
+          fontWeight: OskfontWeight.medium,
+        ),
       ],
     );
   }

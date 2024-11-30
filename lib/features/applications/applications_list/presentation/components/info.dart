@@ -55,6 +55,7 @@ class ApplicationInfo extends StatelessWidget {
                       applicationData.sentFromWarehouse?.warehouseName,
                   toWarehouseName:
                       applicationData.sentToWarehouse?.warehouseName,
+                  applicationNumber: applicationData.serialNumber,
                 ),
                 ApplicationInfoStatus(
                   status: application.data.status,

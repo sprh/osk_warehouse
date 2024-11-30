@@ -11,7 +11,7 @@ class FlutterErrorObserver {
   );
 
   static void setupErrorHandlers() {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FlutterError.onError = _recordError;
     WidgetsBinding.instance.platformDispatcher.onError =
         _recordPlatformDispatcherError;
 
@@ -29,5 +29,18 @@ class FlutterErrorObserver {
     );
     FirebaseCrashlytics.instance.recordError(error, stackTrace);
     return true;
+  }
+
+  static void _recordError(FlutterErrorDetails details) {
+    _logger.e(
+      'Error from FlutterError',
+      error: details.exception,
+      stackTrace: details.stack,
+    );
+
+    FirebaseCrashlytics.instance.recordError(
+      details.exception,
+      details.stack,
+    );
   }
 }

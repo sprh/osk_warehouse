@@ -29,10 +29,18 @@ class CategoriesListDropdownItem extends StatelessWidget {
 
             return BlocProvider(
               create: (context) => container.bloc,
-              child: _CategoriesList(
-                canAddCategory: canAddCategory,
-                selectedCategory: selectedCategory,
-                onSelectedCategoryChanged: onSelectedCategoryChanged,
+              child: Builder(
+                builder: (context) {
+                  return _CategoriesList(
+                    onAddCategory: canAddCategory
+                        ? () => CategoriesListBloc.of(context).add(
+                              CategoryListCreateCategory(),
+                            )
+                        : null,
+                    selectedCategory: selectedCategory,
+                    onSelectedCategoryChanged: onSelectedCategoryChanged,
+                  );
+                },
               ),
             );
           },
@@ -41,14 +49,15 @@ class CategoriesListDropdownItem extends StatelessWidget {
 }
 
 class _CategoriesList extends StatelessWidget {
-  final bool canAddCategory;
+  final VoidCallback? onAddCategory;
   final String? selectedCategory;
   final void Function(String?) onSelectedCategoryChanged;
 
   const _CategoriesList({
-    required this.canAddCategory,
+    required this.onAddCategory,
     required this.selectedCategory,
     required this.onSelectedCategoryChanged,
+    super.key,
   });
   @override
   Widget build(BuildContext context) =>
@@ -64,11 +73,9 @@ class _CategoriesList extends StatelessWidget {
               );
             case CategoryListLoaded():
               if (state.categories.isEmpty) {
-                if (canAddCategory) {
+                if (onAddCategory != null) {
                   return OskTapAnimationBuilder(
-                    onTap: () => CategoriesListBloc.of(context).add(
-                      CategoryListCreateCategory(),
-                    ),
+                    onTap: () => onAddCategory!(),
                     child: const IgnorePointer(
                       child: OskDropDown<String>(
                         items: [],
@@ -101,11 +108,9 @@ class _CategoriesList extends StatelessWidget {
                         onSelectedItemChanged: onSelectedCategoryChanged,
                       ),
                     ),
-                    if (canAddCategory)
+                    if (onAddCategory != null)
                       InkWell(
-                        onTap: () => CategoriesListBloc.of(context).add(
-                          CategoryListCreateCategory(),
-                        ),
+                        onTap: () => onAddCategory!(),
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),

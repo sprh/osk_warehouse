@@ -9,7 +9,7 @@ import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../../../common/components/text/osk_text.dart';
 import '../../../../common/components/text/osk_text_field.dart';
 import '../../../../common/theme/utils/theme_from_context.dart';
-import '../../../category/presentation/categories_list.dart';
+import '../../../category/presentation/categories_list_dropdown_item.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
 

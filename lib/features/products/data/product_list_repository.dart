@@ -20,7 +20,11 @@ abstract class ProductListRepository extends Repository<List<Product>>
   ) =>
       _ProductListRepository(api);
 
-  Future<void> refreshProductList({required String? warehouseId});
+  Future<void> refreshProductList({
+    required String? warehouseId,
+    String? searchCategory,
+    String? searchText,
+  });
 
   Future<void> deleteProduct(String id, {required String? warehouseId});
 }
@@ -30,6 +34,8 @@ class _ProductListRepository extends Repository<List<Product>>
   final ProductApi _api;
 
   String? warehouseId;
+  String? searchCategory;
+  String? searchText;
 
   _ProductListRepository(
     this._api,
@@ -38,7 +44,11 @@ class _ProductListRepository extends Repository<List<Product>>
   @override
   Future<List<Product>> productList({required String? warehouseId}) async {
     final data = await warehouseId?.let(
-          (id) => _api.getProductListByWarehouse(warehouseId),
+          (id) => _api.getProductListByWarehouse(
+            warehouseId,
+            null,
+            null,
+          ),
         ) ??
         await _api.getProductList();
 
@@ -47,18 +57,26 @@ class _ProductListRepository extends Repository<List<Product>>
   }
 
   @override
-  Future<void> refreshProductList({required String? warehouseId}) async {
+  Future<void> refreshProductList({
+    required String? warehouseId,
+    String? searchCategory,
+    String? searchText,
+  }) async {
     if (loading) {
       return;
     }
 
     this.warehouseId = warehouseId;
 
-    await _refreshData(warehouseId);
+    await _refreshData(
+      warehouseId,
+      searchCategory,
+      searchText,
+    );
   }
 
   @override
-  void refreshData() => _refreshData(warehouseId);
+  void refreshData() => _refreshData(warehouseId, searchCategory, searchText);
 
   @override
   Future<void> deleteProduct(
@@ -69,7 +87,7 @@ class _ProductListRepository extends Repository<List<Product>>
 
     try {
       await _api.deleteProduct(id);
-      await _refreshData(warehouseId);
+      await _refreshData(warehouseId, searchCategory, searchText);
     } on Exception catch (e) {
       onError(
         fallbackMessage: 'Не удалось удалить продукт',
@@ -78,12 +96,23 @@ class _ProductListRepository extends Repository<List<Product>>
     }
   }
 
-  Future<void> _refreshData(String? warehouseId) async {
+  Future<void> _refreshData(
+    String? warehouseId,
+    String? searchCategory,
+    String? searchText,
+  ) async {
+    this.searchCategory = searchCategory;
+    this.searchText = searchText;
+
     setLoading();
 
     try {
       final data = await warehouseId?.let(
-            (id) => _api.getProductListByWarehouse(warehouseId),
+            (id) => _api.getProductListByWarehouse(
+              warehouseId,
+              searchCategory,
+              searchText,
+            ),
           ) ??
           await _api.getProductList();
 

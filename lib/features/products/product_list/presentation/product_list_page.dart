@@ -9,6 +9,7 @@ import '../../../../common/components/text/osk_text.dart';
 import '../../components/products_list.dart';
 import '../bloc/bloc.dart';
 import '../bloc/state.dart';
+import 'search_icon_button.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({super.key});
@@ -27,69 +28,88 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<ProductListBloc, ProductListState>(
-        bloc: ProductListBloc.of(context),
-        builder: (context, state) => OskScaffold.slivers(
-          header: OskScaffoldHeader(
-            leading: const OskServiceIcon.products(),
-            title: 'Товары',
-            actions: const [
-              OskCloseIconButton(),
-              SizedBox(width: 8),
-            ],
-          ),
-          slivers: [
-            Builder(
-              builder: (context) {
-                switch (state) {
-                  case ProductListInitialState():
-                    return const SliverFillRemaining(
-                      child: Center(
-                        child: CircularProgressIndicator(),
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: BlocBuilder<ProductListBloc, ProductListState>(
+          bloc: ProductListBloc.of(context),
+          builder: (context, state) {
+            final availableSearchData = state.availableSearchData;
+
+            return OskScaffold.slivers(
+              header: OskScaffoldHeader(
+                leading: const OskServiceIcon.products(),
+                title: 'Товары',
+                actions: [
+                  if (availableSearchData != null)
+                    SearchIconButton(
+                      onSearchTap: () => ProductListBloc.of(context).add(
+                        ProductListEventOpenSearch(availableSearchData),
                       ),
-                    );
-                  case ProductListDataState():
-                    if (state.products.isEmpty) {
-                      return SliverFillRemaining(
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: OskText.body(
-                              textAlign: TextAlign.center,
-                              text: 'Товаров пока нет.',
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return SliverPadding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 8),
-                      sliver: ProductsList(
-                        products: state.products,
-                        onProductTap: (id) => ProductListBloc.of(context).add(
-                          ProductListProductTapEvent(id),
-                        ),
-                        onDelete: (id) => state.showCreateProductButton
-                            ? ProductListBloc.of(context).add(
-                                ProductListEventDeleteProduct(id),
-                              )
-                            : null,
-                      ),
-                    );
-                }
-              },
-            ),
-          ],
-          actions: [
-            if (state is ProductListDataState && state.showCreateProductButton)
-              OskButton.main(
-                title: 'Добавить',
-                onTap: () => ProductListBloc.of(context).add(
-                  ProductListEventAddNewProduct(),
-                ),
+                      hasActiveSearch: availableSearchData.hasActiveSearch,
+                    ),
+                  const SizedBox(width: 8),
+                  const OskCloseIconButton(),
+                ],
               ),
-          ],
+              slivers: [
+                Builder(
+                  builder: (context) {
+                    switch (state) {
+                      case ProductListInitialState():
+                        return const SliverFillRemaining(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      case ProductListDataState():
+                        if (state.products.isEmpty) {
+                          return SliverFillRemaining(
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: OskText.body(
+                                  textAlign: TextAlign.center,
+                                  text: state.availableSearchData
+                                              ?.hasActiveSearch ??
+                                          false
+                                      ? 'Нет товаров, подходящих под поисковый запрос'
+                                      : 'Товаров пока нет.',
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return SliverPadding(
+                          padding: const EdgeInsets.only(top: 16, bottom: 8),
+                          sliver: ProductsList(
+                            products: state.products,
+                            onProductTap: (id) =>
+                                ProductListBloc.of(context).add(
+                              ProductListProductTapEvent(id),
+                            ),
+                            onDelete: (id) => state.showCreateProductButton
+                                ? ProductListBloc.of(context).add(
+                                    ProductListEventDeleteProduct(id),
+                                  )
+                                : null,
+                          ),
+                        );
+                    }
+                  },
+                ),
+              ],
+              actions: [
+                if (state is ProductListDataState &&
+                    state.showCreateProductButton)
+                  OskButton.main(
+                    title: 'Добавить',
+                    onTap: () => ProductListBloc.of(context).add(
+                      ProductListEventAddNewProduct(),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       );
 }

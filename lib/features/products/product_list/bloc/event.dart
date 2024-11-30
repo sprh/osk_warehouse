@@ -24,3 +24,19 @@ class ProductListProductTapEvent implements ProductListEvent {
 
   const ProductListProductTapEvent(this.id);
 }
+
+class ProductListEventOpenSearch implements ProductListEvent {
+  final ProductListSearchDataAvailable data;
+
+  const ProductListEventOpenSearch(this.data);
+}
+
+class ProductListEventOnSearchUpdated implements ProductListEvent {
+  final String? textToSearch;
+  final String? selectedCategory;
+
+  const ProductListEventOnSearchUpdated(
+    this.textToSearch,
+    this.selectedCategory,
+  );
+}

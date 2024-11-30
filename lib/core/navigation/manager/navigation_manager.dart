@@ -58,14 +58,18 @@ mixin NavigationManager {
         ),
       );
 
-  void showModal(Widget Function(BuildContext) builder) {
+  Future<void> showModal(
+    Widget Function(BuildContext) builder, [
+    bool isDismissible = true,
+  ]) async {
     final context = navigatorKey.currentState?.context;
 
     if (context != null) {
-      showModalBottomSheet<void>(
+      await showModalBottomSheet<void>(
         context: context,
         builder: builder,
         isScrollControlled: true,
+        isDismissible: isDismissible,
       );
     }
   }

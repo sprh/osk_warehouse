@@ -42,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
       child: BlocBuilder<LoginBloc, LoginPageState>(
         bloc: LoginBloc.of(context),
         builder: (context, state) => OskScaffold(
-          actionsShadow: true,
           actions: [
             const SizedBox(height: 16),
             OskTextField(

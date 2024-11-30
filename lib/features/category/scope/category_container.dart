@@ -7,10 +7,15 @@ import '../data/repository.dart';
 
 class CategoryContainer {
   final CategoriesListBloc _bloc;
+  final CategoriesRepository _repository;
 
   CategoriesListBloc get bloc => _bloc;
+  CategoriesRepository get repository => _repository;
 
-  const CategoryContainer(this._bloc);
+  const CategoryContainer(
+    this._bloc,
+    this._repository,
+  );
 
   factory CategoryContainer.create(
     BuildContext context,
@@ -23,7 +28,7 @@ class CategoryContainer {
       accountScope.navigationManager,
     );
 
-    return CategoryContainer(bloc);
+    return CategoryContainer(bloc, repository);
   }
 
   void init() => _bloc.add(CategoryListEventInitialize());

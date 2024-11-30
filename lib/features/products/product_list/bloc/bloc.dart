@@ -10,6 +10,7 @@ import '../../../../core/navigation/manager/account_scope_navigation_manager.dar
 import '../../../user/current_user_holder/current_user_holder.dart';
 import '../../data/product_list_repository.dart';
 import '../../models/product.dart';
+import '../presentation/product_list_search_page.dart';
 import 'state.dart';
 
 part 'event.dart';
@@ -81,6 +82,14 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
         await _onProductListUpdate(event.products, event.loading, emit);
       case ProductListProductTapEvent():
         _navigationManager.openProductData(productId: event.id);
+      case ProductListEventOpenSearch():
+        await _openSearchList(event.data);
+      case ProductListEventOnSearchUpdated():
+        await _onSearchUpdated(
+          event.textToSearch,
+          event.selectedCategory,
+          emit,
+        );
     }
   }
 
@@ -115,13 +124,57 @@ class _ProductListBloc extends Bloc<ProductListEvent, ProductListState>
         ),
       );
     } else if (products != null) {
+      final searchData = warehouseId == null
+          ? const ProductListSearchDataNotAvailable()
+          : const ProductListSearchDataAvailable();
       emit(
         ProductListDataState(
           products,
           loading: loading ?? false,
           showCreateProductButton:
               currentUser.canManagerProducts && warehouseId == null,
+          // Поиск по товарам доступен только на экране склада
+          searchData: searchData,
         ),
+      );
+    }
+  }
+
+  Future<void> _openSearchList(ProductListSearchDataAvailable data) async {
+    await _navigationManager.showModal(
+      (context) => ProductListSearchBottomPane(
+        data: data,
+        onSearchUpdated: (textToSearch, selectedCategory) => add(
+          ProductListEventOnSearchUpdated(
+            textToSearch,
+            selectedCategory,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onSearchUpdated(
+    String? textToSearch,
+    String? selectedCategory,
+    Emitter<ProductListState> emit,
+  ) async {
+    final state = this.state;
+
+    if (state is ProductListDataState) {
+      emit(
+        state.copyWith(
+          searchData: ProductListSearchDataAvailable(
+            productName: textToSearch,
+            selectedCategory: selectedCategory,
+          ),
+        ),
+      );
+      _navigationManager.popDialog();
+      await _repository.refreshProductList(
+        warehouseId: warehouseId,
+        searchText: textToSearch,
+        searchCategory: selectedCategory,
       );
     }
   }

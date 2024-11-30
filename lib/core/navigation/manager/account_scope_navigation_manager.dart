@@ -379,7 +379,7 @@ class AccountScopeNavigationManagerImpl
     List<DateTime> initialPeriod,
   ) async {
     var dates = <DateTime>[];
-    showModal(
+    await showModal(
       (context) {
         var doneButtonEnabled = false;
 

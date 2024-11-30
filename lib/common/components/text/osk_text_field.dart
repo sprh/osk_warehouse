@@ -16,6 +16,7 @@ class OskTextField extends StatefulWidget {
   final bool enableSuggestions;
   final bool autocorrect;
   final void Function(String)? onChanged;
+  final VoidCallback? onEditingComplete;
   final bool showobscureTextIcon;
   final List<TextInputFormatter>? inputFormatters;
   final bool readOnly;
@@ -34,6 +35,7 @@ class OskTextField extends StatefulWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.onChanged,
+    this.onEditingComplete,
     this.inputFormatters,
     this.readOnly = false,
     this.padding,
@@ -69,6 +71,7 @@ class _OskTextFieldState extends State<OskTextField> {
           inputFormatters: widget.inputFormatters,
           maxLines: obscureText ? 1 : null,
           style: TextStyle(color: theme.textColor, fontSize: 16),
+          onEditingComplete: widget.onEditingComplete,
           decoration: InputDecoration(
             suffixIcon: widget.showobscureTextIcon
                 ? OskIconButton(

@@ -264,9 +264,10 @@ class _ApplicationCommonInfo extends StatelessWidget {
         ],
         if (toWarehouse != null) ...[
           OskText.title2(
-            text: ApplicationDataMapper.getApplicationFromWarehouseTitleByType(
-              state.application.data.type,
-            ),
+            text: ApplicationDataMapper.getApplicationToWarehouseTitleByType(
+                  state.application.data.type,
+                ) ??
+                '',
             fontWeight: OskfontWeight.bold,
           ),
           const SizedBox(height: 4),

@@ -11,7 +11,11 @@ abstract class ProductApi {
 
   Future<ProductListDto> getProductList();
 
-  Future<ProductListDto> getProductListByWarehouse(String warehouseId);
+  Future<ProductListDto> getProductListByWarehouse(
+    String warehouseId,
+    String? searchCategory,
+    String? searchText,
+  );
 
   Future<void> deleteProduct(String id);
 
@@ -85,10 +89,18 @@ class _ProductApi implements ProductApi {
   }
 
   @override
-  Future<ProductListDto> getProductListByWarehouse(String warehouseId) async {
+  Future<ProductListDto> getProductListByWarehouse(
+    String warehouseId,
+    String? searchCategory,
+    String? searchText,
+  ) async {
     final response = await _dio.core.get<Map<String, dynamic>>(
       _ApiConstants.productsByWarehouse,
-      queryParameters: {_ApiConstants.warehouseId: warehouseId},
+      queryParameters: {
+        _ApiConstants.warehouseId: warehouseId,
+        if (searchText != null) _ApiConstants.itemName: searchText,
+        if (searchCategory != null) _ApiConstants.itemCat: searchCategory,
+      },
     );
 
     return ProductListDto.fromJson(response.data!);
@@ -103,6 +115,8 @@ class _ApiConstants {
   // query
   static const itemId = 'item_id';
   static const warehouseId = 'warehouse_id';
+  static const itemName = 'item_name';
+  static const itemCat = 'item_cat';
 
   // header
   static const requestIdempotencyToken = 'x-request-idempotency-token';

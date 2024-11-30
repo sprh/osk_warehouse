@@ -7,6 +7,8 @@ import '../../../../common/interface/repository_subscriber.dart';
 import '../../../../core/navigation/manager/account_scope_navigation_manager.dart';
 import '../../data/product_list_repository.dart';
 import '../../models/product.dart';
+import '../../product_list/bloc/state.dart';
+import '../../product_list/presentation/product_list_search_page.dart';
 
 part 'event.dart';
 part 'state.dart';
@@ -86,18 +88,34 @@ class _SelectProductsBloc extends Bloc<SelectProductsEvent, SelectProductsState>
         );
         _navigationManager.pop();
       case _SelectProductsEventOnData():
-        if (event.products.isEmpty) {
+        final state = this.state;
+        late final hasActiveSearch = switch (state) {
+          SelectProductsStateIdle() => false,
+          SelectProductsStateData() => state.searchData.hasActiveSearch,
+        };
+
+        if (event.products.isEmpty && !hasActiveSearch) {
           await _navigationManager.showSomethingWentWrontDialog(
             'Не найдено ни одного товара на выбранном складе',
           );
           _navigationManager.pop();
-        } else {
+        } else if (state is SelectProductsStateIdle) {
           final selectedProducts = event.products
               .where((e) => _selectedProducts.contains(e.id))
               .map((e) => e.id)
               .toSet();
           emit(
-            SelectProductsStateData(event.products, selectedProducts),
+            SelectProductsStateData(
+              event.products,
+              selectedProducts,
+              const ProductListSearchDataAvailable(),
+            ),
+          );
+        } else if (state is SelectProductsStateData) {
+          emit(
+            state.copyWith(
+              products: event.products,
+            ),
           );
         }
       case SelectProductsEventOnSelect():
@@ -105,19 +123,70 @@ class _SelectProductsBloc extends Bloc<SelectProductsEvent, SelectProductsState>
 
         if (state.selectedProductIds.contains(event.id)) {
           emit(
-            SelectProductsStateData(
-              state.products,
-              state.selectedProductIds.where((id) => id != event.id).toSet(),
+            state.copyWith(
+              selectedProductIds: state.selectedProductIds
+                  .where((id) => id != event.id)
+                  .toSet(),
             ),
           );
         } else {
           emit(
-            SelectProductsStateData(
-              state.products,
-              {...state.selectedProductIds, event.id},
+            state.copyWith(
+              selectedProductIds: {...state.selectedProductIds, event.id},
             ),
           );
         }
+      case SelectProductsEventOpenSearch():
+        final state = this.state as SelectProductsStateData;
+
+        await _openSearchList(
+          state.searchData,
+        );
+      case SelectProductsEventOnSearchUpdated():
+        await _onSearchUpdated(
+          event.textToSearch,
+          event.selectedCategory,
+          emit,
+        );
+    }
+  }
+
+  Future<void> _openSearchList(ProductListSearchDataAvailable data) async {
+    await _navigationManager.showModal(
+      (context) => ProductListSearchBottomPane(
+        data: data,
+        onSearchUpdated: (textToSearch, selectedCategory) => add(
+          SelectProductsEventOnSearchUpdated(
+            textToSearch,
+            selectedCategory,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onSearchUpdated(
+    String? textToSearch,
+    String? selectedCategory,
+    Emitter<SelectProductsState> emit,
+  ) async {
+    final state = this.state;
+
+    if (state is SelectProductsStateData) {
+      emit(
+        state.copyWith(
+          searchData: ProductListSearchDataAvailable(
+            productName: textToSearch,
+            selectedCategory: selectedCategory,
+          ),
+        ),
+      );
+      _navigationManager.popDialog();
+      await _repository.refreshProductList(
+        warehouseId: _warehouseId,
+        searchText: textToSearch,
+        searchCategory: selectedCategory,
+      );
     }
   }
 

@@ -6,6 +6,7 @@ import '../../../../common/components/button/osk_close_icon_button.dart';
 import '../../../../common/components/icon/osk_service_icons.dart';
 import '../../../../common/components/scaffold/osk_scaffold.dart';
 import '../../components/products_list.dart';
+import '../../product_list/presentation/search_icon_button.dart';
 import '../bloc/bloc.dart';
 
 class SelectProductsPage extends StatefulWidget {
@@ -32,13 +33,24 @@ class _SelectProductsPageState extends State<SelectProductsPage> {
         bloc: SelectProductsBloc.of(context),
         builder: (context, s) {
           final state = s;
+          final availableSearchData = switch (state) {
+            SelectProductsStateIdle() => null,
+            SelectProductsStateData() => state.searchData,
+          };
           return OskScaffold.slivers(
             header: OskScaffoldHeader(
               leading: const OskServiceIcon.products(),
               title: 'Выберите товары',
-              actions: const [
-                OskCloseIconButton(),
-                SizedBox(width: 8),
+              actions: [
+                if (availableSearchData != null)
+                  SearchIconButton(
+                    onSearchTap: () => SelectProductsBloc.of(context).add(
+                      SelectProductsEventOpenSearch(availableSearchData),
+                    ),
+                    hasActiveSearch: availableSearchData.hasActiveSearch,
+                  ),
+                const SizedBox(width: 8),
+                const OskCloseIconButton(),
               ],
             ),
             slivers: [

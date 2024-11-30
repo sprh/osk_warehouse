@@ -19,3 +19,19 @@ class _SelectProductsEventOnData implements SelectProductsEvent {
 
   const _SelectProductsEventOnData(this.products);
 }
+
+class SelectProductsEventOpenSearch implements SelectProductsEvent {
+  final ProductListSearchDataAvailable data;
+
+  const SelectProductsEventOpenSearch(this.data);
+}
+
+class SelectProductsEventOnSearchUpdated implements SelectProductsEvent {
+  final String? textToSearch;
+  final String? selectedCategory;
+
+  const SelectProductsEventOnSearchUpdated(
+    this.textToSearch,
+    this.selectedCategory,
+  );
+}

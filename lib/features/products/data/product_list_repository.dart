@@ -26,7 +26,12 @@ abstract class ProductListRepository extends Repository<List<Product>>
     String? searchText,
   });
 
-  Future<void> deleteProduct(String id, {required String? warehouseId});
+  Future<void> deleteProduct(
+    String id, {
+    required String? warehouseId,
+    String? searchCategory,
+    String? searchText,
+  });
 }
 
 class _ProductListRepository extends Repository<List<Product>>
@@ -34,8 +39,6 @@ class _ProductListRepository extends Repository<List<Product>>
   final ProductApi _api;
 
   String? warehouseId;
-  String? searchCategory;
-  String? searchText;
 
   _ProductListRepository(
     this._api,
@@ -76,12 +79,14 @@ class _ProductListRepository extends Repository<List<Product>>
   }
 
   @override
-  void refreshData() => _refreshData(warehouseId, searchCategory, searchText);
+  void refreshData() => _refreshData(warehouseId, null, null);
 
   @override
   Future<void> deleteProduct(
     String id, {
     required String? warehouseId,
+    String? searchCategory,
+    String? searchText,
   }) async {
     setLoading();
 
@@ -101,9 +106,6 @@ class _ProductListRepository extends Repository<List<Product>>
     String? searchCategory,
     String? searchText,
   ) async {
-    this.searchCategory = searchCategory;
-    this.searchText = searchText;
-
     setLoading();
 
     try {

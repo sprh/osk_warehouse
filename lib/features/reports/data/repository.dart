@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -35,6 +36,7 @@ abstract class ReportsRepository extends Repository<ReportsResponse> {
 class _ReportsRepository extends Repository<ReportsResponse>
     implements ReportsRepository {
   final ReportsApi _api;
+  late final _deviceInfo = DeviceInfoPlugin();
 
   _ReportsRepository(this._api);
 
@@ -152,12 +154,17 @@ class _ReportsRepository extends Repository<ReportsResponse>
       );
 
   Future<bool> _requestStoragePermissions() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      status = await Permission.storage.request();
+    if (Platform.isAndroid) {
+      if ((await _deviceInfo.androidInfo).version.sdkInt >= 33) {
+        final status = await Permission.manageExternalStorage.request();
+        return status == PermissionStatus.granted;
+      } else {
+        final status = await Permission.storage.request();
+        return status == PermissionStatus.granted;
+      }
     }
 
-    return status == PermissionStatus.granted;
+    return false;
   }
 }
 

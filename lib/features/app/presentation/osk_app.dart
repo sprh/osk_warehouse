@@ -83,6 +83,7 @@ class _OskAppState extends State<OskApp> with WidgetsBindingObserver {
               routerDelegate: routerDelegate,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
+              themeMode: ThemeMode.light,
               theme: ThemeData(
                 useMaterial3: true,
                 fontFamily: ThemeConstants.fontFamily,

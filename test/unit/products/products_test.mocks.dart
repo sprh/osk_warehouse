@@ -59,7 +59,11 @@ class MockProductApi extends _i1.Mock implements _i4.ProductApi {
   }
 
   @override
-  _i5.Future<_i2.ProductListDto> getProductList() => (super.noSuchMethod(
+  _i5.Future<_i2.ProductListDto> getProductList(
+    String? searchCategory,
+    String? searchText,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getProductList,
           [],
@@ -75,7 +79,10 @@ class MockProductApi extends _i1.Mock implements _i4.ProductApi {
 
   @override
   _i5.Future<_i2.ProductListDto> getProductListByWarehouse(
-          String? warehouseId) =>
+    String? warehouseId,
+    String? searchCategory,
+    String? searchText,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getProductListByWarehouse,

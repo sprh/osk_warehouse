@@ -44,7 +44,7 @@ void main() {
 
       expect(productListRepository.loading, isFalse);
 
-      when(mockProductApi.getProductList()).thenAnswer(
+      when(mockProductApi.getProductList(null, null)).thenAnswer(
         (_) async {
           await Future<Object?>.delayed(const Duration(seconds: 2));
           return ProductListDto(items: dummyProducts);
@@ -55,7 +55,7 @@ void main() {
 
       await productListRepository.refreshProductList(warehouseId: null);
 
-      verify(mockProductApi.getProductList()).called(1);
+      verify(mockProductApi.getProductList(null, null)).called(1);
 
       expect(
         productListRepository.lastValue?.length,

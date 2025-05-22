@@ -53,7 +53,10 @@ class _ProductListRepository extends Repository<List<Product>>
             null,
           ),
         ) ??
-        await _api.getProductList();
+        await _api.getProductList(
+          null,
+          null,
+        );
 
     final products = data.items.map(Product.fromDto);
     return products.toList();
@@ -116,7 +119,10 @@ class _ProductListRepository extends Repository<List<Product>>
               searchText,
             ),
           ) ??
-          await _api.getProductList();
+          await _api.getProductList(
+            searchCategory,
+            searchText,
+          );
 
       final products = data.items.map(Product.fromDto);
       emit(products.toList());

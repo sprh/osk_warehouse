@@ -9,7 +9,10 @@ import 'models/update_product_dto.dart';
 abstract class ProductApi {
   factory ProductApi(DioClient dio) => _ProductApi(dio);
 
-  Future<ProductListDto> getProductList();
+  Future<ProductListDto> getProductList(
+    String? searchCategory,
+    String? searchText,
+  );
 
   Future<ProductListDto> getProductListByWarehouse(
     String warehouseId,
@@ -70,9 +73,16 @@ class _ProductApi implements ProductApi {
   }
 
   @override
-  Future<ProductListDto> getProductList() async {
+  Future<ProductListDto> getProductList(
+    String? searchCategory,
+    String? searchText,
+  ) async {
     final response = await _dio.core.get<Map<String, dynamic>>(
       _ApiConstants.productListPath,
+      queryParameters: {
+        if (searchText != null) _ApiConstants.itemName: searchText,
+        if (searchCategory != null) _ApiConstants.itemCat: searchCategory,
+      },
     );
 
     return ProductListDto.fromJson(response.data!);
